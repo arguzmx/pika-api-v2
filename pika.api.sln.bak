@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.api.identity", "pika.api.identity\pika.api.identity.csproj", "{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5708F7F9-1C1E-462C-9F2C-661078716A4D}
+	EndGlobalSection
+EndGlobal
