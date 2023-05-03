@@ -44,7 +44,16 @@ namespace pika.api.metadatos.Controllers
         {
             var e = servicioMock.LaLista().Skip(consulta.Paginado.Indice * consulta.Paginado.Tamano).
                 Take(consulta.Paginado.Tamano).ToList();
-            return Ok(e);
+
+            Pagina<EntidadMock> p = new Pagina<EntidadMock>()
+            {
+                ConsultaId = "001",
+                Elementos = e,
+                Paginado = consulta.Paginado,
+                Total = servicioMock.LaLista().Count
+            };
+
+            return Ok(p);
         }
 
 
@@ -55,7 +64,7 @@ namespace pika.api.metadatos.Controllers
             
             var c = MockP("id", "i18n-id", TipoDatos.Texto, 0);
             c.HabilitadoCrear = false;
-            c.HabilitadoEditar = true;
+            c.HabilitadoEditar = false;
             c.TipoDespliegue = TipoDespliegue.Oculto;
 
             e.Propiedades.Add(c);
