@@ -57,7 +57,6 @@ namespace pika.api.metadatos.Controllers
         }
 
 
-
         private Entidad Mock(string id)
         {
             Entidad e = new() { EndpointAPI = "", Id = id, Nombre = $"i18-{id}" };
