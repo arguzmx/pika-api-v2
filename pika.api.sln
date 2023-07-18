@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.comun.metadatos", "pik
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "comunes", "comunes", "{29434CF5-2D46-442D-AB3D-94E426F0A66B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.comunes", "infraestructura\api.comunes\api.comunes.csproj", "{8FA021CB-8072-4D9F-B5F2-DAE4B0A97F53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.comunes", "infraestructura\api.comunes\api.comunes.csproj", "{8FA021CB-8072-4D9F-B5F2-DAE4B0A97F53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gestiondocumental", "gestiondocumental", "{198602A7-7F07-4FC6-927C-C574361CA9A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.modelo.gestiondocumental", "gestiondocumental\pika.modelo.gestiondocumental\pika.modelo.gestiondocumental.csproj", "{AA8235A5-1225-474B-9AE0-6987FE71EA70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,10 @@ Global
 		{8FA021CB-8072-4D9F-B5F2-DAE4B0A97F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FA021CB-8072-4D9F-B5F2-DAE4B0A97F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FA021CB-8072-4D9F-B5F2-DAE4B0A97F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA8235A5-1225-474B-9AE0-6987FE71EA70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA8235A5-1225-474B-9AE0-6987FE71EA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA8235A5-1225-474B-9AE0-6987FE71EA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA8235A5-1225-474B-9AE0-6987FE71EA70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +56,7 @@ Global
 		{1A18CBA2-EFC8-4954-A497-49002EDA9CE5} = {C12B8EB2-0DA8-459A-9126-0D6A9E2DE690}
 		{2F42D4E4-A952-4E37-B3D7-190E3C2BBC12} = {C12B8EB2-0DA8-459A-9126-0D6A9E2DE690}
 		{8FA021CB-8072-4D9F-B5F2-DAE4B0A97F53} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
+		{AA8235A5-1225-474B-9AE0-6987FE71EA70} = {198602A7-7F07-4FC6-927C-C574361CA9A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5708F7F9-1C1E-462C-9F2C-661078716A4D}
