@@ -11,6 +11,11 @@ public class Filtro
     public string Campo { get; set; }
 
     /// <summary>
+    /// Determina si el filtro debe ser negado por ejemplo no igual
+    /// </summary>
+    public bool Negar { get; set; }
+
+    /// <summary>
     /// Operador aplicable al filtro
     /// </summary>
     public OperadorFiltro Operador { get; set; }

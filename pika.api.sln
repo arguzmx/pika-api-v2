@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.api.identity", "identity\pika.api.identity\pika.api.identity.csproj", "{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "indentity", "indentity", "{6C0EB938-9917-4300-A90B-C55E710A3308}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "metadatos", "metadatos", "{C12B8EB2-0DA8-459A-9126-0D6A9E2DE690}"
@@ -20,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gestiondocumental", "gestiondocumental", "{198602A7-7F07-4FC6-927C-C574361CA9A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.modelo.gestiondocumental", "gestiondocumental\pika.modelo.gestiondocumental\pika.modelo.gestiondocumental.csproj", "{AA8235A5-1225-474B-9AE0-6987FE71EA70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.api.identity", "identity\pika.api.identity\pika.api.identity.csproj", "{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +26,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A18CBA2-EFC8-4954-A497-49002EDA9CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A18CBA2-EFC8-4954-A497-49002EDA9CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A18CBA2-EFC8-4954-A497-49002EDA9CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,16 +42,20 @@ Global
 		{AA8235A5-1225-474B-9AE0-6987FE71EA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA8235A5-1225-474B-9AE0-6987FE71EA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA8235A5-1225-474B-9AE0-6987FE71EA70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D5D9E1E8-7A07-4B76-84C3-D3F1E54E46FC} = {6C0EB938-9917-4300-A90B-C55E710A3308}
 		{1A18CBA2-EFC8-4954-A497-49002EDA9CE5} = {C12B8EB2-0DA8-459A-9126-0D6A9E2DE690}
 		{2F42D4E4-A952-4E37-B3D7-190E3C2BBC12} = {C12B8EB2-0DA8-459A-9126-0D6A9E2DE690}
 		{8FA021CB-8072-4D9F-B5F2-DAE4B0A97F53} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
 		{AA8235A5-1225-474B-9AE0-6987FE71EA70} = {198602A7-7F07-4FC6-927C-C574361CA9A0}
+		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1} = {6C0EB938-9917-4300-A90B-C55E710A3308}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5708F7F9-1C1E-462C-9F2C-661078716A4D}
