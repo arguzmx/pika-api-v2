@@ -17,8 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.comunes", "infraestruct
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gestiondocumental", "gestiondocumental", "{198602A7-7F07-4FC6-927C-C574361CA9A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.modelo.gestiondocumental", "gestiondocumental\pika.modelo.gestiondocumental\pika.modelo.gestiondocumental.csproj", "{AA8235A5-1225-474B-9AE0-6987FE71EA70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.modelo.gestiondocumental", "gestiondocumental\pika.modelo.gestiondocumental\pika.modelo.gestiondocumental.csproj", "{AA8235A5-1225-474B-9AE0-6987FE71EA70}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.api.identity", "identity\pika.api.identity\pika.api.identity.csproj", "{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.servicios.gestiondocumental", "gestiondocumental\pika.servicios.gestiondocumental\pika.servicios.gestiondocumental.csproj", "{9916A095-2AB6-424B-A0BF-742906A8CE49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.api.gestiondocumental", "gestiondocumental\pika.api.gestiondocumental\pika.api.gestiondocumental.csproj", "{9C6370EF-97C4-430B-A13D-69F2E58891ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +51,14 @@ Global
 		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9916A095-2AB6-424B-A0BF-742906A8CE49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9916A095-2AB6-424B-A0BF-742906A8CE49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9916A095-2AB6-424B-A0BF-742906A8CE49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9916A095-2AB6-424B-A0BF-742906A8CE49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C6370EF-97C4-430B-A13D-69F2E58891ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C6370EF-97C4-430B-A13D-69F2E58891ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C6370EF-97C4-430B-A13D-69F2E58891ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C6370EF-97C4-430B-A13D-69F2E58891ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +69,8 @@ Global
 		{8FA021CB-8072-4D9F-B5F2-DAE4B0A97F53} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
 		{AA8235A5-1225-474B-9AE0-6987FE71EA70} = {198602A7-7F07-4FC6-927C-C574361CA9A0}
 		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1} = {6C0EB938-9917-4300-A90B-C55E710A3308}
+		{9916A095-2AB6-424B-A0BF-742906A8CE49} = {198602A7-7F07-4FC6-927C-C574361CA9A0}
+		{9C6370EF-97C4-430B-A13D-69F2E58891ED} = {198602A7-7F07-4FC6-927C-C574361CA9A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5708F7F9-1C1E-462C-9F2C-661078716A4D}
