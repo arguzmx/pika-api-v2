@@ -1,0 +1,47 @@
+﻿namespace pika.modelo.gestiondocumental
+{
+    public class EstadisticaClasificacionAcervo
+    {
+        /// <summary>
+        /// Identifiacor únio del archivo al que pertenece el acervo
+        /// </summary>
+        public string ArchivoId { get; set; }
+        /// <summary>
+        /// Identificador único de la unidad administrativa del activo
+        /// </summary>
+        public string UnidadAdministrativaArchivoId { get; set; }
+        /// <summary>
+        /// IDentifiacor únio del cuadro de clasificacion
+        /// </summary>
+        public string CuadroClasificacionId { get; set; }
+        /// <summary>
+        /// Identificador de la entrada de clasificacion
+        /// </summary>
+        public string EntradaClasificacionId { get; set; }
+        /// <summary>
+        /// Cantidad de activos existentes en el archivo queperteneen a la entrada clasificación, 
+        /// sólo contailizan los qu eno han sido eliminados
+        /// </summary>
+        public int ConteoActivos { get; set; }
+        /// <summary>
+        /// Cantidad de activos marcados como eliminados que pertenecen al archivo
+        /// </summary>
+        public int ConteoActivosEliminados { get; set; }
+        /// <summary>
+        /// Fecha de minima de apertura del activo del archivo
+        /// </summary>
+        public DateTime? FechaMinApertura { get; set; }
+        /// <summary>
+        /// Fecha de máxima de cierre del activo del archivo
+        /// </summary>
+        public DateTime? FechaMaxCierre { get; set; }
+
+        public Archivo Archivo { get; set; }
+
+        public CuadroClasificacion CuadroClasificacion { get; set; }
+
+        public EntradaClasificacion EntradaClasificacion { get; set; }
+
+        public UnidadAdministrativaArchivo UnidadAdministrativaArchivo { get; set; }
+    }
+}
