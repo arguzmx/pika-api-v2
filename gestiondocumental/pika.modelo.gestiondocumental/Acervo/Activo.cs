@@ -2,7 +2,7 @@
 {
     //public class Activo : Entidad<string>, IEntidadRelacionada, IEntidadIdElectronico,
     //IEntidadEliminada, IEntidadReportes
-    public class Activo 
+    public class Activo
     {
         public Activo()
         {
@@ -15,7 +15,10 @@
             //this.Reportes.Add(new ReporteCaratulaActivo());
         }
 
-        public string Id { get; set ; }
+        /// <summary>
+        /// Identificador único del activo
+        /// </summary>
+        public string Id { get; set; }
 
         /// <summary>
         /// Identificador único del cuadro de clasificación, 
@@ -24,9 +27,9 @@
         public string CuadroClasificacionId { get; set; }
 
         /// <summary>
-        /// Identificador único de la etraada de clasificación
+        /// Identificador único de la serie doccumental
         /// </summary>
-        public string EntradaClasificacionId { get; set; }
+        public string SerieDocumentalId { get; set; }
 
         /// <summary>
         /// Nombre de la entrada de inventario por ejemplo el número de expediente
@@ -36,7 +39,7 @@
         /// <summary>
         /// ID Unico de la entrada de inventario por ejemplo el número de expediente
         /// </summary>
-        public string IDunico { get; set; }
+        public string? IDunico { get; set; }
 
         /// <summary>
         /// Fecha de apertura UTC del activo
@@ -51,38 +54,44 @@
         /// <summary>
         /// Asunto de la entrada de inventario
         /// </summary>
-        public string Asunto { get; set; }
+        public string? Asunto { get; set; }
 
         /// <summary>
         /// Código de barras o QR de la entrada para ser leído por un scanner 
         /// </summary>
-        public string CodigoOptico { get; set; }
+        public string? CodigoOptico { get; set; }
 
         /// <summary>
         /// Código electrónico de acceso al elemento por ejemplo RFID
         /// </summary>
-        public string CodigoElectronico { get; set; }
+        public string? CodigoElectronico { get; set; }
 
         /// <summary>
         /// Indica que el elemento se encuentra en formato electrónico desde su creación
         /// </summary>
-        public bool EsElectronico { get; set; }
+        public bool EsElectronico { get; set; } = false;
 
         /// <summary>
         /// Especifica si el activo se encuentra marcado como en reserva
         /// </summary>
-        public bool Reservado { get; set; }
+        public bool Reservado { get; set; } = false;
 
         /// <summary>
         /// Especifica si el activo se encuentra marcado como confidenxial
         /// </summary>
-        public bool Confidencial { get; set; }
+        public bool Confidencial { get; set; } = false;
 
-        public bool Eliminada { get; set; }
-        
-        public string UbicacionCaja { get; set; }
 
-        public string UbicacionRack { get; set; }
+        /// <summary>
+        /// Ubicación de la caja que lo contiene
+        /// </summary>
+        public string? UbicacionCaja { get; set; }
+
+
+        /// <summary>
+        /// Ubicación del rack que lo contiene
+        /// </summary>
+        public string? UbicacionRack { get; set; }
 
         /// <summary>
         /// Establece el archivo en el que fue originado el activo
@@ -91,108 +100,124 @@
 
         /// <summary>
         /// Identificador único del archivo actual del activo
-        /// ESTOS VALORES SE CALCULAR POR SISTEMA  EN BASE AL LOS PROCESOS DE TRASNFENRENCIA
         /// </summary>
-        public string ArchivoId { get; set; }
+        public string ArchivoActualId { get; set; }
+
 
         /// <summary>
         /// Establece la undiad administrativa a la que pertenece el activo
         /// </summary>
-        
-        // Para las unidades administrativas esta entidad no se despliega
-      
         public string UnidadAdministrativaArchivoId { get; set; }
 
-        /// <summary>
-        /// ESTOS VALORES SE CALCULAR POR SISTEMA  EN BASE AL CONTROL DE PRESTAMO
-        /// </summary>
-        public bool EnPrestamo { get; set; }
 
         /// <summary>
-        /// Especifica si el activo se encuentra marcado como en reserva
+        /// Determina si el activo se ecnuentra en préstamo
         /// </summary>
-        public bool EnTransferencia { get; set; }
+        public bool EnPrestamo { get; set; } = false;
+
+        /// <summary>
+        /// Especifica si el activo se encuentra involucrado en una transferencia
+        /// </summary>
+        public bool EnTransferencia { get; set; } = false;
 
         /// <summary>
         /// Especifica si el activo tiene ampliaciones vigentes
-        /// ESTOS VALORES SE CALCULAR POR SISTEMA  EN BASE A SI TIENE AMPLIACIONES ACTIVAS
         /// </summary>
-        public bool Ampliado { get; set; }
+        public bool Ampliado { get; set; } = false;
 
         /// <summary>
         /// Fecha límite de retención calculada al cierre para el archivo de trámite
-        /// ESTOS VALORES SE CALCULAR POR SISTEMA CUANDO SE ESTABLECE LA FECHA DE CIERRE
         /// </summary>
         public DateTime? FechaRetencionAT { get; set; }
 
         /// <summary>
         /// Fecha límite de retención calculada al cierre para el archivo de concentracion
-        /// ESTOS VALORES SE CALCULAR POR SISTEMA CUANDO SE ESTABLECE LA FECHA DE CIERRE
         /// </summary>
         public DateTime? FechaRetencionAC { get; set; }
-        
-        public string AlmacenArchivoId { get; set; }
 
-        public string ZonaAlmacenId { get; set; }
-        
-        public string ContenedorAlmacenId { get; set; }
+        /// <summary>
+        /// Especifica si el archivo se encuentra asociado a un almacen físico
+        /// </summary>
+        public string? AlmacenArchivoId { get; set; }
 
-        public DateTime?  FechaCreacion { get; set; }
-       
+        /// <summary>
+        /// Zona del almacén físico donde se ubica el activo
+        /// </summary>
+        public string? ZonaAlmacenId { get; set; }
+
+        /// <summary>
+        /// Contenedor del almacén fisico donde se ubica el activo
+        /// </summary>
+        public string? ContenedorAlmacenId { get; set; }
+
+        /// <summary>
+        /// FEcha de creacion del activo
+        /// </summary>
+        public DateTime FechaCreacion { get; set; }
+
+        /// <summary>
+        /// USuario creador del activo
+        /// </summary>
         public string UsuarioId { get; set; }
 
         /// <summary>
-        /// Los activos del inventario son propiedad de las unidades oragnizacionales
-        /// y éstas a su vez pertenecen a un dominio lo que garantiza la cobertura de movivimentos
+        /// Identificador único de la unidad organizacional a la que pertenece el activo
         /// </summary>
-        // public string TipoOrigenDefault => ConstantesModelo.IDORIGEN_UNIDAD_ORGANIZACIONAL;
+        public string UnidadOrganizacionalId { get; set; }
 
         /// <summary>
-        /// En este ID 
+        /// Identificador único del dominio al que pertenece el activo
         /// </summary>
-        public string TipoOrigenId { get; set; }
-
-        /// <summary>
-        /// Alamcena el ID de la unidad organizaciónal creadora de la entrada
-        public string OrigenId { get; set; }
-
+        public string DominioId { get; set; }
 
         /// <summary>
         /// Propiedad para detrminar el tipo de archivo en el que se encuenra el activo
         /// </summary>
-        public string TipoArchivoId { get; set; }
-      
-        public int? Vencidos { get; set; }
-
-        public bool TieneContenido{ get; set; }
-        
-        public string ElementoId { get; set; }
-
-        public CuadroClasificacion CuadroClasificacion { get; set; }
-      
-        public EntradaClasificacion EntradaClasificacion { get; set; }
-
-        public Archivo ArchivoActual { get; set; }
-
-        public Archivo ArchivoOrigen { get; set; }
+        public string TipoArchivoActualId { get; set; }
 
         /// <summary>
-        /// Historial de archivos por los que ha pasado el activo
+        /// Días vendidos del activo
         /// </summary>
-        public virtual ICollection<HistorialArchivoActivo> HistorialArchivosActivo { get; set; }
+        public int? Vencidos { get; set; }
 
-        public virtual TipoArchivo TipoArchivo { get; set; }
+        /// <summary>
+        /// Indica si ela activo tiene contenido asociado
+        /// </summary>
+        public bool TieneContenido { get; set; } = false;
+
+        /// <summary>
+        /// Identificador del elemento de contenido asociado al activo en caso de existir
+        /// </summary>
+        public string? ElementoId { get; set; }
+   
+
+
+
+        //public CuadroClasificacion CuadroClasificacion { get; set; }
+      
+        //public EntradaClasificacion EntradaClasificacion { get; set; }
+
+        //public Archivo ArchivoActual { get; set; }
+
+        //public Archivo ArchivoOrigen { get; set; }
+
+        ///// <summary>
+        ///// Historial de archivos por los que ha pasado el activo
+        ///// </summary>
+        //public virtual ICollection<HistorialArchivoActivo> HistorialArchivosActivo { get; set; }
+
+        //public virtual TipoArchivo TipoArchivo { get; set; }
         
-        public virtual ICollection<Ampliacion> Ampliaciones { get; set; }
+        //public virtual ICollection<Ampliacion> Ampliaciones { get; set; }
        
-        public virtual ICollection<ActivoPrestamo> PrestamosRelacionados { get; set; }
+        //public virtual ICollection<ActivoPrestamo> PrestamosRelacionados { get; set; }
 
-        public virtual ICollection<ActivoTransferencia> TransferenciasRelacionados { get; set; }
+        //public virtual ICollection<ActivoTransferencia> TransferenciasRelacionados { get; set; }
         
-        public virtual ICollection<ActivoSeleccionado> ActivosSeleccionados { get; set; }
+        //public virtual ICollection<ActivoSeleccionado> ActivosSeleccionados { get; set; }
 
-        // public List<IProveedorReporte> Reportes { get; set; }
+        //// public List<IProveedorReporte> Reportes { get; set; }
 
-        public UnidadAdministrativaArchivo UnidadAdministrativa { get; set; }
+        //public UnidadAdministrativaArchivo UnidadAdministrativa { get; set; }
     }
 }
