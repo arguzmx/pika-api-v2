@@ -1,20 +1,78 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace pika.servicios.gestiondocumental.acervo;
 
 public class ServicioActivo : IServicioActivo
 {
-
+    
     private readonly ILogger<ServicioActivo> _logger;
-    private readonly PIKADbContext _context;
+  
+    private readonly PIKADbContext PikaContext;
 
-    public ServicioActivo(ILogger<ServicioActivo> logger, PIKADbContext context)
+    public ServicioActivo(ILogger<ServicioActivo> logger, PIKADbContext PikaContext)
     {
         _logger = logger;
-        _context = context;
+        this.PikaContext = PikaContext;
     }
 
     // Crear el CRUD de API utilizando context
+
+    //Crear
+    public async Task<string> Crear(Activo activo)
+    {
+        var existeTareaMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
+
+        if (existeTareaMismoId)
+        {
+            return null;
+        }
+
+        PikaContext.Activos.Add(activo);
+        await PikaContext.SaveChangesAsync();
+        return ($"+");
+    }
+    
+    //Leer
+    public async Task<ActionResult<List<Activo>>> Obtiener()
+    {
+        return await PikaContext.Activos.ToListAsync();
+    }
+
+    //Actualizar
+    public async Task<String> Actualizar(string id, Activo activo)
+    {
+        var existeTareaMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
+
+        if (existeTareaMismoId != null)
+        {
+            PikaContext.Entry(activo).State = EntityState.Modified;
+            await PikaContext.SaveChangesAsync();
+            return ($"+");
+        }
+        return null;
+    }
+
+    //Eliminar
+
+    public async Task<string> Eliminar(string id, Activo activo)
+    {
+        var existeTareaMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
+        if (existeTareaMismoId)
+        {
+            PikaContext.Remove(new Activo() { Id = id });
+            await PikaContext.SaveChangesAsync();
+            return ($"+");
+        }
+        return null;
+    }
+
+   
+
 
 }
