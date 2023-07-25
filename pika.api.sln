@@ -21,9 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.modelo.gestiondocument
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.api.identity", "identity\pika.api.identity\pika.api.identity.csproj", "{DBEB588B-81BF-4A56-B702-4993E6EA3BA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.servicios.gestiondocumental", "gestiondocumental\pika.servicios.gestiondocumental\pika.servicios.gestiondocumental.csproj", "{9916A095-2AB6-424B-A0BF-742906A8CE49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.servicios.gestiondocumental", "gestiondocumental\pika.servicios.gestiondocumental\pika.servicios.gestiondocumental.csproj", "{9916A095-2AB6-424B-A0BF-742906A8CE49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.api.gestiondocumental", "gestiondocumental\pika.api.gestiondocumental\pika.api.gestiondocumental.csproj", "{9C6370EF-97C4-430B-A13D-69F2E58891ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.api.gestiondocumental", "gestiondocumental\pika.api.gestiondocumental\pika.api.gestiondocumental.csproj", "{9C6370EF-97C4-430B-A13D-69F2E58891ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.comunes.modelos", "infraestructura\api.comunes.modelos\api.comunes.modelos.csproj", "{F10C2F66-3616-447D-825A-3CEAEC229C95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{9C6370EF-97C4-430B-A13D-69F2E58891ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C6370EF-97C4-430B-A13D-69F2E58891ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C6370EF-97C4-430B-A13D-69F2E58891ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F10C2F66-3616-447D-825A-3CEAEC229C95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F10C2F66-3616-447D-825A-3CEAEC229C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F10C2F66-3616-447D-825A-3CEAEC229C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F10C2F66-3616-447D-825A-3CEAEC229C95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +77,7 @@ Global
 		{DBEB588B-81BF-4A56-B702-4993E6EA3BA1} = {6C0EB938-9917-4300-A90B-C55E710A3308}
 		{9916A095-2AB6-424B-A0BF-742906A8CE49} = {198602A7-7F07-4FC6-927C-C574361CA9A0}
 		{9C6370EF-97C4-430B-A13D-69F2E58891ED} = {198602A7-7F07-4FC6-927C-C574361CA9A0}
+		{F10C2F66-3616-447D-825A-3CEAEC229C95} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5708F7F9-1C1E-462C-9F2C-661078716A4D}
