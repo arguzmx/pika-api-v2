@@ -1,4 +1,4 @@
-﻿namespace api.comunes.modelos;
+﻿namespace api.comunes.modelos.respuestas;
 
 /// <summary>
 /// REspuesta a una solicitud de paginado
@@ -13,7 +13,7 @@ public class RespuestaPaginado<T> where T : class
     public RespuestaPaginado(SolicitudPaginado solicitud)
     {
         Solicitud = solicitud;
-        Elementos = new List<T> ();
+        Elementos = new List<T>();
     }
 
     /// <summary>

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-namespace api.comunes.modelos;
+﻿using api.comunes.modelos.respuestas;
+using Microsoft.AspNetCore.Mvc;
+
+namespace api.comunes;
 
 
 [Route("/")]
@@ -7,15 +9,20 @@ namespace api.comunes.modelos;
 public class ControladorGenerico : ControllerBase
 {
 
+    public ControladorGenerico()
+    {
+
+    }
+
     [HttpPost("/{entidad}/entidad")]
-    public async Task<IActionResult> POSTGenerico(string entidad)
+    public async Task<IActionResult> POSTGenerico(string entidad, [FromBody] object dto)
     {
         return Ok();
     }
 
 
     [HttpPut("/{entidad}/entidad/{id}")]
-    public async Task<IActionResult> PUTGenerico(string entidad, string id)
+    public async Task<IActionResult> PUTGenerico(string entidad, string id, [FromBody] object dto)
     {
         return Ok();
     }

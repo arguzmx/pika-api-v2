@@ -1,4 +1,4 @@
-﻿namespace api.comunes.modelos;
+﻿namespace api.comunes.modelos.respuestas;
 
 public enum HttpCode
 {

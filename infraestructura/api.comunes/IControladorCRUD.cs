@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace api.comunes.controladores;
+namespace api.comunes;
 
 /// <summary>
 /// INterfaz base para controlaodres de API para el crud de entidades

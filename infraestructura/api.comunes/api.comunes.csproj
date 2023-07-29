@@ -11,11 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="excepciones\" />
-    <Folder Include="respuestas\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\api.comunes.modelos\api.comunes.modelos.csproj" />
   </ItemGroup>
 
