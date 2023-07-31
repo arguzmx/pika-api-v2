@@ -1,10 +1,16 @@
-﻿namespace api.comunes.consultas.dto;
+﻿
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
+namespace api.comunes.consultas.dto;
+
+[JsonConverter(typeof(StringEnumConverter))]
 public enum Ordenamiento
 {
     asc = 0, desc = 1
 }
 
+[JsonConverter(typeof(StringEnumConverter))]
 public enum OperadorFiltro
 {
     Igual = 0, Contiene = 1, ComienzaCon = 2, TerminaCon = 3,
