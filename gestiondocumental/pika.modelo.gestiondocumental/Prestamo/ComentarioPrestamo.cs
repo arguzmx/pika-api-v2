@@ -27,6 +27,6 @@
         /// Préstamo al que pertenece el comentario
         /// </summary>
 
-        public Prestamo Prestamo { get; set; }
+       // public Prestamo Prestamo { get; set; }
     }
 }

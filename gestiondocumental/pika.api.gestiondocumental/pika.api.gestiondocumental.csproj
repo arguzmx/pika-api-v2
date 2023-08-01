@@ -29,7 +29,6 @@
     <Folder Include="Controllers\gestiondocumental\temas\" />
     <Folder Include="Controllers\gestiondocumental\seguridad\" />
     <Folder Include="Controllers\gestiondocumental\reportes\" />
-    <Folder Include="Controllers\gestiondocumental\prestamo\" />
   </ItemGroup>
 
 </Project>

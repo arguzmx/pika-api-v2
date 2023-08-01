@@ -1,7 +1,7 @@
 ﻿namespace pika.modelo.gestiondocumental
 {
     // public class PermisosArchivo : Entidad<string>
-    public class PermisosArchivo
+    public class PermisosUnidadAdministrativaArchivo 
     {
         /// <summary>
         /// Indetificador único del permiso
@@ -57,7 +57,7 @@
         public bool RecibirTrasnferencia { get; set; }
 
 
-        public Archivo Archivo { get; set; }
+       // public Archivo Archivo { get; set; }
 
     }
 }

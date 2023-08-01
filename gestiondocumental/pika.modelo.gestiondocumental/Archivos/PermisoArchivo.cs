@@ -1,7 +1,7 @@
 ﻿namespace pika.modelo.gestiondocumental
 {
     //public class PermisosUnidadAdministrativaArchivo : Entidad<string>
-    public class PermisosUnidadAdministrativaArchivo
+    public class PermisoArchivo
     {
         /// <summary>
         /// Indetificador único del permiso
@@ -37,6 +37,6 @@
         /// </summary>
         public bool ElminarAcervo { get; set; }
 
-        public UnidadAdministrativaArchivo UnidadAdministrativaArchivo { get; set; }
+       // public UnidadAdministrativaArchivo UnidadAdministrativaArchivo { get; set; }
     }
 }

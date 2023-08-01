@@ -28,11 +28,15 @@
         /// <summary>
         /// Fecha en la que el elemento fue devuelto en formato UTC
         /// </summary>
+        /// 
+
+        /*
         public DateTime? FechaDevolucion { get; set; }
 
         public Activo Activo { get; set; }
 
         public Prestamo Prestamo { get; set; }
+        */
 
     }
 }

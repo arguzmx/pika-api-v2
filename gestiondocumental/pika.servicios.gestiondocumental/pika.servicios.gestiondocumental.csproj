@@ -31,7 +31,6 @@
     <Folder Include="temas\" />
     <Folder Include="seguridad\" />
     <Folder Include="reporte\" />
-    <Folder Include="prestamo\" />
   </ItemGroup>
 
 </Project>

@@ -56,8 +56,10 @@
         /// </summary>
         public string ActivoId { get; set; }
 
+        /*
         public TipoAmpliacion TipoAmpliacion { get; set; }
        
         public Activo activo { get; set; }
+        */
     }
 }

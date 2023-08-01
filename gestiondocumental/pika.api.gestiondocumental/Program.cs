@@ -5,6 +5,7 @@ using pika.servicios.gestiondocumental.acervo;
 using pika.servicios.gestiondocumental.archivos;
 using pika.servicios.gestiondocumental.cuadrosclasificacion;
 using pika.servicios.gestiondocumental.dbcontext;
+using pika.servicios.gestiondocumental.prestamo;
 using pika.servicios.gestiondocumental.topologia;
 using pika.servicios.gestiondocumental.transferencias;
 using System;
@@ -54,6 +55,15 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioComentarioTrasnferencia, ServicioComentarioTrasnferencia>();
             builder.Services.AddTransient<IServicioEventoTransferencia, ServicioEventoTransferencia>();
             builder.Services.AddTransient<IServicioTransferencia, ServicioTransferencia>();
+
+            builder.Services.AddTransient<IServicioAmpliacion, ServicioAmpliacion>();
+
+            builder.Services.AddTransient<IServicioPermisosUnidadAdministrativaArchivo, ServicioPermisosUnidadAdministrativaArchivo>();
+
+            builder.Services.AddTransient<IServicioActivoPrestamo, ServicioActivoPrestamo>();
+            builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
+            builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
+
 
 
             //AddTransient<IServicioElementoClasificacion, ServicioElementoClasificacion>();

@@ -21,7 +21,7 @@ public class PIKADbContext : DbContext
     public DbSet<TipoArchivo> TipoArchivos { get; set; }
 
     public DbSet<UnidadAdministrativaArchivo> UnidadAdministrativaArchivos { get; set; }
-
+    
     public DbSet<ActivoContenedorAlmacen> ActivoContenedorAlmacens { get; set; }
 
     public DbSet<AlmacenArchivo> AlmacenArchivos { get; set; }
@@ -36,11 +36,26 @@ public class PIKADbContext : DbContext
 
     public DbSet<ComentarioTransferencia> ComentarioTransferencias { get; set; }
 
-    //public DbSet<EstadoTransferencia> EstadoTransferencias { get; set; }
+    public DbSet<EstadoTransferencia> EstadoTransferencias { get; set; }
 
     public DbSet<Transferencia> Transferencias { get; set; }
 
     public DbSet<EventoTransferencia> EventoTransferencias { get; set; }
+
+
+    
+
+    public DbSet<Ampliacion> Ampliacions { get; set; }
+    
+   public DbSet<PermisosUnidadAdministrativaArchivo> PermisosUnidadAdministrativaArchivos { get; set; }
+
+    public DbSet<ActivoPrestamo> ActivoPrestamos { get; set; }
+
+    public DbSet<ComentarioPrestamo> ComentarioPrestamos { get; set; }
+
+    public DbSet<Prestamo> Prestamos { get; set; }
+    
+
     public PIKADbContext(DbContextOptions<PIKADbContext> options): base(options)
     {
 
@@ -60,7 +75,7 @@ public class PIKADbContext : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionTipoArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionUnidadAdministrativaArchivo());
-
+        
         modelBuilder.ApplyConfiguration(new ConfiguracionActivoContenedorAlmacen());
         modelBuilder.ApplyConfiguration(new ConfiguracionAlmacenArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionContenedorAlmacen());
@@ -69,9 +84,22 @@ public class PIKADbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new ConfiguracionActivoTransferencia());
         modelBuilder.ApplyConfiguration(new ConfiguracionComentarioTrasnferencia());
-        //modelBuilder.ApplyConfiguration(new ConfiguracionEstadoTransferencia());
-        modelBuilder.ApplyConfiguration(new ConfiguracionEventoTransferencia());
+        modelBuilder.ApplyConfiguration(new ConfiguracionEstadoTransferencia());
         modelBuilder.ApplyConfiguration(new ConfiguracionTransferencia());
+        modelBuilder.ApplyConfiguration(new ConfiguracionEventoTransferencia());
+       
+
+        
+
+        modelBuilder.ApplyConfiguration(new ConfiguracionAmpliacion());
+        
+        modelBuilder.ApplyConfiguration(new ConfiguracionPermisosUnidadAdministrativaArchivo());
+
+        modelBuilder.ApplyConfiguration(new ConfiguracionActivoPrestamo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionComentarioPrestamo());
+       modelBuilder.ApplyConfiguration(new ConfiguracionPrestamo());
+
+        
 
         base.OnModelCreating(modelBuilder);
     }

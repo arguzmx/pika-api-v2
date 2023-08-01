@@ -9,11 +9,12 @@
     // public class TipoArchivo : EntidadCatalogo<string, TipoArchivo> 
     public class TipoArchivo 
     {
-        
+        /*
         public const string IDARCHIVO_TRAMITE = "a-tra";
         public const string IDARCHIVO_CONCENTRACION = "a-con";
         public const string IDARCHIVO_HISTORICO = "a-his";
         public const string IDARCHIVO_CORRESPONDENCIA = "a-cor";
+        */
         public TipoArchivo()
         {
           //  Archivos = new HashSet<Archivo>();
