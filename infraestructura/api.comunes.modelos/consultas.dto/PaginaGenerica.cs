@@ -4,13 +4,19 @@
 /// Representa una página de datos
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class Pagina<T>
+public class PaginaGenerica<T>
 {
 
     /// <summary>
     /// Id de la consulta original, se utiliza para el cache
     /// </summary>
     public string? ConsultaId { get; set; }
+
+
+    /// <summary>
+    /// Tiempo de ejecución en milesegundos
+    /// </summary>
+    public long Milisegundos { get; set; }
 
     /// <summary>
     /// Lista de elementos en la página

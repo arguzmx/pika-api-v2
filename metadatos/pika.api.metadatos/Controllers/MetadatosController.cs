@@ -40,12 +40,12 @@ namespace pika.api.metadatos.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<Pagina<EntidadMock>>> MetadatosEntidad([FromBody] Consulta consulta)
+        public async Task<ActionResult<PaginaGenerica<EntidadMock>>> MetadatosEntidad([FromBody] Consulta consulta)
         {
             var e = servicioMock.LaLista().Skip(consulta.Paginado.Indice * consulta.Paginado.Tamano).
                 Take(consulta.Paginado.Tamano).ToList();
 
-            Pagina<EntidadMock> p = new Pagina<EntidadMock>()
+            PaginaGenerica<EntidadMock> p = new PaginaGenerica<EntidadMock>()
             {
                 ConsultaId = "001",
                 Elementos = e,

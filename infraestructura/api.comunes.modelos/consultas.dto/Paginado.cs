@@ -15,7 +15,6 @@ public class Paginado
     /// </summary>
     public int Tamano { get; set; }
 
-
     /// <summary>
     /// Método de ordenamiento de los datos
     /// </summary>
