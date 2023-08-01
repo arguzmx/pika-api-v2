@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -26,6 +26,11 @@
 
   <ItemGroup>
     <Folder Include="data\migrations\" />
+    <Folder Include="validadores\" />
+    <Folder Include="temas\" />
+    <Folder Include="seguridad\" />
+    <Folder Include="reporte\" />
+    <Folder Include="prestamo\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,12 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 using pika.servicios.gestiondocumental.acervo;
+using pika.servicios.gestiondocumental.archivos;
+using pika.servicios.gestiondocumental.cuadrosclasificacion;
 using pika.servicios.gestiondocumental.dbcontext;
+using pika.servicios.gestiondocumental.topologia;
+using pika.servicios.gestiondocumental.transferencias;
 using System;
 
 namespace pika.api.gestiondocumental
@@ -24,12 +29,34 @@ namespace pika.api.gestiondocumental
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
-            builder.Services.AddTransient<IServicioActivo, ServicioActivo>();
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddTransient<IServicioActivo, ServicioActivo>();
+            builder.Services.AddTransient<IServicioCuadroClasificacion, ServicioCuadroClasificacion>();
+            builder.Services.AddTransient<IServicioElementoClasificacion, ServicioElementoClasificacion>();
+            builder.Services.AddTransient<IServicioEntradaClasificacion, ServicioEntradaClasificacion>();
+            builder.Services.AddTransient<IServicioArchivo, ServicioArchivo>();
+            builder.Services.AddTransient<IServicioTipoArchivo, ServicioTipoArchivo>();
+            builder.Services.AddTransient<IServicioUnidadAdministrativaArchivo, ServicioUnidadAdministrativaArchivo>();
+
+
+
+            builder.Services.AddTransient<IServicioActivoContenedorAlmacen, ServicioActivoContenedorAlmacen>();
+            builder.Services.AddTransient<IServicioAlmacenArchivo, ServicioAlmacenArchivo>();
+            builder.Services.AddTransient<IServicioContenedorAlmacen, ServicioContenedorAlmacen>();
+            builder.Services.AddTransient<IServicioPosicionAlmacen, ServicioPosicionAlmacen>();
+            builder.Services.AddTransient<IServicioZonaAlmacen, ServicioZonaAlmacen>();
+
+            builder.Services.AddTransient<IServicioActivoTranferencia, ServicioActivoTransferencia>();
+            builder.Services.AddTransient<IServicioComentarioTrasnferencia, ServicioComentarioTrasnferencia>();
+            builder.Services.AddTransient<IServicioEventoTransferencia, ServicioEventoTransferencia>();
+            builder.Services.AddTransient<IServicioTransferencia, ServicioTransferencia>();
+
+
+            //AddTransient<IServicioElementoClasificacion, ServicioElementoClasificacion>();
 
             var app = builder.Build();
 
@@ -50,4 +77,4 @@ namespace pika.api.gestiondocumental
             app.Run();
         }
     }
-}
+}                      

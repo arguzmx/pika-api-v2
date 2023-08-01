@@ -36,7 +36,7 @@
         /// </summary>
         public bool Publico { get; set; }
 
-        public Transferencia Transferencia { get; set; }
+     //   public Transferencia Transferencia { get; set; }
 
     }
 }

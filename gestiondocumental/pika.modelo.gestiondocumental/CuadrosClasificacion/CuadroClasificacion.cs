@@ -47,36 +47,36 @@
         /// <summary>
         /// El tipo de orígen en para este modelo es el dominio a la que pertenece el cuadro de clasificacion
         /// </summary>
-        public string TipoOrigenId { get; set; }
+        public string UnidadOrganizacionalId { get; set; }
 
 
         /// <summary>
         /// Identificador de la organización a la que pertenece el cuadro de clasificación
         /// </summary>
-        public string OrigenId { get; set; }
+        public string DominioId { get; set; }
 
 
 
 
-        /// <summary>
-        /// Esatdo del cuadro de clasificación
-        /// </summary>
-        public virtual EstadoCuadroClasificacion Estado { get; set; }
+        ///// <summary>
+        ///// Esatdo del cuadro de clasificación
+        ///// </summary>
+        //public virtual EstadoCuadroClasificacion Estado { get; set; }
 
 
-        public virtual ICollection<ElementoClasificacion> Elementos { get; set; }
+        //public virtual ICollection<ElementoClasificacion> Elementos { get; set; }
 
 
 
-        public List<Transferencia> Transferencias { get; set; }
+        //public List<Transferencia> Transferencias { get; set; }
 
 
-        public List<Activo> Activos { get; set; }
+        //public List<Activo> Activos { get; set; }
 
 
-        //public List<IProveedorReporte> Reportes { get; set; }
+        ////public List<IProveedorReporte> Reportes { get; set; }
 
 
-        public List<EstadisticaClasificacionAcervo> EstadisticasClasificacionAcervo { get; set; }
+        //public List<EstadisticaClasificacionAcervo> EstadisticasClasificacionAcervo { get; set; }
     }
 }

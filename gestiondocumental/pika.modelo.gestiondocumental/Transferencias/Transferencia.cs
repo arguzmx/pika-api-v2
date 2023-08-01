@@ -48,7 +48,7 @@
 
         public int RangoDias { get;  set; }
 
-        public DateTime FechaCorte { get { return FechaCreacion.AddDays(RangoDias); }  set { } }
+       // public DateTime FechaCorte { get { return FechaCreacion.AddDays(RangoDias); }  set { } }
 
         public string TemaId { get; set; }
 
@@ -82,7 +82,7 @@
         /// </summary
         public string UsuarioId { get; set; }
 
-
+        /*
         public virtual ICollection<EventoTransferencia> Eventos { get; set; }
 
         public virtual ICollection<ActivoTransferencia> ActivosIncluidos { get; set; }
@@ -99,6 +99,7 @@
         public virtual Archivo ArchivoOrigen { get; set; }
 
         public virtual Archivo ArchivoDestino { get; set; }
+        */
         
     }
 }

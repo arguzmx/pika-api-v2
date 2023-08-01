@@ -60,9 +60,11 @@
         /// </summary>
         public bool EsRaiz { get; set; }
 
+        /*
         public string NombreJerarquico { get {
                 return this.Nombre;
             } }
+        /*
 
         /// <summary>
         /// Elemento padre del actual
@@ -84,5 +86,6 @@
         /// Activos del elemento clasificacion
         /// </summary>
         public virtual ICollection<EntradaClasificacion> Entradas { get; set; }
+        */
     }
 }

@@ -4,7 +4,7 @@ using pika.modelo.gestiondocumental;
 
 namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
-internal class ConfiguracionActivo: IEntityTypeConfiguration<Activo>
+public class ConfiguracionActivo: IEntityTypeConfiguration<Activo>
 {
     public void Configure(EntityTypeBuilder<Activo> builder)
     {

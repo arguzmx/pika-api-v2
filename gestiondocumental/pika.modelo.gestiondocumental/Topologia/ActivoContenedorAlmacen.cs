@@ -16,7 +16,7 @@
         /// </summary>
         public string ActivoId { get; set; }
 
-        public ContenedorAlmacen ContenedorAlmacen { get; set; }
+       // public ContenedorAlmacen ContenedorAlmacen { get; set; }
 
     }
 }

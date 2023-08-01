@@ -93,14 +93,14 @@
         public string CuadroClasifiacionId { get; set; }
 
         
-        public string NombreCompleto { get { return $"{Clave} {Nombre}"; } }
+     //   public string NombreCompleto { get { return $"{Clave} {Nombre}"; } }
 
         /// <summary>
         /// propiedad receptora para el arreglo de ids de valoración documental
         /// </summary>
         
-        public string[] TipoValoracionDocumentalId { get; set; }
-
+      //  public string[] TipoValoracionDocumentalId { get; set; }
+        /*
 
         //[XmlIgnore]
         //[JsonIgnore]
@@ -120,5 +120,6 @@
 
 
         public List<EstadisticaClasificacionAcervo> EstadisticasClasificacionAcervo { get; set; }
+        */
     }
 }

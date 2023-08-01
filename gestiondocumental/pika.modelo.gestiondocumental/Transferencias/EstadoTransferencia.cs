@@ -6,12 +6,12 @@
         /// <summary>
         /// Este es el estado inicial al crear una nueva trasnferencia
         /// </summary>
-        public const string ESTADO_NUEVA = "nueva";
+        //public const string ESTADO_NUEVA = "nueva";
 
         /// <summary>
         /// Indica que los activos han sido incluidos y se encuentran es espera de aprobación
         /// </summary>
-        public const string ESTADO_ESPERA_APROBACION = "espera";
+       // public const string ESTADO_ESPERA_APROBACION = "espera";
 
         ///// <summary>
         ///// Indica que los activos han sido aprobados para su envío
@@ -27,12 +27,12 @@
         /// <summary>
         /// Indica que la transferencia ha sido recibida satisfactoriamente por el archiv destino
         /// </summary>
-        public const string ESTADO_RECIBIDA = "recibida";
+      //  public const string ESTADO_RECIBIDA = "recibida";
 
         /// <summary>
         /// Indica que la transferencia ha sido recibida satisfactoriamente pero algunos activos fueron declinados
         /// </summary>
-        public const string ESTADO_RECIBIDA_PARCIAL = "recibida_parcial";
+       // public const string ESTADO_RECIBIDA_PARCIAL = "recibida_parcial";
 
         ///// <summary>
         ///// Indica que la transferencia ha sido canelada en alguna de las etapas
@@ -42,8 +42,9 @@
         /// <summary>
         /// Indica que la transferencia ha sido declinada por el receptor y reenviada al orígen
         /// </summary>
-        public const string ESTADO_DECLINADA = "declinada";
+       // public const string ESTADO_DECLINADA = "declinada";
 
+        
         public EstadoTransferencia()
         {
             /*
@@ -51,6 +52,8 @@
             Eventos = new HashSet<EventoTransferencia>();
             */
         }
+
+        /*
 
         /// <summary>
         /// Propiedad de navegacion
@@ -78,5 +81,6 @@
             return l;
 
         }
+        */
     }
 }

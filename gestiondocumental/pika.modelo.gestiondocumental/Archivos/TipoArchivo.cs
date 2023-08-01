@@ -9,6 +9,7 @@
     // public class TipoArchivo : EntidadCatalogo<string, TipoArchivo> 
     public class TipoArchivo 
     {
+        
         public const string IDARCHIVO_TRAMITE = "a-tra";
         public const string IDARCHIVO_CONCENTRACION = "a-con";
         public const string IDARCHIVO_HISTORICO = "a-his";
@@ -25,7 +26,7 @@
         public  string Nombre { get; set; }
 
    
-        public ArchivoTipo? Tipo { get; set; }
+       // public ArchivoTipo? Tipo { get; set; }
 
 
         /// <summary>
@@ -38,6 +39,7 @@
         /// </summary>
         public string UOId { get; set; }
 
+        /*
         public  List<TipoArchivo> Seed()
         {
             List<TipoArchivo> l = new List<TipoArchivo>();
@@ -54,5 +56,6 @@
 
         
         public IEnumerable<Activo> Activos { get; set; }
+        */
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -17,12 +17,19 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\pika.modelo.gestiondocumental\pika.modelo.gestiondocumental.csproj" />
     <ProjectReference Include="..\pika.servicios.gestiondocumental\pika.servicios.gestiondocumental.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\gestiondocumental\validadores\" />
+    <Folder Include="Controllers\gestiondocumental\temas\" />
+    <Folder Include="Controllers\gestiondocumental\seguridad\" />
+    <Folder Include="Controllers\gestiondocumental\reportes\" />
+    <Folder Include="Controllers\gestiondocumental\prestamo\" />
   </ItemGroup>
 
 </Project>

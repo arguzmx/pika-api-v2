@@ -79,7 +79,7 @@
         /// </summary>
         public string PosicionPadreId { get; set; }
 
-
+        /*
 
         public PosicionAlmacen PosicionPadre { get; set; }
 
@@ -98,5 +98,6 @@
 
 
         public List<ContenedorAlmacen> Contenedores { get; set; }
+        */
     }
 }

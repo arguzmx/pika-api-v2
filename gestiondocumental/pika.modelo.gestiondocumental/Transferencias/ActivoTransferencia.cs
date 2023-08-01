@@ -75,9 +75,10 @@
         public string UsuarioReceptorId { get; set; }
 
 
-
+        /*
         public Activo Activo { get; set; }
 
         public Transferencia Transferencia { get; set; }
+        */
     }
 }

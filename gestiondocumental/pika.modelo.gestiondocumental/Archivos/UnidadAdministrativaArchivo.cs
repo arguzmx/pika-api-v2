@@ -67,6 +67,7 @@
         /// </summary>
         public string OrigenId { get; set; }
 
+        /*
         public Archivo ArchivoTramite { get; set; }
 
         public Archivo ArchivoConcentracion { get; set; }
@@ -78,6 +79,6 @@
         public ICollection<PermisosUnidadAdministrativaArchivo> Permisos { get; set; }
 
         public List<EstadisticaClasificacionAcervo> EstadisticasClasificacionAcervo { get; set; }
-
+        */
     }
 }

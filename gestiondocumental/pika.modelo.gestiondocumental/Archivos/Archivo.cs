@@ -71,7 +71,7 @@
         /// <summary>
         /// Tipo de archivo 
         /// </summary>
-        public virtual TipoArchivo Tipo { get; set; }
+       // public virtual TipoArchivo Tipo { get; set; }
 
 
 
@@ -84,6 +84,9 @@
         /// <summary>
         /// Alamcenes físicos que tiene al archivo bajo su control
         /// </summary>
+        
+
+        /*
         //public virtual ICollection<AlmacenArchivo> Almacenes { get; set; }
 
 
@@ -143,5 +146,6 @@
         public List<ContenedorAlmacen> Contenedores { get; set; }
 
         public List<PermisosArchivo> PermisosArchivo { get; set; }
+        */
     }
 }

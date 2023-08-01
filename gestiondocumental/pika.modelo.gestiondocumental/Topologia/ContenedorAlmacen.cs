@@ -63,7 +63,7 @@
         /// </summary>
         public string AlmacenArchivoId { get; set; }
 
-
+        /*
         public PosicionAlmacen Posicion { get; set; }
 
 
@@ -82,5 +82,6 @@
 
 
         public List<ActivoContenedorAlmacen> Activos { get; set; }
+        */
     }
 }

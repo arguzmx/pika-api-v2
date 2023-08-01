@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -23,12 +24,13 @@ public class ServicioActivo : IServicioActivo
 
     // Crear el CRUD de API utilizando context
 
-    //Crear
-    public async Task<string> Crear(Activo activo)
-    {
-        var existeTareaMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
 
-        if (existeTareaMismoId)
+//Crear
+public async Task<string> Crear(Activo activo)
+    {
+        var existeMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
+
+        if (existeMismoId)
         {
             return null;
         }
@@ -47,9 +49,9 @@ public class ServicioActivo : IServicioActivo
     //Actualizar
     public async Task<String> Actualizar(string id, Activo activo)
     {
-        var existeTareaMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
+        var existeMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
 
-        if (existeTareaMismoId != null)
+        if (existeMismoId != null)
         {
             PikaContext.Entry(activo).State = EntityState.Modified;
             await PikaContext.SaveChangesAsync();
@@ -62,8 +64,8 @@ public class ServicioActivo : IServicioActivo
 
     public async Task<string> Eliminar(string id, Activo activo)
     {
-        var existeTareaMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
-        if (existeTareaMismoId)
+        var existeMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
+        if (existeMismoId)
         {
             PikaContext.Remove(new Activo() { Id = id });
             await PikaContext.SaveChangesAsync();
@@ -71,8 +73,4 @@ public class ServicioActivo : IServicioActivo
         }
         return null;
     }
-
-   
-
-
 }

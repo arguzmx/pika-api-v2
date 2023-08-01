@@ -31,7 +31,7 @@
         public string AlmacenArchivoId { get; set; }
 
 
-
+        /*
         public AlmacenArchivo Almacen { get; set; }
 
 
@@ -42,5 +42,6 @@
 
 
         public List<ContenedorAlmacen> Contenedores { get; set; }
+        */
     }
 }

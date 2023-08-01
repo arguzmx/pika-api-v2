@@ -55,6 +55,7 @@
         /// </summary>
         public bool HabilitarFoliado { get; set; }
 
+       /*
         public Archivo Archivo { get; set; }
 
 
@@ -65,6 +66,6 @@
 
 
         public List<ContenedorAlmacen> Contenedores { get; set; }
-
+       */
     }
 }

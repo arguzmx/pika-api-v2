@@ -28,9 +28,10 @@
         /// </summary>
         public string UsuarioId { get; set; }
 
-
+        /*
         public EstadoTransferencia Estado { get; set; }
 
         public Transferencia Transferencia { get; set; }
+        */
     }
 }

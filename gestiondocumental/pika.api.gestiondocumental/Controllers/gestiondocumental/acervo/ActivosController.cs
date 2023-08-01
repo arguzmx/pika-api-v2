@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.acervo;
 using pika.servicios.gestiondocumental.dbcontext;
@@ -7,7 +8,7 @@ using System.Threading;
 
 namespace pika.api.gestiondocumental.Controllers.gestiondocumental.acervo
 {
-    [Route("api/activos")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ActivosController : ControllerBase
     {
@@ -22,8 +23,8 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.acervo
             _logger = logger;
         }
 
-
-       
+        
+      
 
         // Crear el CRUD de API utilizando _servicioActivo
 
