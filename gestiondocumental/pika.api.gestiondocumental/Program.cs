@@ -56,6 +56,9 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioEventoTransferencia, ServicioEventoTransferencia>();
             builder.Services.AddTransient<IServicioTransferencia, ServicioTransferencia>();
 
+
+
+
             builder.Services.AddTransient<IServicioAmpliacion, ServicioAmpliacion>();
 
             builder.Services.AddTransient<IServicioPermisosUnidadAdministrativaArchivo, ServicioPermisosUnidadAdministrativaArchivo>();

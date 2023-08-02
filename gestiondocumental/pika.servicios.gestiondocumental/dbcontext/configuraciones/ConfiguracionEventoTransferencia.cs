@@ -1,15 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
-{
-    public class ConfiguracionEventoTransferencia : IEntityTypeConfiguration<EventoTransferencia>
+namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
+public class ConfiguracionEventoTransferencia : IEntityTypeConfiguration<EventoTransferencia>
     {
         public void Configure(EntityTypeBuilder<EventoTransferencia> builder)
         {
@@ -24,4 +18,4 @@ namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
   
         }
     }
-}
+

@@ -3,6 +3,8 @@
     // public class EventoTransferencia: Entidad<string>
     public class EventoTransferencia
     {
+        public EventoTransferencia() { }
+
         /// <summary>
         /// Identificado único de la trásnferencia
         /// </summary>

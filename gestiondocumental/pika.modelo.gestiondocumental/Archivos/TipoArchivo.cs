@@ -1,10 +1,11 @@
 ﻿namespace pika.modelo.gestiondocumental
 {
-
+    /*
     public enum ArchivoTipo
     {
         otro = 0, tramite =1, concentracion=2, historico=3
     }
+    */
 
     // public class TipoArchivo : EntidadCatalogo<string, TipoArchivo> 
     public class TipoArchivo 

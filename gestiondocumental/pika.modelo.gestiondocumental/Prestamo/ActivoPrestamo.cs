@@ -3,6 +3,8 @@
     public class ActivoPrestamo
     {
 
+        public ActivoPrestamo() { }
+
         /// <summary>
         /// Identtificaor unico del reistros
         /// </summary>

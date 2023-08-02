@@ -1,14 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
-{
+namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
+
+
    
     public class ConfiguracionElementoClasificacion : IEntityTypeConfiguration<ElementoClasificacion>
     {
@@ -19,8 +15,8 @@ namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
-            builder.Property(e => e.Clave).IsRequired().HasMaxLength(128);
-            builder.Property(e => e.Nombre).IsRequired().HasMaxLength(500);
+            builder.Property(e => e.Clave).IsRequired();
+            builder.Property(e => e.Nombre).IsRequired();
             builder.Property(e => e.Eliminada).IsRequired();
             builder.Property(e => e.Posicion).IsRequired();
             builder.Property(e => e.CuadroClasifiacionId).IsRequired().HasMaxLength(128);
@@ -38,4 +34,4 @@ namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
         }
 
     }
-}
+

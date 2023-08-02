@@ -3,6 +3,7 @@
     // public class PermisosArchivo : Entidad<string>
     public class PermisosUnidadAdministrativaArchivo 
     {
+        public PermisosUnidadAdministrativaArchivo() { }
         /// <summary>
         /// Indetificador único del permiso
         /// </summary>

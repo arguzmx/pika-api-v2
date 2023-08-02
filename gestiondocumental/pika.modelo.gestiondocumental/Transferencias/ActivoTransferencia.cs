@@ -7,6 +7,7 @@
     /// 
     public class ActivoTransferencia
     {
+        public ActivoTransferencia() { }
         /// <summary>
         /// Identtificaor unico del reistro
         /// </summary>

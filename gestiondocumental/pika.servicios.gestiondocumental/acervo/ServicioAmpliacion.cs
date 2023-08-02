@@ -38,7 +38,7 @@ namespace pika.servicios.gestiondocumental.acervo
         }
 
 
-        public async Task<ActionResult<List<Ampliacion>>> Obtiener()
+        public async Task<List<Ampliacion>> Obtiener()
         {
             return await PikaContext.Ampliacions.ToListAsync();
         }

@@ -1,16 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
-{
-    
-    public class ConfiguracionUnidadAdministrativaArchivo : IEntityTypeConfiguration<UnidadAdministrativaArchivo>
+namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
+
+public class ConfiguracionUnidadAdministrativaArchivo : IEntityTypeConfiguration<UnidadAdministrativaArchivo>
     {
         public void Configure(EntityTypeBuilder<UnidadAdministrativaArchivo> builder)
         {
@@ -44,4 +38,4 @@ namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
              */
         }
     }
-}
+

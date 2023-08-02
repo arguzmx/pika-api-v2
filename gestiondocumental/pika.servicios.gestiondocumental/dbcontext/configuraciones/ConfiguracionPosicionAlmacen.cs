@@ -1,15 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
-{
-    public class ConfiguracionPosicionAlmacen : IEntityTypeConfiguration<PosicionAlmacen>
+namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
+public class ConfiguracionPosicionAlmacen : IEntityTypeConfiguration<PosicionAlmacen>
     {
         public void Configure(EntityTypeBuilder<PosicionAlmacen> builder)
         {
@@ -30,4 +24,4 @@ namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
             builder.Property(e => e.PosicionPadreId).IsRequired().HasMaxLength(128);
         }
     }
-}
+

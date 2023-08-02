@@ -7,7 +7,7 @@ namespace pika.servicios.gestiondocumental.acervo;
 public interface IServicioActivo
 {
     Task<string> Crear(Activo activo);
-    Task<ActionResult<List<Activo>>> Obtiener();
+    Task<List<Activo>> Obtiener();
     Task<String> Actualizar(string id, Activo activo);
     Task<string> Eliminar(string id, Activo activo);
 

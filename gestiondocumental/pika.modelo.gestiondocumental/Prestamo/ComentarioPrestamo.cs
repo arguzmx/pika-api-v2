@@ -3,7 +3,7 @@
     //  public class ComentarioPrestamo : Entidad<string>
     public class ComentarioPrestamo 
     {
-
+        public ComentarioPrestamo() { }
 
         /// <summary>
         /// FEcha de creación del comentario

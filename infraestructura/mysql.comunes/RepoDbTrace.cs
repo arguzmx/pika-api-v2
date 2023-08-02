@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace mysql.comunes;
 
-public static class RepoDbTrace : ITrace
+public static class RepoDbTrace //: ITrace
 {
-    /* Implement all the methods here */
+    
+    /* Implement all the methods here 
+
+
+
     public void AfterExecution<TResult>(ResultTraceLog<TResult> log)
     {
         throw new NotImplementedException();
@@ -30,4 +34,5 @@ public static class RepoDbTrace : ITrace
     {
         throw new NotImplementedException();
     }
+    */
 }

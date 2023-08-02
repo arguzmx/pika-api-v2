@@ -8,6 +8,8 @@
     //public class ComentarioTransferencia: Entidad<string>, IEntidadUsuario
     public class ComentarioTransferencia
     {
+        public ComentarioTransferencia() { }
+
         public string Id { get; set; }
 
         /// <summary>

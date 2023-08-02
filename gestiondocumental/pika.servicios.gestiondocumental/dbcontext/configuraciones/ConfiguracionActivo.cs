@@ -44,6 +44,6 @@ public class ConfiguracionActivo: IEntityTypeConfiguration<Activo>
         builder.Property(e => e.TipoArchivoActualId).IsRequired().HasMaxLength(128);
         builder.Property(e => e.Vencidos).IsRequired(false);
         builder.Property(e => e.TieneContenido).IsRequired();
-        builder.Property(e => e.ElementoId).IsRequired().HasMaxLength(128);
+        builder.Property(e => e.ElementoId).IsRequired(false).HasMaxLength(128);
     }
 }

@@ -6,6 +6,10 @@
 
     public class ActivoContenedorAlmacen
     {
+        public ActivoContenedorAlmacen()
+        {
+
+        }
         /// <summary>
         /// Identificador único del rol
         /// </summary>

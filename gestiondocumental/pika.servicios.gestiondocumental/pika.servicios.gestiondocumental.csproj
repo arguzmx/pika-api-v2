@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="data\migrations\" />
+    <Folder Include="data\" />
     <Folder Include="validadores\" />
     <Folder Include="temas\" />
     <Folder Include="seguridad\" />
