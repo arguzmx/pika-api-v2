@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace mysql.comunes;
 
-public static class RepoDbTrace //: ITrace
+public  class RepoDbTrace : ITrace
 {
     
     /* Implement all the methods here 
@@ -17,22 +17,22 @@ public static class RepoDbTrace //: ITrace
 
     public void AfterExecution<TResult>(ResultTraceLog<TResult> log)
     {
-        throw new NotImplementedException();
+        
     }
 
     public Task AfterExecutionAsync<TResult>(ResultTraceLog<TResult> log, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public void BeforeExecution(CancellableTraceLog log)
     {
-        throw new NotImplementedException();
+        
     }
 
     public Task BeforeExecutionAsync(CancellableTraceLog log, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;  
     }
     */
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
+using mysql.comunes;
 using pika.servicios.gestiondocumental.acervo;
 using pika.servicios.gestiondocumental.archivos;
 using pika.servicios.gestiondocumental.cuadrosclasificacion;
@@ -8,6 +9,8 @@ using pika.servicios.gestiondocumental.dbcontext;
 using pika.servicios.gestiondocumental.prestamo;
 using pika.servicios.gestiondocumental.topologia;
 using pika.servicios.gestiondocumental.transferencias;
+using RepoDb;
+using RepoDb.Interfaces;
 using System;
 
 namespace pika.api.gestiondocumental
@@ -66,8 +69,13 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioActivoPrestamo, ServicioActivoPrestamo>();
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
+            
+            builder.Services.AddTransient<ITrace, RepoDbTrace>();
+            builder.Services.AddTransient<ICache, RepoDbCache>();
+            builder.Services.AddOptions<MySqlConfig>()
+                .Bind(builder.Configuration.GetSection("MySqlConfig"));
 
-
+            GlobalConfiguration.Setup().UseMySql();
 
             //AddTransient<IServicioElementoClasificacion, ServicioElementoClasificacion>();
 

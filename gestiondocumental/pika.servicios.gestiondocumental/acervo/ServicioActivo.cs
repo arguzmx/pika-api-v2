@@ -1,22 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using mysql.comunes;
+using MySql.Data.MySqlClient;
 using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
+using RepoDb.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace pika.servicios.gestiondocumental.acervo;
 
-public class ServicioActivo : IServicioActivo
+public class ServicioActivo : RepositorioBase<MySqlConnection>,  IServicioActivo
 {
     
     private readonly ILogger<ServicioActivo> _logger;
   
     private readonly PIKADbContext PikaContext;
 
-    public ServicioActivo(ILogger<ServicioActivo> logger, PIKADbContext PikaContext)
+    public ServicioActivo(ILogger<ServicioActivo> logger, PIKADbContext PikaContext,
+        IOptions<MySqlConfig> settings,
+        ICache cache,
+        ITrace trace): base(settings, cache, trace)
     {
         _logger = logger;
         this.PikaContext = PikaContext;
@@ -39,7 +46,14 @@ public async Task<string> Crear(Activo activo)
         await PikaContext.SaveChangesAsync();
         return ($"+");
     }
-    
+
+
+    public async Task<Activo?> PorId(string Id)
+    {
+        return await base.Get<Activo>(Id);
+    }
+
+
     //Leer
     public async Task<ActionResult<List<Activo>>> Obtiener()
     {
