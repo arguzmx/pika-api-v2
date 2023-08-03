@@ -11,7 +11,7 @@ namespace pika.servicios.gestiondocumental.acervo
     public interface IServicioAmpliacion
     {
         Task<string> Crear(Ampliacion ampliacion);
-        Task<ActionResult<List<Ampliacion>>> Obtiener();
+        Task<List<Ampliacion>> Obtiener();
         Task<String> Actualizar(string id, Ampliacion ampliacion);
         Task<string> Eliminar(string id, Ampliacion ampliacion);
     }

@@ -1,4 +1,4 @@
-﻿namespace api.comunes.consultas.dto;
+﻿namespace api.comunes.modelos.modelos;
 
 /// <summary>
 /// Representa una página de datos

@@ -38,7 +38,7 @@ namespace pika.servicios.gestiondocumental.transferencias
         }
 
 
-        public async Task<ActionResult<List<ComentarioTransferencia>>> Obtiener()
+        public async Task<List<ComentarioTransferencia>> Obtiener()
         {
             return await PikaContext.ComentarioTransferencias.ToListAsync();
         }

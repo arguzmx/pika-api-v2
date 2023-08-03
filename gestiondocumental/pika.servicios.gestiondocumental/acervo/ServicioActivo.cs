@@ -1,90 +1,173 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using mysql.comunes;
-using MySql.Data.MySqlClient;
+﻿using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
-using RepoDb.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading;
+using api.comunes.modelos.servicios;
+using pika.comun.metadatos;
+using api.comunes.modelos.respuestas;
+using pika.modelo.gestiondocumental.Acervo;
+using api.comunes.modelos.modelos;
 
 namespace pika.servicios.gestiondocumental.acervo;
 
-public class ServicioActivo : RepositorioBase<MySqlConnection>,  IServicioActivo
+public class ServicioActivo : IServicioActivo
 {
-    
     private readonly ILogger<ServicioActivo> _logger;
-  
-    private readonly PIKADbContext PikaContext;
+    private readonly PIKADbContext _db;
+    private ContextoUsuario _contextoUsuario;
 
-    public ServicioActivo(ILogger<ServicioActivo> logger, PIKADbContext PikaContext,
-        IOptions<MySqlConfig> settings,
-        ICache cache,
-        ITrace trace): base(settings, cache, trace)
+    public ServicioActivo(ILogger<ServicioActivo> logger, PIKADbContext PikaContext)
     {
         _logger = logger;
-        this.PikaContext = PikaContext;
+        _db = PikaContext;
     }
 
-    // Crear el CRUD de API utilizando context
-
-
-//Crear
-public async Task<string> Crear(Activo activo)
+    public async Task<Respuesta> Actualizar(string id, ActivoActualizar data)
     {
-        var existeMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
 
-        if (existeMismoId)
+        var respuesta = new Respuesta();
+
+        if (string.IsNullOrEmpty(id) || data ==null)
         {
-            return null;
+            respuesta.HttpCode = HttpCode.BadRequest;
+            return respuesta;
         }
 
-        PikaContext.Activos.Add(activo);
-        await PikaContext.SaveChangesAsync();
-        return ($"+");
-    }
-
-
-    public async Task<Activo?> PorId(string Id)
-    {
-        return await base.Get<Activo>(Id);
-    }
-
-
-    //Leer
-    public async Task<ActionResult<List<Activo>>> Obtiener()
-    {
-        return await PikaContext.Activos.ToListAsync();
-    }
-
-    //Actualizar
-    public async Task<String> Actualizar(string id, Activo activo)
-    {
-        var existeMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
-
-        if (existeMismoId != null)
+        Activo actual = _db.Activos.Find(id);
+        if(actual == null)
         {
-            PikaContext.Entry(activo).State = EntityState.Modified;
-            await PikaContext.SaveChangesAsync();
-            return ($"+");
-        }
-        return null;
-    }
+            respuesta.HttpCode = HttpCode.NotFound;
+            return respuesta;
+        } 
 
-    //Eliminar
-
-    public async Task<string> Eliminar(string id, Activo activo)
-    {
-        var existeMismoId = await PikaContext.Activos.AnyAsync(x => x.Id == activo.Id);
-        if (existeMismoId)
+        var resultadoValidacion = await ValidarActualizar(id, data);
+        if (resultadoValidacion.Valido)
         {
-            PikaContext.Remove(new Activo() { Id = id });
-            await PikaContext.SaveChangesAsync();
-            return ($"+");
+            var entidad = ADTOFull(data, actual);
+            _db.Activos.Update(entidad);
+            await _db.SaveChangesAsync();
+
+            respuesta.HttpCode = HttpCode.Ok;
         }
-        return null;
+        else
+        {
+            respuesta.Error = resultadoValidacion.Error;
+            respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+        }
+
+        return respuesta;
     }
+
+    public Activo ADTOFull(ActivoInsertar data)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Activo ADTOFull(ActivoActualizar actualizacion, Activo actual)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Respuesta> Eliminar(string id)
+    {
+        var respuesta = new Respuesta();
+
+        if (string.IsNullOrEmpty(id))
+        {
+            respuesta.HttpCode = HttpCode.BadRequest;
+            return respuesta;
+        }
+
+        Activo actual = _db.Activos.Find(id);
+        if (actual == null)
+        {
+            respuesta.HttpCode = HttpCode.NotFound;
+            return respuesta;
+        }
+
+        var resultadoValidacion = await ValidarEliminacion(id);
+        if (resultadoValidacion.Valido)
+        {
+            _db.Activos.Remove(actual); 
+            await _db.SaveChangesAsync();
+
+            respuesta.HttpCode = HttpCode.Ok;
+        }
+        else
+        {
+            respuesta.Error = resultadoValidacion.Error;
+            respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+        }
+
+        return respuesta;
+    }
+
+    public Entidad EntidadInsert()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Entidad EntidadRepo()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Entidad EntidadUpdate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void EstableceContextoUsuario(ContextoUsuario contexto)
+    {
+        _contextoUsuario = contexto;
+    }
+
+    public async Task<RespuestaPayload<Activo>> Insertar(ActivoInsertar data)
+    {
+        var respuesta = new RespuestaPayload<Activo>();
+
+        var resultadoValidacion = await ValidarInsertar(data);
+        if (resultadoValidacion.Valido)
+        {
+            var entidad = ADTOFull(data);
+            entidad.Id = Guid.NewGuid().ToString();
+            _db.Activos.Add(entidad);
+            await _db.SaveChangesAsync();
+
+            respuesta.HttpCode = HttpCode.Ok;
+            respuesta.Payload = entidad;
+        }
+        else
+        {
+            respuesta.Error = resultadoValidacion.Error;
+            respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+        }
+
+        return respuesta;
+    }
+
+    public async Task<PaginaGenerica<Activo>> Pagina(Consulta consulta)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<RespuestaPayload<Activo>> UnicaPorId(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<ResultadoValidacion> ValidarActualizar(string id, ActivoActualizar data)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<ResultadoValidacion> ValidarEliminacion(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<ResultadoValidacion> ValidarInsertar(ActivoInsertar data)
+    {
+        throw new NotImplementedException();
+    }
+
 }

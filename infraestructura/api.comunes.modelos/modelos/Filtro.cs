@@ -1,4 +1,4 @@
-﻿namespace api.comunes.consultas.dto;
+﻿namespace api.comunes.modelos.modelos;
 
 /// <summary>
 /// Filtro de datos para aplicar en las consultas

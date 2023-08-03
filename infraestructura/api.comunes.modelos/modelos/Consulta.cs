@@ -1,4 +1,4 @@
-﻿namespace api.comunes.consultas.dto;
+﻿namespace api.comunes.modelos.modelos;
 
 /// <summary>
 /// Constla básica para los endpoints

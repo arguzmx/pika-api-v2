@@ -8,7 +8,7 @@ public enum HttpCode
 public class Respuesta
 {
     public bool Ok { get; set; } = false;
-    public string? Error { get; set; }
+    public ErrorProceso? Error { get; set; }
     public HttpCode HttpCode { get; set; } = HttpCode.None;
 }
 

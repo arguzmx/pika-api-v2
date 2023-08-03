@@ -1,8 +1,7 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace api.comunes.consultas.dto;
+namespace api.comunes.modelos.modelos;
 
 [JsonConverter(typeof(StringEnumConverter))]
 public enum Ordenamiento

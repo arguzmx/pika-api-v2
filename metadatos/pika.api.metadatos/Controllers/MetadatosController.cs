@@ -1,4 +1,4 @@
-﻿using api.comunes.consultas.dto;
+﻿using api.comunes.modelos.modelos;
 using Microsoft.AspNetCore.Mvc;
 using pika.api.metadatos.mock;
 using pika.comun.metadatos;
