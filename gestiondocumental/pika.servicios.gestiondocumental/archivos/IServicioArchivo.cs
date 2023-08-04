@@ -1,18 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using api.comunes.modelos.servicios;
 using pika.modelo.gestiondocumental;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using pika.modelo.gestiondocumental.Archivos;
 
 namespace pika.servicios.gestiondocumental.archivos
 {
-    public interface IServicioArchivo
+    public interface IServicioArchivo : IServicioEntidadGenerica<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>
     {
-        Task<string> Crear(Archivo archivo);
-        Task<ActionResult<List<Archivo>>> Obtiener();
-        Task<String> Actualizar(string id, Archivo archivo);
-        Task<string> Eliminar(string id, Archivo archivo);
     }
 }

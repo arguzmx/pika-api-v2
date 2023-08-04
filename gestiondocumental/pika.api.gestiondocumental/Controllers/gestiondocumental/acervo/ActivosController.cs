@@ -33,13 +33,15 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.acervo
       
         public async Task<ActionResult<Activo>> CrearActivo([FromBody] Activo activo)
         {
-            var resultado = await _servicioActivo.Crear(activo);
-         
-            if (resultado!=null)
-            {
-               return Ok(resultado);
-            }
-             return BadRequest("Error Al Agregar");
+            //var resultado = await _servicioActivo.Crear(activo);
+
+            //if (resultado!=null)
+            //{
+            //   return Ok(resultado);
+            //}
+            // return BadRequest("Error Al Agregar");
+
+            return Ok();
         }
 
         
@@ -47,21 +49,24 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.acervo
         [HttpGet]
         public async Task<ActionResult<List<Activo>>> ObtienerActivo()
         {
-            return await _servicioActivo.Obtiener();
+            //return await _servicioActivo.Obtiener();
+            return Ok();
         }
 
         //Actualizar
         [HttpPut("{id}")]
         public async Task<ActionResult<Activo>> ActualizarActivo([FromRoute] string id, [FromBody] Activo activo)
         {
-            var resultado = await _servicioActivo.Actualizar(id, activo);
+            //var resultado = await _servicioActivo.Actualizar(id, activo);
 
-            if (resultado!=null)
-            {
-                return Ok(resultado);
-            }
+            //if (resultado!=null)
+            //{
+            //    return Ok(resultado);
+            //}
 
-            return BadRequest("Error Al Actualizar");
+            //return BadRequest("Error Al Actualizar");
+
+            return Ok();
         }
 
         //Eliminar
@@ -69,13 +74,14 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.acervo
        
         public async Task<ActionResult<Activo>> EliminarActivo([FromRoute] string id ,[FromBody] Activo activo)
         {
-            var resultado = await _servicioActivo.Eliminar(id, activo);
+            //var resultado = await _servicioActivo.Eliminar(id, activo);
 
-            if (resultado!=null)
-            {
-                return Ok();
-            }
-            return BadRequest("Error Al Eliminar");
+            //if (resultado!=null)
+            //{
+            //    return Ok();
+            //}
+            //return BadRequest("Error Al Eliminar");
+            return Ok();
 
         }
 

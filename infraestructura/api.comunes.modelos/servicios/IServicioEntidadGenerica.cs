@@ -11,7 +11,11 @@ namespace api.comunes.modelos.servicios;
 /// <typeparam name="DTOInsert"></typeparam>
 /// <typeparam name="DTOUpdate"></typeparam>
 /// <typeparam name="TipoId"></typeparam>
-public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, TipoId> where DTOFull: class
+public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, DTODespliegue, TipoId> 
+    where DTOFull: class
+    where DTODespliegue : class
+    where DTOUpdate : class
+    where DTOInsert : class
 {
 
     /// <summary>
@@ -28,10 +32,16 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, TipoId>
 
 
     /// <summary>
-    /// DEvulve los metadatos de la entidad para realizar la actualización al repositorio
+    /// Devuelve los metadatos de la entidad para realizar la actualización al repositorio
     /// </summary>
     /// <returns></returns>
     Entidad EntidadUpdate();
+
+    /// <summary>
+    /// Devuelve los metadatos de la entidad para el despliegue
+    /// </summary>
+    /// <returns></returns>
+    Entidad EntidadDespliegue();
 
 
     /// <summary>
@@ -73,13 +83,28 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, TipoId>
     /// <returns></returns>
     Task<RespuestaPayload<DTOFull>> UnicaPorId(TipoId id);
 
+    /// <summary>
+    /// Obtiene una entidad para despliegue del repositorio por Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<RespuestaPayload<DTODespliegue>> UnicaPorIdDespliegue(TipoId id);
+
 
     /// <summary>
     /// Obtiene una lista de elementos en base a la configuración de la consulta y su paginado
     /// </summary>
     /// <param name="consulta"></param>
     /// <returns></returns>
-    Task<PaginaGenerica<DTOFull>> Pagina(Consulta consulta);    
+    Task<RespuestaPayload<PaginaGenerica<DTOFull>>> Pagina(Consulta consulta);
+
+    /// <summary>
+    /// Obtiene una lista de elementos para el despliegue en base a la configuración de la consulta y su paginado
+    /// </summary>
+    /// <param name="consulta"></param>
+    /// <returns></returns>
+    Task<RespuestaPayload<PaginaGenerica<DTODespliegue>>> PaginaDespliegue(Consulta consulta);
+
 
     /// <summary>
     /// Ejecuta la validación para un proceso de inserción
@@ -95,7 +120,7 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, TipoId>
     /// <param name="id"></param>
     /// <param name="data"></param>
     /// <returns></returns>
-    Task<ResultadoValidacion> ValidarActualizar(TipoId id,  DTOUpdate data);
+    Task<ResultadoValidacion> ValidarActualizar(TipoId id,  DTOUpdate actualizacion, DTOFull original);
 
 
     /// <summary>
@@ -103,7 +128,7 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, TipoId>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<ResultadoValidacion> ValidarEliminacion(TipoId id);
+    Task<ResultadoValidacion> ValidarEliminacion(TipoId id, DTOFull original);
 
     /// <summary>
     /// Convierte un DTO de inserción a la versión de entidad en el repositorio
@@ -119,5 +144,13 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, TipoId>
     /// <param name="actual"></param>
     /// <returns></returns>
     DTOFull ADTOFull(DTOUpdate actualizacion, DTOFull actual);
+
+
+    /// <summary>
+    /// Convierte un elemento de repositorio a despliegue
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    DTODespliegue ADTODespliegue(DTOFull data);
 
 }

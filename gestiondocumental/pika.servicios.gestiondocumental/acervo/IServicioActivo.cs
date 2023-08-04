@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace pika.servicios.gestiondocumental.acervo;
 
-public interface IServicioActivo : IServicioEntidadGenerica<Activo, ActivoInsertar, ActivoActualizar, string>
+public interface IServicioActivo : IServicioEntidadGenerica<Activo, ActivoInsertar, ActivoActualizar, ActivoDespliegue, string>
 {
     // NAda aqui
 }

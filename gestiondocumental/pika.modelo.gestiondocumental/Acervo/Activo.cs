@@ -1,4 +1,6 @@
-﻿namespace pika.modelo.gestiondocumental
+﻿using System.Runtime.InteropServices;
+
+namespace pika.modelo.gestiondocumental
 {
     //public class Activo : Entidad<string>, IEntidadRelacionada, IEntidadIdElectronico,
     //IEntidadEliminada, IEntidadReportes
@@ -16,90 +18,122 @@
         }
 
         /// <summary>
-        /// Identificador único del activo
+        /// Identificador único del activo, se genera al insertar
         /// </summary>
         public string Id { get; set; }
+        // [A]
 
         /// <summary>
         /// Identificador único del cuadro de clasificación, 
         /// Este se llena del lado del servidor
         /// </summary>
         public string CuadroClasificacionId { get; set; }
+        // [I] [A]
 
         /// <summary>
         /// Identificador único de la serie doccumental
         /// </summary>
         public string SerieDocumentalId { get; set; }
+        // [I] [A]
+
 
         /// <summary>
         /// Nombre de la entrada de inventario por ejemplo el número de expediente
         /// </summary>
         public string Nombre { get; set; }
+        // [I] [A]
+
 
         /// <summary>
         /// ID Unico de la entrada de inventario por ejemplo el número de expediente
         /// </summary>
         public string? IDunico { get; set; }
+        // [I] [A]
+
 
         /// <summary>
         /// Fecha de apertura UTC del activo
         /// </summary>
         public DateTime FechaApertura { get; set; }
+        // [I] [A]
+
 
         /// <summary>
         /// Fecha opcional de ciere del activo
         /// </summary>
         public DateTime? FechaCierre { get; set; }
+        // [I] [A]
+
 
         /// <summary>
         /// Asunto de la entrada de inventario
         /// </summary>
         public string? Asunto { get; set; }
+        // [I] [A]
+
 
         /// <summary>
         /// Código de barras o QR de la entrada para ser leído por un scanner 
         /// </summary>
         public string? CodigoOptico { get; set; }
+        // [I] [A]
+
 
         /// <summary>
         /// Código electrónico de acceso al elemento por ejemplo RFID
         /// </summary>
         public string? CodigoElectronico { get; set; }
+        // [I] [A]
+
 
         /// <summary>
         /// Indica que el elemento se encuentra en formato electrónico desde su creación
         /// </summary>
         public bool EsElectronico { get; set; } = false;
+        // [I] [A]
+
 
         /// <summary>
-        /// Especifica si el activo se encuentra marcado como en reserva
+        /// Especifica si el activo se encuentra marcado como en reserva, esta campo se activa automáticamente cuando el activo
+        /// tiene al menos una reserva y se inactiva cuando no tiene reservas o las fechas de reserva han sido excedidas
         /// </summary>
         public bool Reservado { get; set; } = false;
+        
+
 
         /// <summary>
         /// Especifica si el activo se encuentra marcado como confidenxial
         /// </summary>
         public bool Confidencial { get; set; } = false;
+        // [I] [A]
 
 
         /// <summary>
-        /// Ubicación de la caja que lo contiene
+        /// Ubicación de la caja que contiene al activo  en la ubicación de creación antes de ser movido al archivo de trámite
+        /// Este valor se asigna como nulos cuando el activo se añade a una ubicación en un archivo fisico
         /// </summary>
         public string? UbicacionCaja { get; set; }
+        // [I] [A]
 
 
         /// <summary>
-        /// Ubicación del rack que lo contiene
+        /// Ubicación del rack que contiene al activo  en la ubicación de creación antes de ser movido al archivo de,
+        /// Este valor se asigna como nulos cuando el activo se añade a una ubicación en un archivo fisico
         /// </summary>
         public string? UbicacionRack { get; set; }
+        // [I] [A]
+
 
         /// <summary>
-        /// Establece el archivo en el que fue originado el activo
+        /// Establece el archivo en el que fue originado el activo, generalmente es un archivo de trámite
         /// </summary>
         public string ArchivoOrigenId { get; set; }
+        // [I] [A] 
+
 
         /// <summary>
-        /// Identificador único del archivo actual del activo
+        /// Identificador único del archivo actual del activo, esta propiedad se asigna automáticamente an la creación
+        /// y es idéntica al archivo de origen y se ajusta cuando ocurre una transferencia
         /// </summary>
         public string ArchivoActualId { get; set; }
 

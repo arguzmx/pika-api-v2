@@ -39,7 +39,7 @@ public class ServicioActivo : IServicioActivo
             return respuesta;
         } 
 
-        var resultadoValidacion = await ValidarActualizar(id, data);
+        var resultadoValidacion = await ValidarActualizar(id, data, actual);
         if (resultadoValidacion.Valido)
         {
             var entidad = ADTOFull(data, actual);
@@ -55,6 +55,11 @@ public class ServicioActivo : IServicioActivo
         }
 
         return respuesta;
+    }
+
+    public ActivoDespliegue ADTODespliegue(Activo data)
+    {
+        throw new NotImplementedException();
     }
 
     public Activo ADTOFull(ActivoInsertar data)
@@ -84,7 +89,7 @@ public class ServicioActivo : IServicioActivo
             return respuesta;
         }
 
-        var resultadoValidacion = await ValidarEliminacion(id);
+        var resultadoValidacion = await ValidarEliminacion(id, actual);
         if (resultadoValidacion.Valido)
         {
             _db.Activos.Remove(actual); 
@@ -99,6 +104,11 @@ public class ServicioActivo : IServicioActivo
         }
 
         return respuesta;
+    }
+
+    public Entidad EntidadDespliegue()
+    {
+        throw new NotImplementedException();
     }
 
     public Entidad EntidadInsert()
@@ -150,17 +160,27 @@ public class ServicioActivo : IServicioActivo
         throw new NotImplementedException();
     }
 
+    public Task<PaginaGenerica<ActivoDespliegue>> PaginaDespliegue(Consulta consulta)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<RespuestaPayload<Activo>> UnicaPorId(string id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ResultadoValidacion> ValidarActualizar(string id, ActivoActualizar data)
+    public Task<RespuestaPayload<ActivoDespliegue>> UnicaPorIdDespliegue(string id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ResultadoValidacion> ValidarEliminacion(string id)
+    public async Task<ResultadoValidacion> ValidarActualizar(string id, ActivoActualizar actualizacion, Activo actual)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<ResultadoValidacion> ValidarEliminacion(string id, Activo actual)
     {
         throw new NotImplementedException();
     }
@@ -170,4 +190,13 @@ public class ServicioActivo : IServicioActivo
         throw new NotImplementedException();
     }
 
+    Task<RespuestaPayload<PaginaGenerica<Activo>>> IServicioEntidadGenerica<Activo, ActivoInsertar, ActivoActualizar, ActivoDespliegue, string>.Pagina(Consulta consulta)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<RespuestaPayload<PaginaGenerica<ActivoDespliegue>>> IServicioEntidadGenerica<Activo, ActivoInsertar, ActivoActualizar, ActivoDespliegue, string>.PaginaDespliegue(Consulta consulta)
+    {
+        throw new NotImplementedException();
+    }
 }
