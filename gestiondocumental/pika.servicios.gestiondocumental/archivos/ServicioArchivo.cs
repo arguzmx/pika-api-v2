@@ -1,266 +1,154 @@
 ﻿using api.comunes.modelos.modelos;
+using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using api.comunes.modelos.servicios;
 using Microsoft.Extensions.Logging;
 using pika.comun.metadatos;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos;
-using pika.servicios.gestiondocumental.acervo;
-using pika.servicios.gestiondocumental.cuadrosclasificacion;
 using pika.servicios.gestiondocumental.dbcontext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 
+#pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 namespace pika.servicios.gestiondocumental.archivos
 {
-    public class ServicioArchivo : IServicioArchivo
+    public class ServicioArchivo : ServicioEntidadGenericaBase<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>,
+        IEntidadAPI, IServicioArchivo
     {
-
-        private readonly ILogger<ServicioArchivo> _logger;
-        private readonly PIKADbContext _db;
-        private ContextoUsuario _contextoUsuario;
-
-        public ServicioArchivo(ILogger<ServicioArchivo> logger, PIKADbContext PikaContext)
+        
+        public ServicioArchivo(ILogger logger, PIKADbContext context) : base (context, context.Archivos, logger)
         {
             _logger = logger;
-            _db = PikaContext;
         }
 
-        public async Task<RespuestaPayload<Archivo>> Insertar(ArchivoInsertar data)
+        public async Task<Respuesta> ActualizarAPI(object id, object data)
         {
-            var respuesta = new RespuestaPayload<Archivo>();
+            return await this.Actualizar((string)id, (ArchivoActualizar)data);
+        }
 
-            var resultadoValidacion = await ValidarInsertar(data);
-            if (resultadoValidacion.Valido)
-            {
-                var entidad = ADTOFull(data);
-                entidad.Id = Guid.NewGuid().ToString();
-                _db.Archivos.Add(entidad);
-                await _db.SaveChangesAsync();
+        public async Task<Respuesta> EliminarAPI(object id)
+        {
+            return await this.Eliminar((string)id);
+        }
 
-                respuesta.HttpCode = HttpCode.Ok;
-                respuesta.Payload = entidad;
-            }
-            else
-            {
-                respuesta.Error = resultadoValidacion.Error;
-                respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
-            }
+        public Entidad EntidadDespliegueAPI()
+        {
+            return  this.EntidadDespliegue();
+        }
+
+        public Entidad EntidadInsertAPI()
+        {
+            return this.EntidadInsert();
+        }
+
+        public Entidad EntidadRepoAPI()
+        {
+            return this.EntidadRepo();
+        }
+
+        public Entidad EntidadUpdateAPI()
+        {
+            return this.EntidadUpdate();
+        }
+
+        public void EstableceContextoUsuarioAPI(ContextoUsuario contexto)
+        {
+            this.EstableceContextoUsuario(contexto);
+        }
+
+        public async Task<RespuestaPayload<object>> InsertarAPI(object data)
+        {
+            var temp = await this.Insertar((ArchivoInsertar)data);
+            RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
         }
 
-        public async Task<Respuesta> Actualizar(string id, ArchivoActualizar data)
+        public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaAPI(Consulta consulta)
         {
-            var respuesta = new Respuesta();
-
-            if (string.IsNullOrEmpty(id) || data == null)
-            {
-                respuesta.HttpCode = HttpCode.BadRequest;
-                return respuesta;
-            }
-
-            Archivo actual = _db.Archivos.Find(id);
-            if (actual == null)
-            {
-                respuesta.HttpCode = HttpCode.NotFound;
-                return respuesta;
-            }
-
-            var resultadoValidacion = await ValidarActualizar(id, data, actual);
-            if (resultadoValidacion.Valido)
-            {
-                var entidad = ADTOFull(data, actual);
-                _db.Archivos.Update(entidad);
-                await _db.SaveChangesAsync();
-
-                respuesta.HttpCode = HttpCode.Ok;
-            }
-            else
-            {
-                respuesta.Error = resultadoValidacion.Error;
-                respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
-            }
+            var temp = await this.Pagina(consulta);
+            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
 
             return respuesta;
         }
 
-        public async Task<Respuesta> Eliminar(string id)
+        public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaDespliegueAPI(Consulta consulta)
         {
-            var respuesta = new Respuesta();
-
-            if (string.IsNullOrEmpty(id))
-            {
-                respuesta.HttpCode = HttpCode.BadRequest;
-                return respuesta;
-            }
-
-            Archivo actual = _db.Archivos.Find(id);
-            if (actual == null)
-            {
-                respuesta.HttpCode = HttpCode.NotFound;
-                return respuesta;
-            }
-
-            var resultadoValidacion = await ValidarEliminacion(id, actual);
-            if (resultadoValidacion.Valido)
-            {
-
-                _db.Archivos.Remove(actual);
-                await _db.SaveChangesAsync();
-
-                respuesta.HttpCode = HttpCode.Ok;
-            }
-            else
-            {
-                respuesta.Error = resultadoValidacion.Error;
-                respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
-            }
-
+            var temp = await this.PaginaDespliegue(consulta);
+            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
             return respuesta;
         }
 
-        public async Task<RespuestaPayload<Archivo>> UnicaPorId(string id)
+        public async Task<RespuestaPayload<object>> UnicaPorIdAPI(object id)
         {
-            var respuesta = new RespuestaPayload<Archivo>();
-            Archivo actual = await _db.Archivos.FindAsync(id);
-            if (actual == null)
-            {
-                respuesta.HttpCode = HttpCode.NotFound;
-                return respuesta;
-            } 
-
-            respuesta.HttpCode =HttpCode.Ok;
-            respuesta.Payload = actual;
-
+            var temp = await this.UnicaPorIdAPI((string)id);
+            RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
         }
 
-        public async Task<RespuestaPayload<PaginaGenerica<Archivo>>> Pagina(Consulta consulta)
+        public async Task<RespuestaPayload<object>> UnicaPorIdDespliegueAPI(object id)
         {
-            RespuestaPayload<PaginaGenerica<Archivo>> respuesta = new ();
+            var temp = await this.UnicaPorIdDespliegue((string)id);
 
-            var elementos = await _db.Archivos.ToListAsync();
+            RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
+            return respuesta;
+        }
 
-            PaginaGenerica<Archivo> pagina = new()
+
+
+        public override  Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
+        {
+            return Task.FromResult(new ResultadoValidacion() { Valido = true });
+        }
+
+        public override Task<ResultadoValidacion> ValidarEliminacion(string id, Archivo original)
+        {
+            return Task.FromResult(new ResultadoValidacion() { Valido = true });
+        }
+
+
+        public override Task<ResultadoValidacion> ValidarActualizar(string id, ArchivoActualizar actualizacion, Archivo original)
+        {
+            return Task.FromResult(new ResultadoValidacion() { Valido = true });
+        }
+
+
+        public override Archivo ADTOFull(ArchivoActualizar actualizacion, Archivo actual)
+        {
+            actual.Nombre = actualizacion.Nombre;
+            actual.PuntoMontajeId = actualizacion.PuntoMontajeId;
+            actual.VolumenDefaultId = actualizacion.VolumenDefaultId;
+            return actual;
+        }
+
+        public override Archivo ADTOFull(ArchivoInsertar data)
+        {
+            Archivo archivo = new Archivo()
             {
-                ConsultaId = Guid.NewGuid().ToString(),
-                Elementos = elementos,
-                Milisegundos = 0,
-                Paginado = new Paginado() { Indice = 0, Tamano = elementos.Count},
-                Total = elementos.Count
+                Id = Guid.NewGuid().ToString(),
+                Nombre = data.Nombre,
+                PuntoMontajeId = data.PuntoMontajeId,
+                VolumenDefaultId = data.VolumenDefaultId,
+                TipoArchivoId = data.TipoArchivoId,
+                UOrgId = _contextoUsuario.UOrgId,
+                DominioId = _contextoUsuario.DominioId,
             };
-
-            respuesta.Payload = pagina;
-            respuesta.Ok = true;
-
-            return respuesta;
+            return archivo;
         }
 
-        public void EstableceContextoUsuario(ContextoUsuario contexto)
+        public override ArchivoDespliegue ADTODespliegue(Archivo data)
         {
-            _contextoUsuario = contexto;
-        }
-
-        public async Task<ResultadoValidacion> ValidarActualizar(string id, ArchivoActualizar actualizacion, Archivo original)
-        {
-            return new ResultadoValidacion() { Valido = true };
-        }
-
-        public async Task<ResultadoValidacion> ValidarEliminacion(string id, Archivo original)
-        {
-            return new ResultadoValidacion() { Valido = true };
-        }
-
-        public async Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
-        {
-            return new ResultadoValidacion() { Valido = true };
-        }
-
-
-        public async Task<RespuestaPayload<ArchivoDespliegue>> UnicaPorIdDespliegue(string id)
-        {
-            RespuestaPayload<ArchivoDespliegue> respuesta = new RespuestaPayload<ArchivoDespliegue>();
-            var resultado = await UnicaPorId(id);
-            
-            respuesta.Ok = resultado.Ok;
-
-            if (resultado.Ok)
+            ArchivoDespliegue archivo = new ArchivoDespliegue()
             {
-                respuesta.Payload = ADTODespliegue((Archivo)resultado.Payload);
-            }
-
-            return respuesta;
-        }
-
-        public async Task<RespuestaPayload<PaginaGenerica<ArchivoDespliegue>>> PaginaDespliegue(Consulta consulta)
-        {
-            RespuestaPayload<PaginaGenerica<ArchivoDespliegue>> respuesta = new RespuestaPayload<PaginaGenerica<ArchivoDespliegue>>();
-            var resultado = await Pagina(consulta);
-
-            respuesta.Ok = resultado.Ok;
-
-            if (resultado.Ok)
-            {
-                PaginaGenerica<ArchivoDespliegue> pagina = new()
-                {
-                    ConsultaId = Guid.NewGuid().ToString(),
-                    Elementos = new List<ArchivoDespliegue>(),
-                    Milisegundos = 0,
-                    Paginado = new Paginado() { Indice = 0, Tamano = ((PaginaGenerica<Archivo>)resultado.Payload).Paginado.Tamano },
-                    Total = ((PaginaGenerica<Archivo>)resultado.Payload).Total
-                };
-
-                foreach (Archivo item in ((PaginaGenerica<Archivo>)resultado.Payload).Elementos)
-                {
-                    pagina.Elementos.Add(ADTODespliegue(item));
-                }
-                respuesta.Payload = pagina;
-            }
-
-            return respuesta;
-        }
-
-
-        public Archivo ADTOFull(ArchivoInsertar data)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Archivo ADTOFull(ArchivoActualizar actualizacion, Archivo actual)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-
-        public Entidad EntidadInsert()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Entidad EntidadRepo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Entidad EntidadUpdate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Entidad EntidadDespliegue()
-        {
-            throw new NotImplementedException();
-        }
-
- 
-        public ArchivoDespliegue ADTODespliegue(Archivo data)
-        {
-            throw new NotImplementedException();
+                Id = data.Id,
+                Nombre = data.Nombre,
+                PuntoMontajeId = data.PuntoMontajeId,
+                TipoArchivoId = data.TipoArchivoId,
+                VolumenDefaultId = data.VolumenDefaultId
+            };
+            return archivo;
         }
     }
 }
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning restore CS8603 // Possible null reference return.

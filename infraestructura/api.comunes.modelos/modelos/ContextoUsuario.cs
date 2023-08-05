@@ -18,5 +18,5 @@ public class ContextoUsuario
     /// <summary>
     /// Unidad organizacional del usuario en sesión
     /// </summary>
-    public string? UnidadOrganizacionalId { get; set; }
+    public string? UOrgId { get; set; }
 }

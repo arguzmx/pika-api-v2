@@ -31,12 +31,12 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.archivos
 
         public async Task<ActionResult<Archivo>> CrearArchivo([FromBody] Archivo archivo)
         {
-            var resultado = await _servicioArchivo.Crear(archivo);
+            //var resultado = await _servicioArchivo.Crear(archivo);
 
-            if (resultado != null)
-            {
-                return Ok(resultado);
-            }
+            //if (resultado != null)
+            //{
+            //    return Ok(resultado);
+            //}
             return BadRequest("Error Al Agregar");
         }
 
@@ -45,19 +45,20 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.archivos
         [HttpGet()]
         public async Task<ActionResult<List<Archivo>>> ObtienerArchivo()
         {
-            return await _servicioArchivo.Obtiener();
+            // return await _servicioArchivo.Obtiener();
+            return Ok();
         }
 
         //Actualizar
         [HttpPut("{id}")]
         public async Task<ActionResult<Archivo>> ActualizarArchivo([FromRoute] string id, [FromBody] Archivo archivo)
         {
-            var resultado = await _servicioArchivo.Actualizar(id, archivo);
+            //var resultado = await _servicioArchivo.Actualizar(id, archivo);
 
-            if (resultado != null)
-            {
-                return Ok(resultado);
-            }
+            //if (resultado != null)
+            //{
+            //    return Ok(resultado);
+            //}
 
             return BadRequest("Error Al Actualizar");
         }
@@ -67,12 +68,12 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.archivos
 
         public async Task<ActionResult<Archivo>> EliminarArchivo([FromRoute] string id, [FromBody] Archivo archivo)
         {
-            var resultado = await _servicioArchivo.Eliminar(id, archivo);
+            //var resultado = await _servicioArchivo.Eliminar(id, archivo);
 
-            if (resultado != null)
-            {
-                return Ok();
-            }
+            //if (resultado != null)
+            //{
+            //    return Ok();
+            //}
             return BadRequest("Error Al Eliminar");
 
         }

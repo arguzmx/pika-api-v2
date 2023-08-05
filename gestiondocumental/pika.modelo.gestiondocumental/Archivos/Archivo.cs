@@ -33,58 +33,52 @@
             */
         }
 
+        /// <summary>
+        /// Identificador único del archivo
+        /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Nombre único del cuadro de clasificación
+        /// Nombre del archivo
         /// </summary>
-
         public string Nombre { get; set; }
 
         /// <summary>
-        /// Especifica si el elemento ha sido marcado como eliminado
+        /// Dominio al que pertenece el archivo
         /// </summary>
-
-        public bool Eliminada { get; set; }
+        public string DominioId { get; set; }
 
         /// <summary>
-        /// El tipo de orígen en para este modelo es el elemento de la unidad organizacional 
-        /// Este elemento puede ser unn departamento u oficina que tiene acervo as su cargo
+        /// Unidad organizacional a la que pertenece el archivo
         /// </summary>
-
-        public string TipoOrigenId { get; set; }
+        public string UOrgId { get; set; }
 
         /// <summary>
-        /// Identificador de la organización a la que pertenece el archivo
+        /// Tipo de archivo del catálogo
         /// </summary>
-
-        public string OrigenId { get; set; }
-
-
-        /// <summary>
-        /// IDentificador del tipo de archivo
-        /// </summary>
-
         public string TipoArchivoId { get; set; }
+
+        /// <summary>
+        /// Volument asociado al archivo para el resguardo de contenido eléctrónico
+        /// </summary>
+        public string? VolumenDefaultId { get; set; }
+
+        /// <summary>
+        /// Punto de montaje para mostrar el cotntenido electrónico
+        /// </summary>
+        public string? PuntoMontajeId { get; set; }
 
 
         /// <summary>
         /// Tipo de archivo 
         /// </summary>
-       // public virtual TipoArchivo Tipo { get; set; }
+        // public virtual TipoArchivo Tipo { get; set; }
 
-
-
-        public string VolumenDefaultId { get; set; }
-
-
-
-        public string PuntoMontajeId { get; set; }
 
         /// <summary>
         /// Alamcenes físicos que tiene al archivo bajo su control
         /// </summary>
-        
+
 
         /*
         //public virtual ICollection<AlmacenArchivo> Almacenes { get; set; }
