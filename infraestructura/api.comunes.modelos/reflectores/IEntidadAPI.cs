@@ -1,6 +1,7 @@
 ﻿using api.comunes.modelos.modelos;
 using api.comunes.modelos.respuestas;
 using pika.comun.metadatos;
+using System.Text.Json;
 
 namespace api.comunes.modelos.reflectores;
 
@@ -47,7 +48,7 @@ public interface IEntidadAPI
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    Task<RespuestaPayload<object>> InsertarAPI(object data);
+    Task<RespuestaPayload<object>> InsertarAPI(JsonElement data);
 
 
     /// <summary>
@@ -56,7 +57,7 @@ public interface IEntidadAPI
     /// <param name="id"></param>
     /// <param name="data"></param>
     /// <returns></returns>
-    Task<Respuesta> ActualizarAPI(object id, object data);
+    Task<Respuesta> ActualizarAPI(object id, JsonElement data);
 
 
     /// <summary>
@@ -72,7 +73,7 @@ public interface IEntidadAPI
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<RespuestaPayload<object>> UnicaPorIdAPI(object id);
+    Task<RespuestaPayload<object>> UnicaPorIdAPI(object  id);
 
     /// <summary>
     /// Obtiene una entidad para despliegue del repositorio por Id

@@ -21,14 +21,15 @@ namespace pika.servicios.gestiondocumental.archivos
         IEntidadAPI, IServicioArchivo
     {
         
-        public ServicioArchivo(ILogger logger, PIKADbContext context) : base (context, context.Archivos, logger)
+        public ServicioArchivo(DbContextGestionDocumental context) : base (context, context.Archivos)
         {
-            _logger = logger;
+
         }
 
-        public async Task<Respuesta> ActualizarAPI(object id, object data)
+        public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            return await this.Actualizar((string)id, (ArchivoActualizar)data);
+            var update = data.Deserialize<ArchivoActualizar>(JsonAPIDefaults());
+            return await this.Actualizar((string)id, update);
         }
 
         public async Task<Respuesta> EliminarAPI(object id)
@@ -61,9 +62,10 @@ namespace pika.servicios.gestiondocumental.archivos
             this.EstableceContextoUsuario(contexto);
         }
 
-        public async Task<RespuestaPayload<object>> InsertarAPI(object data)
+        public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var temp = await this.Insertar((ArchivoInsertar)data);
+            var add = data.Deserialize<ArchivoInsertar>(JsonAPIDefaults());
+            var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
         }

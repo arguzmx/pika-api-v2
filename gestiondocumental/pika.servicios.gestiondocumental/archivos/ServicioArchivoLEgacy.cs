@@ -1,5 +1,6 @@
 ﻿using api.comunes.modelos.modelos;
 using api.comunes.modelos.respuestas;
+using api.comunes.modelos.servicios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -262,7 +263,10 @@ namespace pika.servicios.gestiondocumental.archivos
         {
             throw new NotImplementedException();
         }
-    
-    
+
+        Task<RespuestaPayload<ArchivoDespliegue>> IServicioEntidadGenerica<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>.Insertar(ArchivoInsertar data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -8,16 +8,6 @@ public class ArchivoInsertar
     public string Nombre { get; set; }
 
     /// <summary>
-    /// Dominio al que pertenece el archivo
-    /// </summary>
-    public string DominioId { get; set; }
-
-    /// <summary>
-    /// Unidad organizacional a la que pertenece el archivo
-    /// </summary>
-    public string UOrgId { get; set; }
-
-    /// <summary>
     /// Tipo de archivo del catálogo
     /// </summary>
     public string TipoArchivoId { get; set; }

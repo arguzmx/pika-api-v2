@@ -56,7 +56,7 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, DTODesp
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    Task<RespuestaPayload<DTOFull>> Insertar(DTOInsert data);
+    Task<RespuestaPayload<DTODespliegue>> Insertar(DTOInsert data);
 
 
     /// <summary>

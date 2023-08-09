@@ -190,6 +190,11 @@ public class ServicioActivo : IServicioActivo
         throw new NotImplementedException();
     }
 
+    Task<RespuestaPayload<ActivoDespliegue>> IServicioEntidadGenerica<Activo, ActivoInsertar, ActivoActualizar, ActivoDespliegue, string>.Insertar(ActivoInsertar data)
+    {
+        throw new NotImplementedException();
+    }
+
     Task<RespuestaPayload<PaginaGenerica<Activo>>> IServicioEntidadGenerica<Activo, ActivoInsertar, ActivoActualizar, ActivoDespliegue, string>.Pagina(Consulta consulta)
     {
         throw new NotImplementedException();

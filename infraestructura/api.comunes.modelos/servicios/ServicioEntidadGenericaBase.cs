@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace api.comunes.modelos.servicios;
@@ -23,16 +24,19 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     protected ContextoUsuario _contextoUsuario;
     protected ILogger _logger;
 
-    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull, ILogger logger) {
+    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull) {
         _dbSetFull = dbSetFull;
         _db = db;
-        _logger = logger;
     }
 
-
-    public virtual async Task<RespuestaPayload<DTOFull>> Insertar(DTOInsert data)
+    public JsonSerializerOptions JsonAPIDefaults()
     {
-        var respuesta = new RespuestaPayload<DTOFull>();
+        return new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+    }
+
+    public virtual async Task<RespuestaPayload<DTODespliegue>> Insertar(DTOInsert data)
+    {
+        var respuesta = new RespuestaPayload<DTODespliegue>();
 
         var resultadoValidacion = await ValidarInsertar(data);
         if (resultadoValidacion.Valido)
@@ -42,7 +46,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
             await _db.SaveChangesAsync();
 
             respuesta.HttpCode = HttpCode.Ok;
-            respuesta.Payload = entidad;
+            respuesta.Payload = ADTODespliegue( entidad);
         }
         else
         {

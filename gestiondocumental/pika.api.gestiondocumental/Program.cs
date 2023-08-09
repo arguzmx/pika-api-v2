@@ -18,6 +18,8 @@ namespace pika.api.gestiondocumental
             var builder = WebApplication.CreateBuilder(args);
             IWebHostEnvironment environment = builder.Environment;
 
+            
+
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                 .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
                                 .AddEnvironmentVariables();
@@ -26,6 +28,11 @@ namespace pika.api.gestiondocumental
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("pika-gestiondocumental");
             builder.Services.AddDbContext<PIKADbContext>(options =>
+            {
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
+
+            builder.Services.AddDbContext<DbContextGestionDocumental>(options =>
             {
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
@@ -59,7 +66,7 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioTransferencia, ServicioTransferencia>();
 
 
-
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddTransient<IServicioAmpliacion, ServicioAmpliacion>();
 
