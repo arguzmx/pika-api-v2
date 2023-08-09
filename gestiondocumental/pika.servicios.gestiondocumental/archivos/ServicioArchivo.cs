@@ -13,6 +13,10 @@ using System.Text.Json;
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 namespace pika.servicios.gestiondocumental.archivos
 {
+    /// <summary>
+    /// Servicio de datos para la entidad archivo
+    /// </summary>
+    [EntidadAPI( NombreEntidad: "archivo" )]
     public class ServicioArchivo : ServicioEntidadGenericaBase<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>,
         IEntidadAPI, IServicioArchivo
     {

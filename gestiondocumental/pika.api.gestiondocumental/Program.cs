@@ -7,6 +7,7 @@ using pika.servicios.gestiondocumental.dbcontext;
 using pika.servicios.gestiondocumental.prestamo;
 using pika.servicios.gestiondocumental.topologia;
 using pika.servicios.gestiondocumental.transferencias;
+using apicomunes = api.comunes;
 
 namespace pika.api.gestiondocumental
 {
@@ -42,7 +43,9 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioTipoArchivo, ServicioTipoArchivo>();
             builder.Services.AddTransient<IServicioUnidadAdministrativaArchivo, ServicioUnidadAdministrativaArchivo>();
 
+            
 
+            builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddTransient<IServicioActivoContenedorAlmacen, ServicioActivoContenedorAlmacen>();
             builder.Services.AddTransient<IServicioAlmacenArchivo, ServicioAlmacenArchivo>();
@@ -65,7 +68,8 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioActivoPrestamo, ServicioActivoPrestamo>();
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
-            
+
+            apicomunes.IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
 
             var app = builder.Build();
 
