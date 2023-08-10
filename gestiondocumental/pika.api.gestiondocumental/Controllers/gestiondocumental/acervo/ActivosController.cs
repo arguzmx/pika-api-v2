@@ -23,12 +23,25 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.acervo
             _logger = logger;
         }
 
-        
-      
+
+
 
         // Crear el CRUD de API utilizando _servicioActivo
+        // Leer
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Activo>> ObtienerActivo(string id)
+        {
+            var activo =  await _servicioActivo.PorId(id);
+            if(activo != null)
+            {
+                return Ok(activo);
+            }
 
-         // Crear
+            return NotFound();
+        }
+
+
+        // Crear
         [HttpPost()]
       
         public async Task<ActionResult<Activo>> CrearActivo([FromBody] Activo activo)

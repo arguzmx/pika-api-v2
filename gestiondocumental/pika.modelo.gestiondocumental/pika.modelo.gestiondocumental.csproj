@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="RepoDb" Version="1.13.1" />
+  </ItemGroup>
+
 </Project>
