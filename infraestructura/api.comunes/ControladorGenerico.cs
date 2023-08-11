@@ -6,17 +6,29 @@ using System.Text.Json;
 
 namespace api.comunes;
 
-
+/// <summary>
+/// Controlador base para API de entidad genérica
+/// </summary>
 [ApiController]
 public abstract class ControladorGenerico : ControllerBase
 {
-    private const string DOMINIOHEADER = "x-dominio-id";
-    private const string UORGHEADER = "x-uorg-id";
+    private const string DOMINIOHEADER = "x-d-id";
+    private const string UORGHEADER = "x-uo-id";
 
     protected IEntidadAPI entidadAPI;
     protected readonly IHttpContextAccessor _httpContextAccessor;
-    public ControladorGenerico(IHttpContextAccessor httpContextAccessor)
+    protected readonly IConfiguracionAPIEntidades _configuracionAPI;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="httpContextAccessor"></param>
+    /// <param name="configuracionAPI"></param>
+    public ControladorGenerico(
+        IHttpContextAccessor httpContextAccessor,
+        IConfiguracionAPIEntidades configuracionAPI)
     {
+        _configuracionAPI = configuracionAPI;
         _httpContextAccessor = httpContextAccessor;
     }
 
@@ -35,12 +47,6 @@ public abstract class ControladorGenerico : ControllerBase
     {
         return "u-id";
     }
-
-    [HttpGet("/echo")]
-    public IActionResult Echo()
-    {
-        return Ok("hi");
-    } 
 
     [HttpPost("/gapi/{entidad}/entidad")]
     public async Task<IActionResult> POSTGenerico(string entidad, [FromBody] JsonElement dtoInsert, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)

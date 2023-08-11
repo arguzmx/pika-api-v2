@@ -1,4 +1,6 @@
 ﻿using api.comunes.modelos.reflectores;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Reflection;
 using System.Text.Json;
 
@@ -18,6 +20,67 @@ public static class IntrospeccionEnsamblados
         return new FileInfo(Assembly.GetEntryAssembly().Location).Directory.FullName;
     }
 
+    public static List<string> OntieneRutasControladorGenrico()
+    {
+        List<string> rutas = new List<string>();
+        string Ruta = ObtieneRutaBin();
+        var assemblyPath = Directory.GetFiles(Ruta, "api.comunes.dll", new EnumerationOptions() { RecurseSubdirectories = true }).FirstOrDefault();
+        if (assemblyPath != null)
+        {
+            var assembly = Assembly.LoadFile(assemblyPath);
+
+            var Tipo = assembly.GetTypes()
+                    .Where(t =>
+                    t.IsAbstract &&
+                    typeof(ControladorGenerico).IsClass)
+                    .FirstOrDefault();
+
+            if(Tipo != null)
+            {
+                var methods = Tipo.GetMethods();
+                foreach(var m in methods) {
+                    var atributos = m.GetCustomAttributes();
+                    foreach (var att in atributos)
+                    {
+                        string template = null;
+                        switch (att)
+                        {
+                            case HttpGetAttribute get:
+                                template = ((HttpGetAttribute)att).Template;
+                                break;
+
+                            case HttpDeleteAttribute get:
+                                template = ((HttpDeleteAttribute)att).Template;
+                                break;
+
+                            case HttpPostAttribute get:
+                                template = ((HttpPostAttribute)att).Template;
+                                break;
+
+                            case HttpPutAttribute get:
+                                template = ((HttpPutAttribute)att).Template;
+                                break;
+
+                            case HttpPatchAttribute get:
+                                template = ((HttpPatchAttribute)att).Template;
+                                break;
+                        }
+
+                        if (!string.IsNullOrEmpty(template))
+                        {
+                            rutas.Add(template);
+                        }
+                    }
+                }
+            }
+        }
+        return rutas;
+    }
+        
+
+
+
+
     /// <summary>
     /// Devuelve una lista de las clases que implementan IEntidadAPI
     /// </summary>
@@ -27,7 +90,7 @@ public static class IntrospeccionEnsamblados
         List<ServicioEntidadAPI> l = new ();
         string Ruta = ObtieneRutaBin();
 
-        var assemblies = Directory.GetFiles(Ruta, "pika*.dll", new EnumerationOptions() { RecurseSubdirectories = true });
+        var assemblies = Directory.GetFiles(Ruta, "*.dll", new EnumerationOptions() { RecurseSubdirectories = true });
 
         foreach (var ensamblado in assemblies)
         {

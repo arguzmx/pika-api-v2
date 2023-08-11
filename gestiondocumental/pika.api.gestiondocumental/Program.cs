@@ -1,3 +1,4 @@
+using api.comunes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using pika.servicios.gestiondocumental.acervo;
@@ -17,8 +18,6 @@ namespace pika.api.gestiondocumental
         {
             var builder = WebApplication.CreateBuilder(args);
             IWebHostEnvironment environment = builder.Environment;
-
-            
 
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                 .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
@@ -50,8 +49,8 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioTipoArchivo, ServicioTipoArchivo>();
             builder.Services.AddTransient<IServicioUnidadAdministrativaArchivo, ServicioUnidadAdministrativaArchivo>();
 
-            
 
+            builder.Services.AddTransient<apicomunes.IConfiguracionAPIEntidades, apicomunes.ConfiguracionAPIEntidades>();
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddTransient<IServicioActivoContenedorAlmacen, ServicioActivoContenedorAlmacen>();
@@ -75,8 +74,6 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioActivoPrestamo, ServicioActivoPrestamo>();
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
-
-            apicomunes.IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
 
             var app = builder.Build();
 
