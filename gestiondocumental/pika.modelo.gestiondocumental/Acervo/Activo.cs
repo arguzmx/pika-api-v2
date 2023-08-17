@@ -4,7 +4,6 @@ namespace pika.modelo.gestiondocumental
 {
     //public class Activo : Entidad<string>, IEntidadRelacionada, IEntidadIdElectronico,
     //IEntidadEliminada, IEntidadReportes
-    [Map("gd$activo")]
     public class Activo
     {
         public Activo()

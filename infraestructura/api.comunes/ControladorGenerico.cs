@@ -48,49 +48,49 @@ public abstract class ControladorGenerico : ControllerBase
         return "u-id";
     }
 
-    [HttpPost("/gapi/{entidad}/entidad")]
+    [HttpPost("/api/{entidad}/entidad")]
     public async Task<IActionResult> POSTGenerico(string entidad, [FromBody] JsonElement dtoInsert, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.InsertarAPI(dtoInsert);
         return Ok(response.Payload);
     }
 
-    [HttpPut("/gapi/{entidad}/entidad/{id}")]
+    [HttpPut("/api/{entidad}/entidad/{id}")]
     public async Task<IActionResult> PUTGenerico(string entidad, string id, [FromBody] JsonElement dtoUpdate, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.ActualizarAPI((object)id, dtoUpdate);
         return Ok();
     }
 
-    [HttpGet("/gapi/{entidad}/entidad/{id}")]
+    [HttpGet("/api/{entidad}/entidad/{id}")]
     public async Task<IActionResult> UnicoPorId(string entidad, string id, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.UnicaPorIdAPI((object)id);
         return Ok(response.Payload);
     }
 
-    [HttpGet("/gapi/{entidad}/entidad/despliegue/{id}")]
+    [HttpGet("/api/{entidad}/entidad/despliegue/{id}")]
     public async Task<IActionResult> UnicoPorIdDespliegue(string entidad, string id, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.UnicaPorIdDespliegueAPI((object)id);
         return Ok(response.Payload);
     }
 
-    [HttpGet("/gapi/{entidad}/entidad/pagina")]
+    [HttpGet("/api/{entidad}/entidad/pagina")]
     public async Task<IActionResult> Pagina(string entidad, Consulta consulta, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.PaginaAPI(consulta);
         return Ok(response.Payload);
     }
 
-    [HttpGet("/gapi/{entidad}/entidad/despliegue/pagina")]
+    [HttpGet("/api/{entidad}/entidad/despliegue/pagina")]
     public async Task<IActionResult> PaginaDespliegue(string entidad, Consulta consulta, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.PaginaDespliegueAPI(consulta);
         return Ok(response.Payload);
     }
 
-    [HttpDelete("/gapi/{entidad}/entidad/{id}")]
+    [HttpDelete("/api/{entidad}/entidad/{id}")]
     public async Task<IActionResult> EliminarUnico(string entidad, string id, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.EliminarAPI((object)id);

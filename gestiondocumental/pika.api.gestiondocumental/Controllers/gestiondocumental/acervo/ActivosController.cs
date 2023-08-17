@@ -31,11 +31,11 @@ namespace pika.api.gestiondocumental.Controllers.gestiondocumental.acervo
         [HttpGet("{id}")]
         public async Task<ActionResult<Activo>> ObtienerActivo(string id)
         {
-            var activo =  await _servicioActivo.PorId(id);
-            if(activo != null)
-            {
-                return Ok(activo);
-            }
+            //var activo =  await _servicioActivo.PorId(id);
+            //if(activo != null)
+            //{
+            //    return Ok(activo);
+            //}
 
             return NotFound();
         }
