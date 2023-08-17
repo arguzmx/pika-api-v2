@@ -12,7 +12,11 @@ public class Generico : ControladorGenerico
 {
     private ILogger<Generico> _logger;
     private DbContextGestionDocumental _dbContext;
-    public Generico(ILogger<Generico> logger, DbContextGestionDocumental dbContext, IHttpContextAccessor httpContextAccessor) : base (httpContextAccessor) {
+
+    public Generico(ILogger<Generico> logger, 
+        DbContextGestionDocumental dbContext, 
+        IConfiguracionAPIEntidades configuracionAPI,
+        IHttpContextAccessor httpContextAccessor) : base (httpContextAccessor, configuracionAPI) {
         _logger = logger;
         _dbContext = dbContext;
         this.entidadAPI = ObtieneEntidad();
