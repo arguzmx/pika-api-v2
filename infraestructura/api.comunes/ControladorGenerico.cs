@@ -2,6 +2,7 @@
 using api.comunes.modelos.reflectores;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using System.Text.Json;
 
 namespace api.comunes;
@@ -48,9 +49,16 @@ public abstract class ControladorGenerico : ControllerBase
         return "u-id";
     }
 
+    protected string Entidad()
+    {
+        var zz = this.Request.HttpContext.GetRouteData();
+        return this.HttpContext.GetRouteData().Values["Entidad"].ToString();
+    }
+
     [HttpPost("/api/{entidad}/entidad")]
     public async Task<IActionResult> POSTGenerico(string entidad, [FromBody] JsonElement dtoInsert, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
+        var z = this.HttpContext.Items.Keys;
         var response = await entidadAPI.InsertarAPI(dtoInsert);
         return Ok(response.Payload);
     }

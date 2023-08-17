@@ -1,5 +1,3 @@
-using api.comunes;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using pika.servicios.gestiondocumental.acervo;
 using pika.servicios.gestiondocumental.archivos;
@@ -76,6 +74,7 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
 
             var app = builder.Build();
+            apicomunes.middleware.EntidadAPIMiddlewareExtensions.UseEntidadAPI(app);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

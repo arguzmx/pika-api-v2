@@ -24,6 +24,9 @@ public class Generico : ControladorGenerico
 
     private IEntidadAPI ObtieneEntidad()
     {
+
+       // var ss = this.HttpContext.Items;
+
         var s =  new ServicioArchivo(_dbContext);
 
         var a = this.UnidadOrgId();
