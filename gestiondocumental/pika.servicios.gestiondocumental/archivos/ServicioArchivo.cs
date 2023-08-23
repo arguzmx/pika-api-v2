@@ -20,10 +20,11 @@ namespace pika.servicios.gestiondocumental.archivos
     public class ServicioArchivo : ServicioEntidadGenericaBase<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>,
         IEntidadAPI, IServicioArchivo
     {
-        
-        public ServicioArchivo(DbContextGestionDocumental context) : base (context, context.Archivos)
-        {
 
+        private readonly ILogger<ServicioArchivo> _logger;
+        public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger) : base (context, context.Archivos)
+        {
+            _logger = logger;
         }
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
@@ -39,6 +40,7 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public Entidad EntidadDespliegueAPI()
         {
+            _logger.LogDebug("aca");
             return  this.EntidadDespliegue();
         }
 

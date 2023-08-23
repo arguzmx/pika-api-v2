@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="RepoDb" Version="1.13.1" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
   </ItemGroup>
 
 </Project>

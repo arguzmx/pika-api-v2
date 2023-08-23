@@ -6,6 +6,7 @@ using pika.servicios.gestiondocumental.dbcontext;
 using pika.servicios.gestiondocumental.prestamo;
 using pika.servicios.gestiondocumental.topologia;
 using pika.servicios.gestiondocumental.transferencias;
+using Serilog;
 using apicomunes = api.comunes;
 
 namespace pika.api.gestiondocumental
@@ -21,6 +22,13 @@ namespace pika.api.gestiondocumental
                                 .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
                                 .AddEnvironmentVariables();
 
+            var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .Enrich.FromLogContext()
+                .CreateLogger();
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddSerilog(logger);
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("pika-gestiondocumental");

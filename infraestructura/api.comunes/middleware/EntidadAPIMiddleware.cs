@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using api.comunes.modelos.reflectores;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Globalization;
-using System.Net.Http;
 using System.Reflection;
-using System.Xml.Linq;
 
 namespace api.comunes.middleware;
 
@@ -14,16 +11,19 @@ public class EntidadAPIMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IConfiguracionAPIEntidades _configuracionAPI;
-    public EntidadAPIMiddleware(RequestDelegate next, IConfiguracionAPIEntidades configuracionAPI)
+    private ILogger<EntidadAPIMiddleware> _logger;
+    public EntidadAPIMiddleware(RequestDelegate next, IConfiguracionAPIEntidades configuracionAPI, 
+        ILogger<EntidadAPIMiddleware> logger )
     {
         _next = next;
         _configuracionAPI=  configuracionAPI;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
 
-        
+        _logger.LogDebug("Middleware");
         var cultureQuery = context.Request.Query["culture"];
         if (!string.IsNullOrWhiteSpace(cultureQuery))
         {
@@ -48,10 +48,22 @@ public class EntidadAPIMiddleware
                 {
                     var ctors = tt.GetConstructors();
                     var ps = ctors[0].GetParameters();
-                    foreach( var p in ps ) {
+                    object[] paramArray = new object[ps.Length];
+                    int i = 0;
+                    foreach ( var p in ps ) {
                         var s = context.RequestServices.GetService(p.ParameterType);
+                        if(s!=null)
+                        {
+                            paramArray[i] = s;
+                        } else
+                        {
+                           
+                        }
+                        i++;
                     }
-                    
+                    _logger.LogDebug("Cool");
+                    var service = (IEntidadAPI)Activator.CreateInstance(tt, paramArray);
+                    var x = service.EntidadDespliegueAPI(); 
                 }
             }
         }

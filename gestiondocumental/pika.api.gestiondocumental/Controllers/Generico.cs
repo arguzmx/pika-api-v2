@@ -27,7 +27,7 @@ public class Generico : ControladorGenerico
 
        // var ss = this.HttpContext.Items;
 
-        var s =  new ServicioArchivo(_dbContext);
+        var s =  new ServicioArchivo(_dbContext, null);
 
         var a = this.UnidadOrgId();
 
