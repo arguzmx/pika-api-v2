@@ -1,46 +1,26 @@
-﻿namespace pika.modelo.gestiondocumental
-{
-     /*
-        public class Archivo : Entidad<string>, IEntidadNombrada, IEntidadEliminada, 
-        IEntidadRelacionada, IEntidadReportes
-     */
+﻿using pika.comun.metadatos.atributos;
 
+namespace pika.modelo.gestiondocumental
+{
+    [Entidad()]
     public class Archivo
     {
-       // public string TipoOrigenDefault => ConstantesModelo.IDORIGEN_UNIDAD_ORGANIZACIONAL;
-
-        /// <summary>
-        /// Espacio físico en el que se deposita la 
-        /// documentación que lo conforma, es decir, el archivo como
-        /// depósito.
-        /// </summary>
+      
         public Archivo()
         {
-            /*
-            this.Almacenes = new HashSet<AlmacenArchivo>();
-            this.Activos = new HashSet<Activo>();
-            HistorialArchivosActivo = new HashSet<HistorialArchivoActivo>();
-            Prestamos = new HashSet<Prestamo>();
-            TransferenciasOrigen = new HashSet<Transferencia>();
-            TransferenciasDestino = new HashSet<Transferencia>();
-            ZonasAlmacen = new List<ZonaAlmacen>();
-            PosicionesAlmacen = new List<PosicionAlmacen>();
-            Contenedores = new List<ContenedorAlmacen>();
-
-            this.Reportes = new List<IProveedorReporte>();
-            this.Reportes.Add(new ReporteGuiaSimpleArchivo());
-            this.Reportes.Add(new ReporteInventario());
-            */
         }
+
 
         /// <summary>
         /// Identificador único del archivo
         /// </summary>
+        [Id]
         public string Id { get; set; }
 
         /// <summary>
         /// Nombre del archivo
         /// </summary>
+        [Nombre]
         public string Nombre { get; set; }
 
         /// <summary>

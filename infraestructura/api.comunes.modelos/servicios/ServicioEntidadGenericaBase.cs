@@ -12,6 +12,14 @@ using System.Threading.Tasks;
 
 namespace api.comunes.modelos.servicios;
 
+/// <summary>
+/// Definición para la API genérica de entidades
+/// </summary>
+/// <typeparam name="DTOFull">Objeto tal como se almacena en el repositorio</typeparam>
+/// <typeparam name="DTOInsert">DTO utilizado para insertar</typeparam>
+/// <typeparam name="DTOUpdate">DTO utilizado para actualizar</typeparam>
+/// <typeparam name="DTODespliegue">DTO utilizado para el despligue neutral en UI</typeparam>
+/// <typeparam name="TipoId">Tipo de dato utilizado para el identificador de la entidad</typeparam>
 public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate, DTODespliegue, TipoId>
     where DTOFull : class
     where DTODespliegue : class

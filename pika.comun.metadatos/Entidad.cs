@@ -1,6 +1,4 @@
-﻿using pika.comun.metadatos.i18n;
-
-namespace pika.comun.metadatos;
+﻿namespace pika.comun.metadatos;
 
 /// <summary>
 /// Define una entdad en termios de metadatos
@@ -27,9 +25,4 @@ public class Entidad
     /// Lista de propiedades de la entidad
     /// </summary>
     public List<Propiedad> Propiedades { get; set; } = new List<Propiedad>();
-
-    /// <summary>
-    /// Traducciones para la UI 
-    /// </summary>
-    public List<I18n>? I18n { get; set; }
 }

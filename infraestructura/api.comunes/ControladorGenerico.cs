@@ -1,11 +1,10 @@
-﻿using api.comunes.modelos.modelos;
+﻿using api.comunes;
+using api.comunes.modelos.modelos;
 using api.comunes.modelos.reflectores;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System.Text.Json;
-
-namespace api.comunes;
 
 /// <summary>
 /// Controlador base para API de entidad genérica
@@ -18,19 +17,17 @@ public abstract class ControladorGenerico : ControllerBase
 
     protected IEntidadAPI entidadAPI;
     protected readonly IHttpContextAccessor _httpContextAccessor;
-    protected readonly IConfiguracionAPIEntidades _configuracionAPI;
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="httpContextAccessor"></param>
     /// <param name="configuracionAPI"></param>
-    public ControladorGenerico(
-        IHttpContextAccessor httpContextAccessor,
-        IConfiguracionAPIEntidades configuracionAPI)
+    public ControladorGenerico(IHttpContextAccessor httpContextAccessor)
     {
-        _configuracionAPI = configuracionAPI;
         _httpContextAccessor = httpContextAccessor;
+        
+        entidadAPI = (IEntidadAPI)httpContextAccessor.HttpContext.Items[EntidadAPIMiddleware.GenericAPIServiceKey];
     }
 
     protected string DominioId()

@@ -5,10 +5,11 @@ using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Reflection;
 
-namespace api.comunes.middleware;
+namespace api.comunes;
 
 public class EntidadAPIMiddleware
 {
+    public const string GenericAPIServiceKey = "GENERICAPISERVICE";
     private readonly RequestDelegate _next;
     private readonly IConfiguracionAPIEntidades _configuracionAPI;
     private ILogger<EntidadAPIMiddleware> _logger;
@@ -61,9 +62,19 @@ public class EntidadAPIMiddleware
                         }
                         i++;
                     }
-                    _logger.LogDebug("Cool");
-                    var service = (IEntidadAPI)Activator.CreateInstance(tt, paramArray);
-                    var x = service.EntidadDespliegueAPI(); 
+
+                    try
+                    {
+                        _logger.LogDebug("Cool");
+                        var service = (IEntidadAPI)Activator.CreateInstance(tt, paramArray);
+                        context.Request.HttpContext.Items.Add(GenericAPIServiceKey, service);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(message: ex.ToString());
+                        throw;
+                    }
                 }
             }
         }

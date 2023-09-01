@@ -1,3 +1,4 @@
+using api.comunes;
 using Microsoft.EntityFrameworkCore;
 using pika.servicios.gestiondocumental.acervo;
 using pika.servicios.gestiondocumental.archivos;
@@ -7,7 +8,6 @@ using pika.servicios.gestiondocumental.prestamo;
 using pika.servicios.gestiondocumental.topologia;
 using pika.servicios.gestiondocumental.transferencias;
 using Serilog;
-using apicomunes = api.comunes;
 
 namespace pika.api.gestiondocumental
 {
@@ -56,7 +56,7 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioUnidadAdministrativaArchivo, ServicioUnidadAdministrativaArchivo>();
 
 
-            builder.Services.AddTransient<apicomunes.IConfiguracionAPIEntidades, apicomunes.ConfiguracionAPIEntidades>();
+            builder.Services.AddTransient<IConfiguracionAPIEntidades, ConfiguracionAPIEntidades>();
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddTransient<IServicioActivoContenedorAlmacen, ServicioActivoContenedorAlmacen>();
@@ -71,8 +71,6 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioTransferencia, ServicioTransferencia>();
 
 
-            builder.Services.AddHttpContextAccessor();
-
             builder.Services.AddTransient<IServicioAmpliacion, ServicioAmpliacion>();
 
             builder.Services.AddTransient<IServicioPermisosUnidadAdministrativaArchivo, ServicioPermisosUnidadAdministrativaArchivo>();
@@ -81,8 +79,13 @@ namespace pika.api.gestiondocumental
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
             builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
 
+            // Añadir la extensión para los servicios de API genérica
+            builder.Services.AddServiciosEntidadAPI();
+
             var app = builder.Build();
-            apicomunes.middleware.EntidadAPIMiddlewareExtensions.UseEntidadAPI(app);
+
+            // Añadir la extensión para los servicios de API genérica
+            app.UseEntidadAPI();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
