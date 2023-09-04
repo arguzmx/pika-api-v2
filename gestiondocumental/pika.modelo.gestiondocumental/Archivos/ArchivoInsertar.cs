@@ -1,5 +1,8 @@
 ﻿namespace pika.modelo.gestiondocumental.Archivos;
 
+/// <summary>
+/// Modelo para la inserción de la entidad archivo
+/// </summary>
 public class ArchivoInsertar
 { 
     /// <summary>
@@ -11,14 +14,4 @@ public class ArchivoInsertar
     /// Tipo de archivo del catálogo
     /// </summary>
     public string TipoArchivoId { get; set; }
-
-    /// <summary>
-    /// Volument asociado al archivo para el resguardo de contenido eléctrónico
-    /// </summary>
-    public string? VolumenDefaultId { get; set; }
-
-    /// <summary>
-    /// Punto de montaje para mostrar el cotntenido electrónico
-    /// </summary>
-    public string? PuntoMontajeId { get; set; }
 }

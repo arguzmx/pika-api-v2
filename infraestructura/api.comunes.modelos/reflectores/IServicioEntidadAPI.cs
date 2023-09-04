@@ -8,8 +8,29 @@ namespace api.comunes.modelos.reflectores;
 /// <summary>
 /// Iinterfaz para marcar las etidades que deben rutearse a través de la API genérica
 /// </summary>
-public interface IEntidadAPI
+public interface IServicioEntidadAPI
 {
+
+    /// <summary>
+    /// Idioma del request desde Accept-Language
+    /// </summary>
+    public string? Idioma { get; set; }
+
+    /// <summary>
+    /// Id del usaurio en sesion
+    /// </summary>
+    public string? UsuarioId { get; set; }
+
+    /// <summary>
+    /// Id del dominio para el usuario en sesión
+    /// </summary>
+    public string? DominioId { get; set; }
+
+    /// <summary>
+    /// Id de la unidad organizacional para el usuario en sesión
+    /// </summary>
+    public string? UnidadOrganizacionalId { get; set; }
+
     /// <summary>
     /// Devuelve los metadatos de la entidad completa tal como se almacena en el repositorio
     /// </summary>

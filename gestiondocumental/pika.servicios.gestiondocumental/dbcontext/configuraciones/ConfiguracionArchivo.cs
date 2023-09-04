@@ -16,8 +16,6 @@ namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
             builder.Property(e => e.DominioId).IsRequired().HasMaxLength(128);
             builder.Property(e => e.UOrgId).IsRequired().HasMaxLength(128);
             builder.Property(e => e.TipoArchivoId).IsRequired().HasMaxLength(128);
-            builder.Property(e => e.VolumenDefaultId).IsRequired(false).HasMaxLength(128);
-            builder.Property(e => e.PuntoMontajeId).IsRequired(false).HasMaxLength(128);
         }
     }
 

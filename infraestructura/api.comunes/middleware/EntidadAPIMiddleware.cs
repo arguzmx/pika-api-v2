@@ -10,6 +10,8 @@ namespace api.comunes;
 public class EntidadAPIMiddleware
 {
     public const string GenericAPIServiceKey = "GENERICAPISERVICE";
+    public const string GenericCatalogAPIServiceKey = "GENERICCATALOGAPISERVICE";
+
     private readonly RequestDelegate _next;
     private readonly IConfiguracionAPIEntidades _configuracionAPI;
     private ILogger<EntidadAPIMiddleware> _logger;
@@ -23,18 +25,6 @@ public class EntidadAPIMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-
-        _logger.LogDebug("Middleware");
-        var cultureQuery = context.Request.Query["culture"];
-        if (!string.IsNullOrWhiteSpace(cultureQuery))
-        {
-            var culture = new CultureInfo(cultureQuery);
-
-            CultureInfo.CurrentCulture = culture;
-            CultureInfo.CurrentUICulture = culture;
-        }
-
-
         var controllerName = context.GetRouteData().Values["controller"];
         if(controllerName!=null && controllerName.ToString() == "Generico")
         {
@@ -66,9 +56,17 @@ public class EntidadAPIMiddleware
                     try
                     {
                         _logger.LogDebug("Cool");
-                        var service = (IEntidadAPI)Activator.CreateInstance(tt, paramArray);
-                        context.Request.HttpContext.Items.Add(GenericAPIServiceKey, service);
-
+#pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
+                        var service = (IServicioEntidadAPI)Activator.CreateInstance(tt, paramArray);
+#pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
+                        if (service!= null)
+                        {
+                            service.DominioId = "";
+                            service.UsuarioId = "";
+                            service.UnidadOrganizacionalId = "";
+                            service.Idioma = "";
+                            context.Request.HttpContext.Items.Add(GenericAPIServiceKey, service);
+                        }
                     }
                     catch (Exception ex)
                     {

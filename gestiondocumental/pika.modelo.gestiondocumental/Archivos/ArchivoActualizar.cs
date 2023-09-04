@@ -11,14 +11,9 @@ public class ArchivoActualizar
     /// Nombre del archivo
     /// </summary>
     public string Nombre { get; set; }
-    
-    /// <summary>
-    /// Volument asociado al archivo para el resguardo de contenido eléctrónico
-    /// </summary>
-    public string? VolumenDefaultId { get; set; }
 
     /// <summary>
-    /// Punto de montaje para mostrar el cotntenido electrónico
+    /// Tipo de archivo del catálogo
     /// </summary>
-    public string? PuntoMontajeId { get; set; }
+    public string TipoArchivoId { get; set; }
 }

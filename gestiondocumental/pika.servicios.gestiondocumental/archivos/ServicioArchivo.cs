@@ -16,9 +16,9 @@ namespace pika.servicios.gestiondocumental.archivos
     /// <summary>
     /// Servicio de datos para la entidad archivo
     /// </summary>
-    [EntidadAPI( NombreEntidad: "archivo" )]
+    [ServicioEntidadAPI(entidad: typeof(Archivo) )]
     public class ServicioArchivo : ServicioEntidadGenericaBase<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>,
-        IEntidadAPI, IServicioArchivo
+        IServicioEntidadAPI, IServicioArchivo
     {
 
         private readonly ILogger<ServicioArchivo> _logger;
@@ -26,6 +26,14 @@ namespace pika.servicios.gestiondocumental.archivos
         {
             _logger = logger;
         }
+
+        public string? Idioma { get; set; }
+
+        public string? UsuarioId { get; set; }
+
+        public string? DominioId { get; set; }
+
+        public string? UnidadOrganizacionalId { get; set; }
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
@@ -124,8 +132,6 @@ namespace pika.servicios.gestiondocumental.archivos
         public override Archivo ADTOFull(ArchivoActualizar actualizacion, Archivo actual)
         {
             actual.Nombre = actualizacion.Nombre;
-            actual.PuntoMontajeId = actualizacion.PuntoMontajeId;
-            actual.VolumenDefaultId = actualizacion.VolumenDefaultId;
             return actual;
         }
 
@@ -135,8 +141,6 @@ namespace pika.servicios.gestiondocumental.archivos
             {
                 Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
-                PuntoMontajeId = data.PuntoMontajeId,
-                VolumenDefaultId = data.VolumenDefaultId,
                 TipoArchivoId = data.TipoArchivoId,
                 UOrgId = _contextoUsuario.UOrgId,
                 DominioId = _contextoUsuario.DominioId,
@@ -150,9 +154,7 @@ namespace pika.servicios.gestiondocumental.archivos
             {
                 Id = data.Id,
                 Nombre = data.Nombre,
-                PuntoMontajeId = data.PuntoMontajeId,
                 TipoArchivoId = data.TipoArchivoId,
-                VolumenDefaultId = data.VolumenDefaultId
             };
             return archivo;
         }

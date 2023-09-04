@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace pika.comun.metadatos.atributos;
 
-namespace pika.comun.metadatos.atributos;
-
+/// <summary>
+/// Define los atributos básicos de la entidad
+/// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public class EntidadAttribute: Attribute
 {
