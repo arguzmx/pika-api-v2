@@ -4,28 +4,28 @@ using api.comunes.modelos.respuestas;
 
 namespace api.comunes.modelos.reflectores;
 
+/// <summary>
+/// Interfaz para el servicio de enntidades de APi genéricos
+/// </summary>
 public interface IServicioCatalogoAPI
 {
-    /// <summary>
-    /// Idioma del request desde Accept-Language
-    /// </summary>
-    public string? Idioma { get; set; }
 
     /// <summary>
-    /// Id del usaurio en sesion
+    /// Especifica si el servicio require autenticacion
     /// </summary>
-    public string? UsuarioId { get; set; }
+    public bool RequiereAutenticacion { get; set; }
 
     /// <summary>
-    /// Id del dominio para el usuario en sesión
+    /// Establece el contexto de ejecución del usuario 
     /// </summary>
-    public string? DominioId { get; set; }
+    /// <param name="contexto"></param>
+    void EstableceContextoUsuarioAPI(ContextoUsuario contexto);
 
     /// <summary>
-    /// Id de la unidad organizacional para el usuario en sesión
+    /// Otiene los datos del contexto de ejecución del usuario en sesión
     /// </summary>
-    public string? UnidadOrganizacionalId { get; set; }
-
+    /// <returns></returns>
+    ContextoUsuario? ObtieneContextoUsuarioAPI();
 
     /// <summary>
     /// DEvuelve el idioma por defecto del catálogo
@@ -37,7 +37,7 @@ public interface IServicioCatalogoAPI
     /// </summary>
     /// <param name="Idioma">Idioma del catálogo</param>
     /// <returns></returns>
-    Task<RespuestaPayload<List<ParClaveTexto>>> Todo(string? idioma, string? dominioId, string? unidadOrgId);
+    Task<RespuestaPayload<List<ParClaveTexto>>> Todo(string? idioma);
 
 
     /// <summary>
@@ -46,7 +46,7 @@ public interface IServicioCatalogoAPI
     /// <param name="idioma">Idioma del catálogo</param>
     /// <param name="buscar">Texto a buscar</param>
     /// <returns></returns>
-    Task<RespuestaPayload<List<ParClaveTexto>>> PorTexto(string? idioma, string? buscar, string? dominioId, string? unidadOrgId);
+    Task<RespuestaPayload<List<ParClaveTexto>>> PorTexto(string? idioma, string? buscar);
 
 
     /// <summary>
@@ -54,14 +54,14 @@ public interface IServicioCatalogoAPI
     /// </summary>
     /// <param name="elemento"></param>
     /// <returns></returns>
-    Task<RespuestaPayload<ElementoCatalogo>> CreaEntrada(ElementoCatalogo elemento, string? dominioId, string? unidadOrgId);
+    Task<RespuestaPayload<ElementoCatalogo>> CreaEntrada(ElementoCatalogoInsertar elemento);
 
     /// <summary>
     /// Elimina una entrada del catálogo para todos los idiomas
     /// </summary>
     /// <param name="Id">Identificador único de la entrada</param>
     /// <returns></returns>
-    Task<Respuesta> EliminaEntrada(string Id, string? dominioId, string? unidadOrgId);
+    Task<Respuesta> EliminaEntrada(string Id);
 
 
     /// <summary>
@@ -71,19 +71,18 @@ public interface IServicioCatalogoAPI
     /// <param name="idioma">Idioma de la entrada</param>
     /// <param name="texto">texto para la enrada</param>
     /// <returns></returns>
-    Task<Respuesta> ActualizaEntrada(string Id, string? idioma, string texto, string? dominioId, string? unidadOrgId);
+    Task<Respuesta> ActualizaEntrada(string Id, ElementoCatalogoActualizar elemento);
 
 
     /// <summary>
     /// Devuelve la lista de idiomas disponibles para el catálogo
     /// </summary>
     /// <returns></returns>
-    List<string> Idiomas(string? dominioId, string? unidadOrgId);
+    List<string> Idiomas();
 
     /// <summary>
     /// Lista de elementos del catálogo por defecto, sirve para poblar el repositorio inicial
     /// </summary>
     /// <returns></returns>
     List<ElementoCatalogo> ElementosDefault();
-
 }

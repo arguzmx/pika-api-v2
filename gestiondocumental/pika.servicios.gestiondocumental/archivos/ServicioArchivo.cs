@@ -27,13 +27,9 @@ namespace pika.servicios.gestiondocumental.archivos
             _logger = logger;
         }
 
-        public string? Idioma { get; set; }
+        public bool RequiereAutenticacion => true;
 
-        public string? UsuarioId { get; set; }
-
-        public string? DominioId { get; set; }
-
-        public string? UnidadOrganizacionalId { get; set; }
+        public string? UnidadOrganizacionalId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
@@ -70,6 +66,11 @@ namespace pika.servicios.gestiondocumental.archivos
         public void EstableceContextoUsuarioAPI(ContextoUsuario contexto)
         {
             this.EstableceContextoUsuario(contexto);
+        }
+
+        public ContextoUsuario? ObtieneContextoUsuarioAPI()
+        {
+            return this._contextoUsuario;
         }
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)

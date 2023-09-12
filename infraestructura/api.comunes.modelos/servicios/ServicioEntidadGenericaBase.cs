@@ -3,12 +3,8 @@ using api.comunes.modelos.respuestas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pika.comun.metadatos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+
 
 namespace api.comunes.modelos.servicios;
 
@@ -29,7 +25,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
 
     protected DbSet<DTOFull> _dbSetFull;
     protected DbContext _db;
-    protected ContextoUsuario _contextoUsuario;
+    protected ContextoUsuario? _contextoUsuario;
     protected ILogger _logger;
 
     public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull) {
@@ -170,9 +166,19 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
         return respuesta;
     }
 
-    public virtual void EstableceContextoUsuario(ContextoUsuario contexto)
+    public virtual ContextoUsuario? ObtieneContextoUsuario()
+    {
+        return _contextoUsuario;
+    }
+
+    public virtual void EstableceContextoUsuario(ContextoUsuario? contexto)
     {
         _contextoUsuario = contexto;
+    }
+
+    public virtual ContextoUsuario? ObtieneContextoUsuario(ContextoUsuario? contexto)
+    {
+        return _contextoUsuario;
     }
 
     public virtual async Task<ResultadoValidacion> ValidarActualizar(string id, DTOUpdate actualizacion, DTOFull original)

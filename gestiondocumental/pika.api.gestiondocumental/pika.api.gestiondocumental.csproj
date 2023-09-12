@@ -32,11 +32,4 @@
     <ProjectReference Include="..\pika.servicios.gestiondocumental\pika.servicios.gestiondocumental.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\gestiondocumental\validadores\" />
-    <Folder Include="Controllers\gestiondocumental\temas\" />
-    <Folder Include="Controllers\gestiondocumental\seguridad\" />
-    <Folder Include="Controllers\gestiondocumental\reportes\" />
-  </ItemGroup>
-
 </Project>

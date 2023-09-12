@@ -5,7 +5,7 @@ using pika.comun.metadatos;
 namespace api.comunes.modelos.servicios;
 
 /// <summary>
-/// Define los métodos comunes al servicio de entidades pika
+/// Define los métodos comunes al servicio de entidades genpericas
 /// </summary>
 /// <typeparam name="Store"></typeparam>
 /// <typeparam name="DTOInsert"></typeparam>
@@ -50,6 +50,12 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, DTODesp
     /// <param name="contexto"></param>
     void EstableceContextoUsuario(ContextoUsuario contexto);
 
+
+    /// <summary>
+    /// Obtiene el contexto de ejecución actual del usuario
+    /// </summary>
+    /// <returns></returns>
+    ContextoUsuario? ObtieneContextoUsuario();
 
     /// <summary>
     /// Método para insertar una entidad nueva en el repositorio

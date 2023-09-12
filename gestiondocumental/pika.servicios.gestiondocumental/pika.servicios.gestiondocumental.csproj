@@ -27,7 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="acervo\" />
+    <Folder Include="cuadrosclasificacion\" />
     <Folder Include="data\" />
+    <Folder Include="prestamo\" />
+    <Folder Include="topologia\" />
+    <Folder Include="transferencias\" />
     <Folder Include="validadores\" />
     <Folder Include="temas\" />
     <Folder Include="seguridad\" />

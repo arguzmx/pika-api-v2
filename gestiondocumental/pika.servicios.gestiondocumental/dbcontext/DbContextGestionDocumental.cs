@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using api.comunes.modelos.modelos;
+using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
@@ -13,6 +14,7 @@ public class DbContextGestionDocumental : DbContext
     }
 
     public DbSet<Archivo> Archivos { get; set; }
+    public DbSet<ElementoCatalogo> TipoArchivo { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

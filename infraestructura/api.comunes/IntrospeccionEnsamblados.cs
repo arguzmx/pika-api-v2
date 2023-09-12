@@ -100,18 +100,18 @@ public static class IntrospeccionEnsamblados
                 var Tipos = assembly.GetTypes()
                         .Where(t =>
                         !t.IsAbstract &&
-                        typeof(IServicioEntidadAPI).IsAssignableFrom(t))
+                        typeof(IServicioCatalogoAPI).IsAssignableFrom(t))
                         .ToArray();
 
                 foreach (var t in Tipos)
                 {
-                    var atributoAPI = t.GetCustomAttribute(typeof(ServicioEntidadAPIAttribute));
+                    var atributoAPI = t.GetCustomAttribute(typeof(ServicioCatalogoEntidadAPIAttribute));
                     if (atributoAPI!=null) {
                         FileInfo fi = new FileInfo(ensamblado);
                         ServicioEntidadAPI s = new ()
                         {
                             NombreEnsamblado = t.FullName,
-                            NombreRuteo = ((ServicioEntidadAPIAttribute)atributoAPI).Entidad.Name,
+                            NombreRuteo = ((ServicioCatalogoEntidadAPIAttribute)atributoAPI).Entidad.Name,
                             Ruta  = ensamblado
                         };
                         l.Add (s);

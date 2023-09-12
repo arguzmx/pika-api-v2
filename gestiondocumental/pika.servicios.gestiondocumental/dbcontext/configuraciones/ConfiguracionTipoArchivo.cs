@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using pika.modelo.gestiondocumental;
+using api.comunes.modelos.modelos;
 
 namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
-public class ConfiguracionTipoArchivo : IEntityTypeConfiguration<TipoArchivo>
+public class ConfiguracionTipoArchivo : IEntityTypeConfiguration<ElementoCatalogo>
 {
-    public void Configure(EntityTypeBuilder<TipoArchivo> builder)
+    public void Configure(EntityTypeBuilder<ElementoCatalogo> builder)
     {
 
         builder.ToTable("tipoarchivo");
-        builder.HasKey(e => new { e.Id, e.Idioma } );
+        builder.HasKey(e => new { e.Id, e.Idioma, e.DominioId, e.UnidadOrganizacionalId } );
 
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
         builder.Property(e => e.Texto).IsRequired();

@@ -56,7 +56,7 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
         
         if(!string.IsNullOrEmpty(i))
         {
-            if(!catalogoAPI.Idiomas(DominioId(), UnidadOrgId()).Contains(i, StringComparer.InvariantCultureIgnoreCase))
+            if(!catalogoAPI.Idiomas().Contains(i, StringComparer.InvariantCultureIgnoreCase))
             {
                 // Si el idioma no esta en la lista se hace null para asiganr el default
                 i = null;
@@ -97,10 +97,10 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
         RespuestaPayload<List<ParClaveTexto>>? response;
         if (!string.IsNullOrEmpty(buscar))
         {
-            response = await catalogoAPI.PorTexto(IdiomaCatalogo(idioma), buscar, dominioId, uOrgID);
+            response = await catalogoAPI.PorTexto(IdiomaCatalogo(idioma), buscar);
         } else
         {
-            response = await catalogoAPI.Todo(IdiomaCatalogo(idioma), dominioId, uOrgID);
+            response = await catalogoAPI.Todo(IdiomaCatalogo(idioma));
         }
         
         if (response.Ok)
@@ -126,16 +126,7 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
     public async Task<IActionResult> CrearElementoCatalogo(string entidad, [FromBody] ElementoCatalogoInsertar elemento, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
-        ElementoCatalogo e = new ()
-        {
-            Id  = elemento.Clave,
-            Idioma = elemento.Idioma,
-            Texto = elemento.Texto,
-            UnidadOrganizacionalId = uOrgID,
-            DominioId = dominioId
-        };
-
-        var response = await catalogoAPI.CreaEntrada(e, dominioId, uOrgID);
+        var response = await catalogoAPI.CreaEntrada(elemento);
         if (response.Ok)
         {
             return NoContent();
@@ -160,7 +151,7 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
     public async Task<IActionResult> EliminaEntradaCatalogo(string entidad, string clave, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
-        var response = await catalogoAPI.EliminaEntrada(clave, dominioId, uOrgID);
+        var response = await catalogoAPI.EliminaEntrada(clave);
         if(response.Ok)
         {
             return NoContent();
@@ -186,12 +177,12 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
     public async Task<IActionResult> ActualizaEntradaCatalogo(string entidad, string clave, [FromBody] ElementoCatalogoActualizar elemento, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
-        if(clave!=elemento.Clave)
+        if(clave!=elemento.Id)
         {
             return BadRequest();
         }
 
-        var response = await catalogoAPI.ActualizaEntrada(elemento.Clave, elemento.Idioma, elemento.Texto, dominioId, uOrgID);
+        var response = await catalogoAPI.ActualizaEntrada(elemento.Id, elemento);
         if (response.Ok)
         {
             return NoContent();
@@ -215,7 +206,7 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
     public ActionResult<List<ParClaveTexto>> ObtieneIdiomasCatalogo(string entidad, [FromHeader(Name = DOMINIOHEADER)] string? dominioId, [FromHeader(Name = UORGHEADER)] string? uOrgID)
     {
-        List<string> response = catalogoAPI.Idiomas(dominioId, uOrgID);
+        List<string> response = catalogoAPI.Idiomas();
         return Ok(response);
         
     }

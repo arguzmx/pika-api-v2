@@ -6,7 +6,8 @@
 public class ConfiguracionAPIEntidades : IConfiguracionAPIEntidades
 {
 
-    private List<ServicioEntidadAPI> servicios = null;
+    private List<ServicioEntidadAPI> serviciosEntidad = null;
+    private List<ServicioEntidadAPI> serviciosCatalogoEntidad = null;
     private List<string> rutasGenericas = null;
 
 
@@ -20,16 +21,29 @@ public class ConfiguracionAPIEntidades : IConfiguracionAPIEntidades
     }
 
     /// <summary>
-    /// DEvulve una lista de servicios de entidad  con datos de ruteo
+    /// Devuelve una lista de los servicios que implementan la interfaz del catalogo de entidades genéricas
+    /// </summary>
+    /// <returns></returns>
+    public List<ServicioEntidadAPI> ObtienesServiciosICatalogoEntidadAPI()
+    {
+        if (serviciosCatalogoEntidad == null)
+        {
+            serviciosCatalogoEntidad = IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
+        }
+        return serviciosCatalogoEntidad;
+    }
+
+    /// <summary>
+    /// Devuelve una lista de servicios de entidad genérica con datos de ruteo
     /// </summary>
     /// <returns></returns>
     public List<ServicioEntidadAPI> ObtienesServiciosIEntidadAPI()
     {
-        if (servicios == null)
+        if (serviciosEntidad == null)
         {
-            servicios = IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
+            serviciosEntidad = IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
         }
-        return servicios;
+        return serviciosEntidad;
     }
 
     /// <summary>
@@ -37,6 +51,6 @@ public class ConfiguracionAPIEntidades : IConfiguracionAPIEntidades
     /// </summary>
     public void RecargarServicios()
     {
-        servicios = IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
+        serviciosEntidad = IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
     }
 }

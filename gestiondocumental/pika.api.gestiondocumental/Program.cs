@@ -1,12 +1,6 @@
 using api.comunes;
 using Microsoft.EntityFrameworkCore;
-using pika.servicios.gestiondocumental.acervo;
-using pika.servicios.gestiondocumental.archivos;
-using pika.servicios.gestiondocumental.cuadrosclasificacion;
 using pika.servicios.gestiondocumental.dbcontext;
-using pika.servicios.gestiondocumental.prestamo;
-using pika.servicios.gestiondocumental.topologia;
-using pika.servicios.gestiondocumental.transferencias;
 using Serilog;
 
 namespace pika.api.gestiondocumental
@@ -48,36 +42,8 @@ namespace pika.api.gestiondocumental
             builder.Services.AddSwaggerGen();
 
 
-            builder.Services.AddTransient<IServicioCuadroClasificacion, ServicioCuadroClasificacion>();
-            builder.Services.AddTransient<IServicioElementoClasificacion, ServicioElementoClasificacion>();
-            builder.Services.AddTransient<IServicioEntradaClasificacion, ServicioEntradaClasificacion>();
-            builder.Services.AddTransient<IServicioArchivo, ServicioArchivo>();
-            builder.Services.AddTransient<IServicioTipoArchivo, ServicioTipoArchivo>();
-            builder.Services.AddTransient<IServicioUnidadAdministrativaArchivo, ServicioUnidadAdministrativaArchivo>();
-
-
             builder.Services.AddTransient<IConfiguracionAPIEntidades, ConfiguracionAPIEntidades>();
             builder.Services.AddDistributedMemoryCache();
-
-            builder.Services.AddTransient<IServicioActivoContenedorAlmacen, ServicioActivoContenedorAlmacen>();
-            builder.Services.AddTransient<IServicioAlmacenArchivo, ServicioAlmacenArchivo>();
-            builder.Services.AddTransient<IServicioContenedorAlmacen, ServicioContenedorAlmacen>();
-            builder.Services.AddTransient<IServicioPosicionAlmacen, ServicioPosicionAlmacen>();
-            builder.Services.AddTransient<IServicioZonaAlmacen, ServicioZonaAlmacen>();
-
-            builder.Services.AddTransient<IServicioActivoTranferencia, ServicioActivoTransferencia>();
-            builder.Services.AddTransient<IServicioComentarioTrasnferencia, ServicioComentarioTrasnferencia>();
-            builder.Services.AddTransient<IServicioEventoTransferencia, ServicioEventoTransferencia>();
-            builder.Services.AddTransient<IServicioTransferencia, ServicioTransferencia>();
-
-
-            builder.Services.AddTransient<IServicioAmpliacion, ServicioAmpliacion>();
-
-            builder.Services.AddTransient<IServicioPermisosUnidadAdministrativaArchivo, ServicioPermisosUnidadAdministrativaArchivo>();
-
-            builder.Services.AddTransient<IServicioActivoPrestamo, ServicioActivoPrestamo>();
-            builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
-            builder.Services.AddTransient<IServicioComentarioPrestamo, ServicioComentarioPrestamo>();
 
             // Añadir la extensión para los servicios de API genérica
             builder.Services.AddServiciosEntidadAPI();

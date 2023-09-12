@@ -12,24 +12,9 @@ public interface IServicioEntidadAPI
 {
 
     /// <summary>
-    /// Idioma del request desde Accept-Language
+    /// Determina si el servicio requiere de autenticación
     /// </summary>
-    public string? Idioma { get; set; }
-
-    /// <summary>
-    /// Id del usaurio en sesion
-    /// </summary>
-    public string? UsuarioId { get; set; }
-
-    /// <summary>
-    /// Id del dominio para el usuario en sesión
-    /// </summary>
-    public string? DominioId { get; set; }
-
-    /// <summary>
-    /// Id de la unidad organizacional para el usuario en sesión
-    /// </summary>
-    public string? UnidadOrganizacionalId { get; set; }
+    bool RequiereAutenticacion { get; } 
 
     /// <summary>
     /// Devuelve los metadatos de la entidad completa tal como se almacena en el repositorio
@@ -63,6 +48,11 @@ public interface IServicioEntidadAPI
     /// <param name="contexto"></param>
     void EstableceContextoUsuarioAPI(ContextoUsuario contexto);
 
+    /// <summary>
+    /// Otiene los datos del contexto de ejecución del usuario en sesión
+    /// </summary>
+    /// <returns></returns>
+    ContextoUsuario? ObtieneContextoUsuarioAPI();
 
     /// <summary>
     /// Método para insertar una entidad nueva en el repositorio

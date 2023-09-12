@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using api.comunes.modelos.reflectores;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace pika.servicios.gestiondocumental.archivos
 {
-    public class ServicioTipoArchivo : IServicioTipoArchivo
+    [ServicioCatalogoEntidadAPI(typeof(TipoArchivo))]
+    public class ServicioTipoArchivo 
     {
 
         private readonly ILogger<ServicioTipoArchivo> _logger;
