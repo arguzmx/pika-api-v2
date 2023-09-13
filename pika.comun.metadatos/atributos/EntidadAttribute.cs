@@ -6,7 +6,7 @@
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public class EntidadAttribute: Attribute
 {
-    private readonly string _nombre;
+    private readonly string? _nombre;
     private readonly string? _endpoint;
 
     /// <summary>
@@ -25,7 +25,7 @@ public class EntidadAttribute: Attribute
     /// </summary>
     public virtual string Nombre
     {
-        get { return _nombre; }
+        get { return _nombre ?? string.Empty; }
     }
 
     /// <summary>
@@ -33,6 +33,6 @@ public class EntidadAttribute: Attribute
     /// </summary>
     public virtual string Endpoint
     {
-        get { return _endpoint; }
+        get { return _endpoint ?? string.Empty ; }
     }
 }

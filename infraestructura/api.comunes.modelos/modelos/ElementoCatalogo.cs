@@ -1,26 +1,26 @@
-﻿namespace api.comunes.modelos.modelos;
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace api.comunes.modelos.modelos;
 
 /// <summary>
 /// Clase base para la implementación de catálogos genéricos
 /// </summary>
 public class ElementoCatalogo
 {
-
     /// <summary>
     /// Identificador único de la entrade del catálogo
     /// </summary>
     public virtual string Id { get; set; }
 
     /// <summary>
-    /// Idioma para el teto descriptivo
+    /// Idioma default para el teto descriptivo
     /// </summary>
     public virtual string Idioma { get; set; }
 
     /// <summary>
-    /// Texto para la entrada de catálogo
+    /// Texto default para la entrada de catálogo
     /// </summary>
     public virtual string Texto { get; set; }
-
 
     /// <summary>
     /// Identificador único del dominio al que pertenece el elemento
@@ -32,5 +32,10 @@ public class ElementoCatalogo
     /// </summary>
     public virtual string UnidadOrganizacionalId { get; set; }
 
+
+    /// <summary>
+    /// Lista de traducciones del catálogo
+    /// </summary>
+    public virtual List<I18NCatalogo> Traducciones { get; set; }
 
 }

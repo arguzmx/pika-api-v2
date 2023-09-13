@@ -9,6 +9,11 @@ using System.Text.Json;
 
 namespace api.comunes;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+/// <summary>
+/// Middleware para la inyección de servicio de entidad y catálogo genéricos
+/// </summary>
 public class EntidadAPIMiddleware
 {
 
@@ -29,13 +34,21 @@ public class EntidadAPIMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         var controllerName = context.GetRouteData().Values["controller"];
-        if (controllerName != null && controllerName.ToString() == "CatalogoGenerico")
+        if(controllerName != null)
         {
-            await ProcesaCatalogoGenerico(context);
+            switch (controllerName)
+            {
+                case "CatalogoGenerico":
+                    await ProcesaCatalogoGenerico(context);
+                    break;
 
-        } else if (controllerName != null && controllerName.ToString() == "EntidadGenerico") {
-            await ProcesaEntidadGenerica(context);
+                case "EntidadGenerica":
+                    await ProcesaEntidadGenerica(context);
+                    break;
+
+            }
         }
+        
 
         // Call the next delegate/middleware in the pipeline.
         await _next(context);
@@ -98,6 +111,7 @@ public class EntidadAPIMiddleware
             if (service != null)
             {
                 var contexto = context.ObtieneContextoUsuario();
+#if !DEBUG
                 if (service.RequiereAutenticacion)
                 {
                     if (string.IsNullOrEmpty(contexto.UsuarioId))
@@ -110,6 +124,7 @@ public class EntidadAPIMiddleware
                         });
                     }
                 }
+#endif
 
                 service.EstableceContextoUsuarioAPI(contexto);
                 context.Request.HttpContext.Items.Add(GenericCatalogAPIServiceKey, service);
@@ -156,6 +171,7 @@ public class EntidadAPIMiddleware
             });
         }
 
+
         var ctors = tt.GetConstructors();
         var ps = ctors[0].GetParameters();
         object[] paramArray = new object[ps.Length];
@@ -178,6 +194,8 @@ public class EntidadAPIMiddleware
             if (service != null)
             {
                 var contexto =  context.ObtieneContextoUsuario();
+
+#if !DEBUG
                 if (service.RequiereAutenticacion)
                 {
                     if (string.IsNullOrEmpty(contexto.UsuarioId))
@@ -190,7 +208,7 @@ public class EntidadAPIMiddleware
                         });
                     }
                 }
-
+#endif
                 service.EstableceContextoUsuarioAPI(contexto);
                 context.Request.HttpContext.Items.Add(GenericAPIServiceKey, service);
             }
@@ -220,3 +238,4 @@ public class EntidadAPIMiddleware
 
  
 }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.

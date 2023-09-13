@@ -1,5 +1,5 @@
 ﻿namespace pika.comun.metadatos;
-
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 /// <summary>
 /// Define una entdad en termios de metadatos
 /// </summary>
@@ -16,6 +16,7 @@ public class Entidad
     /// </summary>
     public string Nombre{ get; set; }
 
+
     /// <summary>
     /// Ruta relativa del endpoint en la API de PIKA
     /// </summary>
@@ -26,3 +27,4 @@ public class Entidad
     /// </summary>
     public List<Propiedad> Propiedades { get; set; } = new List<Propiedad>();
 }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

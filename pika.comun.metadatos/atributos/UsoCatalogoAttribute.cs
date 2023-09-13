@@ -8,19 +8,19 @@ public class UsoCatalogoAttribute: Attribute
 {
 
     private readonly bool _local;
-    private readonly string _idCatelogo;
-    private readonly string _idMicroServicio;
+    private readonly string _idCatalogo;
+    private readonly string? _idMicroServicio;
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="idCatelogo"Identificador de la entidad catálogo></param>
+    /// <param name="idCatalogo"Identificador de la entidad catálogo></param>
     /// <param name="local">Especifica si el catálogo se encuentra en el propio microservicio</param>
     /// <param name="idMicroServicio">Identificador del microservicio que aloja el catálogo en caso remoto</param>
-    public UsoCatalogoAttribute (string idCatelogo, bool local = true, string idMicroServicio = null)
+    public UsoCatalogoAttribute (string idCatalogo, bool local = true, string? idMicroServicio = null)
     {
         _local = local;
-        _idCatelogo = idCatelogo;
+        _idCatalogo = idCatalogo;
         _idMicroServicio = idMicroServicio;
     }
 
@@ -29,7 +29,7 @@ public class UsoCatalogoAttribute: Attribute
     /// </summary>
     public virtual string IdCatalogo
     {
-        get {  return _idCatelogo;}
+        get {  return _idCatalogo; }
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public class UsoCatalogoAttribute: Attribute
     /// este valor se utiliza zomo clave para la localización del la URL downstream
     /// en la configuración ya se en el backend o el frontend
     /// </summary>
-    public virtual string IdMicroservicio
+    public virtual string? IdMicroservicio
     {
         get { return _idMicroServicio; }
     }

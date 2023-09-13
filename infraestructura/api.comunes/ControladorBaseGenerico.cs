@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.comunes;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 /// <summary>
 /// Controlador base para las entidades genéricas
 /// </summary>
@@ -38,6 +39,7 @@ public abstract class ControladorBaseGenerico: ControllerBase
     /// <returns></returns>
     protected virtual string? DominioId()
     {
+
         return _httpContextAccessor.HttpContext.Request.Headers?[DOMINIOHEADER];
     }
 
@@ -72,3 +74,4 @@ public abstract class ControladorBaseGenerico: ControllerBase
     }
 
 }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.

@@ -1,10 +1,15 @@
 ﻿using api.comunes.modelos.modelos;
+using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace api.comunes.modelos.servicios;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+/// <summary>
+/// Clase base para el sercivio de catálogos genéricos
+/// </summary>
 public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
 {
     protected DbSet<ElementoCatalogo> _dbSetFull;
@@ -18,10 +23,11 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// </summary>
     /// <param name="db"></param>
     /// <param name="dbSetFull"></param>
-    public ServicioCatalogoGenericoBase(DbContext db, DbSet<ElementoCatalogo> dbSetFull)
+    public ServicioCatalogoGenericoBase(DbContext db, DbSet<ElementoCatalogo> dbSetFull, ILogger logger)
     {
         _dbSetFull = dbSetFull;
         _db = db;
+        _logger = logger;
     }
 
     /// <summary>
@@ -43,20 +49,35 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// </summary>
     /// <param name="Idioma">Idioma del catálogo</param>
     /// <returns></returns>
-    public async Task<RespuestaPayload<List<ParClaveTexto>>> Todo(string? idioma)
+    public virtual async Task<RespuestaPayload<List<ParClaveTexto>>> Todo(string? idioma)
     {
-        List<ParClaveTexto> payload = await _dbSetFull.Where
-            (c => c.DominioId == _contextoUsuario.DominioId
-            && c.UnidadOrganizacionalId == _contextoUsuario.UOrgId
-            && c.Idioma == idioma).OrderBy(c => c.Texto)
-            .Select(x => new ParClaveTexto() { Clave = x.Id, Texto = x.Texto }).ToListAsync();
-
-        RespuestaPayload<List<ParClaveTexto>> respuesta = new()
+        RespuestaPayload<List<ParClaveTexto>> respuesta = new();
+        try
         {
-            Ok = true,
-            HttpCode = HttpCode.Ok,
-            Payload = payload
-        };
+
+            List<ParClaveTexto> payload = await _dbSetFull.Where
+         (c => c.DominioId == _contextoUsuario.DominioId
+         && c.UnidadOrganizacionalId == _contextoUsuario.UOrgId
+         && c.Idioma == idioma).OrderBy(c => c.Texto)
+         .Select(x => new ParClaveTexto() { Clave = x.Id, Texto = x.Texto }).ToListAsync();
+
+            respuesta = new()
+            {
+                Ok = true,
+                HttpCode = HttpCode.Ok,
+                Payload = payload
+            };
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
+
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
+        }
+
         return respuesta;
     }
 
@@ -67,26 +88,37 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// <param name="idioma">Idioma del catálogo</param>
     /// <param name="buscar">Texto a buscar</param>
     /// <returns></returns>
-    public async Task<RespuestaPayload<List<ParClaveTexto>>> PorTexto(string? idioma, string? buscar) 
+    public virtual async Task<RespuestaPayload<List<ParClaveTexto>>> PorTexto(string? idioma, string? buscar) 
     {
-        List<ParClaveTexto> payload = new ();
-        if (!string.IsNullOrEmpty(buscar))
+        RespuestaPayload<List<ParClaveTexto>> respuesta = new();
+        try
         {
-            payload = await _dbSetFull.Where(c => c.DominioId == _contextoUsuario.DominioId
-            && c.UnidadOrganizacionalId == _contextoUsuario.UOrgId
-            && c.Idioma == idioma
-            && buscar.Contains(c.Texto, StringComparison.InvariantCultureIgnoreCase))
-            .OrderBy(c => c.Texto)
-            .Select( x => new ParClaveTexto() {  Clave = x.Id, Texto = x.Texto }).ToListAsync();
-        };
+            List<ParClaveTexto> payload = new();
+            if (!string.IsNullOrEmpty(buscar))
+            {
+                payload = await _dbSetFull.Where(c => c.DominioId == _contextoUsuario.DominioId
+                && c.UnidadOrganizacionalId == _contextoUsuario.UOrgId
+                && c.Idioma == idioma
+                && buscar.Contains(c.Texto, StringComparison.InvariantCultureIgnoreCase))
+                .OrderBy(c => c.Texto)
+                .Select(x => new ParClaveTexto() { Clave = x.Id, Texto = x.Texto }).ToListAsync();
+            };
 
-        RespuestaPayload<List<ParClaveTexto>> respuesta = new()
+            respuesta = new()
+            {
+                Ok = true,
+                HttpCode = HttpCode.Ok,
+                Payload = payload
+            };
+        }
+        catch (Exception ex)
         {
-            Ok = true,
-            HttpCode = HttpCode.Ok,
-            Payload = payload
-        };
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
 
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
+        }
         return respuesta;
     }
 
@@ -96,28 +128,38 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// </summary>
     /// <param name="elemento"></param>
     /// <returns></returns>
-    public async Task<RespuestaPayload<ElementoCatalogo>> CreaEntrada(ElementoCatalogoInsertar elemento) 
+    public virtual async Task<RespuestaPayload<ElementoCatalogo>> CreaEntrada(ElementoCatalogoInsertar elemento) 
     {
         var respuesta = new RespuestaPayload<ElementoCatalogo>();
-        var elementoNuevo = ADTOFull(elemento);
-        var resultadoValidacion = await ValidarInsertar(elemento);
-        if (resultadoValidacion.Valido)
+        try
         {
-          
-            _dbSetFull.Add(elementoNuevo);
-            await _db.SaveChangesAsync();
+            var elementoNuevo = ADTOFull(elemento);
+            var resultadoValidacion = await ValidarInsertar(elemento);
+            if (resultadoValidacion.Valido)
+            {
 
-            respuesta.Ok = true;
-            respuesta.HttpCode = HttpCode.Ok;
-            respuesta.Payload = elementoNuevo;
+                _dbSetFull.Add(elementoNuevo);
+                await _db.SaveChangesAsync();
+
+                respuesta.Ok = true;
+                respuesta.HttpCode = HttpCode.Ok;
+                respuesta.Payload = elementoNuevo;
+            }
+            else
+            {
+                respuesta.Error = resultadoValidacion.Error;
+                respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            respuesta.Error = resultadoValidacion.Error;
-            respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
+
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
         }
         return respuesta;
-
     }
 
     /// <summary>
@@ -125,32 +167,47 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// </summary>
     /// <param name="Id">Identificador único de la entrada</param>
     /// <returns></returns>
-    public async Task<Respuesta> EliminaEntrada(string id)
+    public virtual async Task<Respuesta> EliminaEntrada(string id)
     {
-        var elemento = await  _dbSetFull.FirstOrDefaultAsync(x => x.DominioId == _contextoUsuario.DominioId
-        && x.UnidadOrganizacionalId == _contextoUsuario.UOrgId && x.Id == id);
-        
-        if(elemento == null)
+        var respuesta = new Respuesta();
+        try
         {
-            return ElementoNoEncontrado(id);
-        }
+            var elemento = await _dbSetFull.FirstOrDefaultAsync(x => x.DominioId == _contextoUsuario.DominioId
+                   && x.UnidadOrganizacionalId == _contextoUsuario.UOrgId && x.Id == id);
 
-        var resultado = await ValidarEliminacion(id, elemento);
-        if(resultado.Valido)
-        {
-            _dbSetFull.Remove(elemento);
-            await _db.SaveChangesAsync();
-            return new Respuesta() {  Ok =  true, HttpCode = HttpCode.Ok };
-
-        } else
-        {
-            return new Respuesta()
+            if (elemento == null)
             {
-                HttpCode = resultado.Error.HttpCode,
-                Ok = false,
-                Error = resultado.Error
-            };
+                return ElementoNoEncontrado(id);
+            }
+
+            var resultado = await ValidarEliminacion(id, elemento);
+            if (resultado.Valido)
+            {
+                _dbSetFull.Remove(elemento);
+                await _db.SaveChangesAsync();
+                respuesta = new () { Ok = true, HttpCode = HttpCode.Ok };
+
+            }
+            else
+            {
+                respuesta = new ()
+                {
+                    HttpCode = resultado.Error.HttpCode,
+                    Ok = false,
+                    Error = resultado.Error
+                };
+            }
         }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
+
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
+        }
+       
+        return respuesta;
     }
 
 
@@ -164,29 +221,41 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     public async Task<Respuesta> ActualizaEntrada(string id, ElementoCatalogoActualizar elementoActualizar)
     {
         Respuesta respuesta = new ();
-        var elemento = await _dbSetFull.FirstOrDefaultAsync(x => x.DominioId == _contextoUsuario.DominioId
-            && x.UnidadOrganizacionalId == _contextoUsuario.UOrgId && x.Id == elementoActualizar.Id);
-
-        if (elemento == null)
+        try
         {
-            return ElementoNoEncontrado(id);
-        }
+            var elemento = await _dbSetFull.FirstOrDefaultAsync(x => x.DominioId == _contextoUsuario.DominioId
+                       && x.UnidadOrganizacionalId == _contextoUsuario.UOrgId && x.Id == elementoActualizar.Id);
 
-        var resultadoValidacion = await ValidarActualizar(id, elementoActualizar, elemento);
-        if (resultadoValidacion.Valido)
-        {
-            elemento = ADTOFull(elementoActualizar, elemento);
-            _dbSetFull.Update(elemento);
-            await _db.SaveChangesAsync();
+            if (elemento == null)
+            {
+                return ElementoNoEncontrado(id);
+            }
 
-            respuesta.HttpCode = HttpCode.Ok;
-            respuesta.Ok = true;
+            var resultadoValidacion = await ValidarActualizar(id, elementoActualizar, elemento);
+            if (resultadoValidacion.Valido)
+            {
+                elemento = ADTOFull(elementoActualizar, elemento);
+                _dbSetFull.Update(elemento);
+                await _db.SaveChangesAsync();
+
+                respuesta.HttpCode = HttpCode.Ok;
+                respuesta.Ok = true;
+            }
+            else
+            {
+                respuesta.Error = resultadoValidacion.Error;
+                respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            respuesta.Error = resultadoValidacion.Error;
-            respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
+
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
         }
+       
         return respuesta;
     }
 
@@ -255,4 +324,25 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
         elemento.Texto = data.Texto;
         return elemento;
     }
+
+
+    /// <summary>
+    /// Establece el contexto de ejecicón del usaurio en sesión
+    /// </summary>
+    /// <param name="contexto"></param>
+    public void EstableceContextoUsuarioAPI(ContextoUsuario contexto)
+    {
+        this._contextoUsuario = contexto;
+    }
+
+    /// <summary>
+    /// Obtiene el contexto de ejecución del usuario en sesión
+    /// </summary>
+    /// <returns></returns>
+    public ContextoUsuario? ObtieneContextoUsuarioAPI()
+    {
+        return this._contextoUsuario;
+    }
+
 }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.

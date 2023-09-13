@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace pika.comun.metadatos;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-namespace pika.comun.metadatos
-{
+/// <summary>
+/// DEfine un elmento para el tipo lista de metadatos
+/// </summary>
     public class ElementoLista
     {
         /// <summary>
@@ -16,7 +14,9 @@ namespace pika.comun.metadatos
         /// <summary>
         /// Texto para despliegue humano del elemento
         /// </summary>
+
         public string Nombre { get; set; }
+
 
         /// <summary>
         /// Valor crudo del elemento
@@ -28,4 +28,5 @@ namespace pika.comun.metadatos
         /// </summary>
         public int Posicion { get; set; }
     }
-}
+
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

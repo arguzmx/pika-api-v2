@@ -13,7 +13,7 @@ public interface IServicioCatalogoAPI
     /// <summary>
     /// Especifica si el servicio require autenticacion
     /// </summary>
-    public bool RequiereAutenticacion { get; set; }
+    public bool RequiereAutenticacion { get; }
 
     /// <summary>
     /// Establece el contexto de ejecución del usuario 
@@ -78,11 +78,51 @@ public interface IServicioCatalogoAPI
     /// Devuelve la lista de idiomas disponibles para el catálogo
     /// </summary>
     /// <returns></returns>
-    List<string> Idiomas();
+    Task<List<string>> Idiomas();
 
     /// <summary>
     /// Lista de elementos del catálogo por defecto, sirve para poblar el repositorio inicial
     /// </summary>
     /// <returns></returns>
     List<ElementoCatalogo> ElementosDefault();
+
+    /// <summary>
+    /// Verifica si es posible actualizar una entrada del catálogo
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="actualizacion"></param>
+    /// <param name="original"></param>
+    /// <returns></returns>
+    Task<ResultadoValidacion> ValidarActualizar(string id, ElementoCatalogoActualizar actualizacion, ElementoCatalogo original);
+    
+    
+    /// <summary>
+    /// Verifica que pueda eliminarse una eliminarse una entrada del catálogo
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="original"></param>
+    /// <returns></returns>
+    Task<ResultadoValidacion> ValidarEliminacion(string id, ElementoCatalogo original);
+    
+    /// <summary>
+    /// Verifica si es p osible insertar un elemento de catálogo
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    Task<ResultadoValidacion> ValidarInsertar(ElementoCatalogoInsertar data);
+    
+    /// <summary>
+    /// Convierte a una entidad complete desde la inserción
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    ElementoCatalogo ADTOFull(ElementoCatalogoInsertar data);
+
+    /// <summary>
+    /// Convierte a una entidad complete desde la actualización
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="elemento"></param>
+    /// <returns></returns>
+    ElementoCatalogo ADTOFull(ElementoCatalogoActualizar data, ElementoCatalogo elemento);
 }

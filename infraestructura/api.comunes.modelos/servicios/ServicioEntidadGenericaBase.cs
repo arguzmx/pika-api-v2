@@ -28,9 +28,10 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     protected ContextoUsuario? _contextoUsuario;
     protected ILogger _logger;
 
-    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull) {
+    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull, ILogger logger) {
         _dbSetFull = dbSetFull;
         _db = db;
+        _logger = logger;
     }
 
     public JsonSerializerOptions JsonAPIDefaults()
@@ -42,127 +43,185 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     {
         var respuesta = new RespuestaPayload<DTODespliegue>();
 
-        var resultadoValidacion = await ValidarInsertar(data);
-        if (resultadoValidacion.Valido)
+        try
         {
-            var entidad = ADTOFull(data);
-            _dbSetFull.Add(entidad);
-            await _db.SaveChangesAsync();
+            var resultadoValidacion = await ValidarInsertar(data);
+            if (resultadoValidacion.Valido)
+            {
+                var entidad = ADTOFull(data);
+                _dbSetFull.Add(entidad);
+                await _db.SaveChangesAsync();
+                
+                respuesta.Ok = true;
+                respuesta.HttpCode = HttpCode.Ok;
+                respuesta.Payload = ADTODespliegue(entidad);
+            }
+            else
+            {
+                respuesta.Error = resultadoValidacion.Error;
+                respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
 
-            respuesta.HttpCode = HttpCode.Ok;
-            respuesta.Payload = ADTODespliegue( entidad);
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
         }
-        else
-        {
-            respuesta.Error = resultadoValidacion.Error;
-            respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
-        }
+        
         return respuesta;
     }
 
     public virtual async Task<Respuesta> Actualizar(string id, DTOUpdate data)
     {
         var respuesta = new Respuesta();
-
-        if (string.IsNullOrEmpty(id) || data == null)
+        try
         {
-            respuesta.HttpCode = HttpCode.BadRequest;
-            return respuesta;
-        }
+            if (string.IsNullOrEmpty(id) || data == null)
+            {
+                respuesta.HttpCode = HttpCode.BadRequest;
+                return respuesta;
+            }
 
-        DTOFull actual = _dbSetFull.Find(id);
-        if (actual == null)
+            DTOFull actual = _dbSetFull.Find(id);
+            if (actual == null)
+            {
+                respuesta.HttpCode = HttpCode.NotFound;
+                return respuesta;
+            }
+
+            var resultadoValidacion = await ValidarActualizar(id, data, actual);
+            if (resultadoValidacion.Valido)
+            {
+                var entidad = ADTOFull(data, actual);
+                _dbSetFull.Update(entidad);
+                await _db.SaveChangesAsync();
+
+                respuesta.Ok = true;
+                respuesta.HttpCode = HttpCode.Ok;
+            }
+            else
+            {
+                respuesta.Error = resultadoValidacion.Error;
+                respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+            }
+
+        }
+        catch (Exception ex)
         {
-            respuesta.HttpCode = HttpCode.NotFound;
-            return respuesta;
-        }
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
 
-        var resultadoValidacion = await ValidarActualizar(id, data, actual);
-        if (resultadoValidacion.Valido)
-        {
-            var entidad = ADTOFull(data, actual);
-            _dbSetFull.Update(entidad);
-            await _db.SaveChangesAsync();
-
-            respuesta.HttpCode = HttpCode.Ok;
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
         }
-        else
-        {
-            respuesta.Error = resultadoValidacion.Error;
-            respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
-        }
-
+     
         return respuesta;
     }
 
     public virtual async Task<Respuesta> Eliminar(string id)
     {
         var respuesta = new Respuesta();
-
-        if (string.IsNullOrEmpty(id))
-        {
-            respuesta.HttpCode = HttpCode.BadRequest;
-            return respuesta;
-        }
-
-        DTOFull actual = _dbSetFull.Find(id);
-        if (actual == null)
-        {
-            respuesta.HttpCode = HttpCode.NotFound;
-            return respuesta;
-        }
-
-        var resultadoValidacion = await ValidarEliminacion(id, actual);
-        if (resultadoValidacion.Valido)
+        try
         {
 
-            _dbSetFull.Remove(actual);
-            await _db.SaveChangesAsync();
+            if (string.IsNullOrEmpty(id))
+            {
+                respuesta.HttpCode = HttpCode.BadRequest;
+                return respuesta;
+            }
 
-            respuesta.HttpCode = HttpCode.Ok;
+            DTOFull actual = _dbSetFull.Find(id);
+            if (actual == null)
+            {
+                respuesta.HttpCode = HttpCode.NotFound;
+                return respuesta;
+            }
+
+            var resultadoValidacion = await ValidarEliminacion(id, actual);
+            if (resultadoValidacion.Valido)
+            {
+
+                _dbSetFull.Remove(actual);
+                await _db.SaveChangesAsync();
+
+                respuesta.Ok = true;
+                respuesta.HttpCode = HttpCode.Ok;
+            }
+            else
+            {
+                respuesta.Error = resultadoValidacion.Error;
+                respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            respuesta.Error = resultadoValidacion.Error;
-            respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
-        }
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
 
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
+        }
         return respuesta;
     }
 
     public virtual async Task<RespuestaPayload<DTOFull>> UnicaPorId(string id)
     {
         var respuesta = new RespuestaPayload<DTOFull>();
-        DTOFull actual = await _dbSetFull.FindAsync(id);
-        if (actual == null)
+        try
         {
-            respuesta.HttpCode = HttpCode.NotFound;
-            return respuesta;
+            DTOFull actual = await _dbSetFull.FindAsync(id);
+            if (actual == null)
+            {
+                respuesta.HttpCode = HttpCode.NotFound;
+                return respuesta;
+            }
+
+            respuesta.Ok = true;
+            respuesta.HttpCode = HttpCode.Ok;
+            respuesta.Payload = actual;
         }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
 
-        respuesta.HttpCode = HttpCode.Ok;
-        respuesta.Payload = actual;
-
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
+        }
         return respuesta;
     }
 
     public virtual async Task<RespuestaPayload<PaginaGenerica<DTOFull>>> Pagina(Consulta consulta)
     {
         RespuestaPayload<PaginaGenerica<DTOFull>> respuesta = new();
-
-        var elementos = await _dbSetFull.ToListAsync();
-
-        PaginaGenerica<DTOFull> pagina = new()
+        try
         {
-            ConsultaId = Guid.NewGuid().ToString(),
-            Elementos = elementos,
-            Milisegundos = 0,
-            Paginado = new Paginado() { Indice = 0, Tamano = elementos.Count },
-            Total = elementos.Count
-        };
+            var elementos = await _dbSetFull.ToListAsync();
 
-        respuesta.Payload = pagina;
-        respuesta.Ok = true;
+            PaginaGenerica<DTOFull> pagina = new()
+            {
+                ConsultaId = Guid.NewGuid().ToString(),
+                Elementos = elementos,
+                Milisegundos = 0,
+                Paginado = new Paginado() { Indice = 0, Tamano = elementos.Count },
+                Total = elementos.Count
+            };
+
+            respuesta.Payload = pagina;
+            respuesta.Ok = true;
+            respuesta.HttpCode = HttpCode.Ok;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
+
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
+        }
         return respuesta;
     }
 
@@ -200,43 +259,67 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     public virtual async Task<RespuestaPayload<DTODespliegue>> UnicaPorIdDespliegue(string id)
     {
         RespuestaPayload<DTODespliegue> respuesta = new RespuestaPayload<DTODespliegue>();
-        var resultado = await UnicaPorId(id);
 
-        respuesta.Ok = resultado.Ok;
-
-        if (resultado.Ok)
+        try
         {
-            respuesta.Payload = ADTODespliegue((DTOFull)resultado.Payload);
-        }
+            var resultado = await UnicaPorId(id);
 
+            respuesta.Ok = resultado.Ok;
+
+            if (resultado.Ok)
+            {
+                respuesta.Payload = ADTODespliegue((DTOFull)resultado.Payload);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
+
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
+        }
         return respuesta;
     }
 
     public virtual async Task<RespuestaPayload<PaginaGenerica<DTODespliegue>>> PaginaDespliegue(Consulta consulta)
     {
         RespuestaPayload<PaginaGenerica<DTODespliegue>> respuesta = new RespuestaPayload<PaginaGenerica<DTODespliegue>>();
-        var resultado = await Pagina(consulta);
 
-        respuesta.Ok = resultado.Ok;
-
-        if (resultado.Ok)
+        try
         {
-            PaginaGenerica<DTODespliegue> pagina = new()
-            {
-                ConsultaId = Guid.NewGuid().ToString(),
-                Elementos = new List<DTODespliegue>(),
-                Milisegundos = 0,
-                Paginado = new Paginado() { Indice = 0, Tamano = ((PaginaGenerica<DTOFull>)resultado.Payload).Paginado.Tamano },
-                Total = ((PaginaGenerica<DTOFull>)resultado.Payload).Total
-            };
+            var resultado = await Pagina(consulta);
 
-            foreach (DTOFull item in ((PaginaGenerica<DTOFull>)resultado.Payload).Elementos)
+            respuesta.Ok = resultado.Ok;
+
+            if (resultado.Ok)
             {
-                pagina.Elementos.Add(ADTODespliegue(item));
+                PaginaGenerica<DTODespliegue> pagina = new()
+                {
+                    ConsultaId = Guid.NewGuid().ToString(),
+                    Elementos = new List<DTODespliegue>(),
+                    Milisegundos = 0,
+                    Paginado = new Paginado() { Indice = 0, Tamano = ((PaginaGenerica<DTOFull>)resultado.Payload).Paginado.Tamano },
+                    Total = ((PaginaGenerica<DTOFull>)resultado.Payload).Total
+                };
+
+                foreach (DTOFull item in ((PaginaGenerica<DTOFull>)resultado.Payload).Elementos)
+                {
+                    pagina.Elementos.Add(ADTODespliegue(item));
+                }
+                respuesta.Payload = pagina;
             }
-            respuesta.Payload = pagina;
-        }
 
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"{ex}");
+
+            respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+            respuesta.HttpCode = HttpCode.ServerError;
+        }
+      
         return respuesta;
     }
 

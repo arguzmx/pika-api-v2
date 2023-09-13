@@ -6,9 +6,9 @@
 public class ConfiguracionAPIEntidades : IConfiguracionAPIEntidades
 {
 
-    private List<ServicioEntidadAPI> serviciosEntidad = null;
-    private List<ServicioEntidadAPI> serviciosCatalogoEntidad = null;
-    private List<string> rutasGenericas = null;
+    private List<ServicioEntidadAPI>? serviciosEntidad = null;
+    private List<ServicioEntidadAPI>? serviciosCatalogoEntidad = null;
+    private List<string>? rutasGenericas = null;
 
 
     public List<string> ObtieneRutasControladorGenerico()
@@ -28,7 +28,7 @@ public class ConfiguracionAPIEntidades : IConfiguracionAPIEntidades
     {
         if (serviciosCatalogoEntidad == null)
         {
-            serviciosCatalogoEntidad = IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
+            serviciosCatalogoEntidad = IntrospeccionEnsamblados.ObtienesServiciosICatalogoAPI();
         }
         return serviciosCatalogoEntidad;
     }
@@ -51,6 +51,7 @@ public class ConfiguracionAPIEntidades : IConfiguracionAPIEntidades
     /// </summary>
     public void RecargarServicios()
     {
+        serviciosCatalogoEntidad = IntrospeccionEnsamblados.ObtienesServiciosICatalogoAPI();
         serviciosEntidad = IntrospeccionEnsamblados.ObtienesServiciosIEntidadAPI();
     }
 }

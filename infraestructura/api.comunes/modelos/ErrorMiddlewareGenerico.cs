@@ -18,7 +18,7 @@ public class ErrorMiddlewareGenerico
     /// </summary>
     public const string ERROR_SIN_AUTENTICACION_BEARER = "ERROR_SIN_AUTENTICACION_BEARER";
 
-    public string Entidad { get; set; }
+    public string? Entidad { get; set; }
     public int HttpCode { get; set; }
-    public string Error { get; set; }
+    public string? Error { get; set; }
 }

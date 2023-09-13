@@ -49,14 +49,15 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     /// </summary>
     /// <param name="idioma">otro posible valor para el idioma</param>
     /// <returns></returns>
-    private string? IdiomaCatalogo(string? idioma)
+    private async Task<string?> IdiomaCatalogo(string? idioma)
     {
 
         string? i = idioma ?? Idioma();
         
         if(!string.IsNullOrEmpty(i))
         {
-            if(!catalogoAPI.Idiomas().Contains(i, StringComparer.InvariantCultureIgnoreCase))
+            var idiomas = await catalogoAPI.Idiomas();
+            if (!idiomas.Contains(i, StringComparer.InvariantCultureIgnoreCase))
             {
                 // Si el idioma no esta en la lista se hace null para asiganr el default
                 i = null;
@@ -88,7 +89,7 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
     public async Task<ActionResult<List<ParClaveTexto>>> ObtieneCatalogo(string entidad, [FromQuery(Name = "idioma")] string? idioma, [FromQuery(Name = "buscar")] string? buscar, [FromHeader(Name = DOMINIOHEADER)] string? dominioId, [FromHeader(Name = UORGHEADER)] string? uOrgID)
     {
-        string? idiomaCatalogo = IdiomaCatalogo(idioma);
+        string? idiomaCatalogo = await IdiomaCatalogo(idioma);
         if(string.IsNullOrEmpty(idiomaCatalogo))
         {
             return NotFound();
@@ -97,10 +98,10 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
         RespuestaPayload<List<ParClaveTexto>>? response;
         if (!string.IsNullOrEmpty(buscar))
         {
-            response = await catalogoAPI.PorTexto(IdiomaCatalogo(idioma), buscar);
+            response = await catalogoAPI.PorTexto(idiomaCatalogo, buscar);
         } else
         {
-            response = await catalogoAPI.Todo(IdiomaCatalogo(idioma));
+            response = await catalogoAPI.Todo(idiomaCatalogo);
         }
         
         if (response.Ok)
@@ -204,9 +205,9 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 404, description: "Elemento de catálogo inexistente")]
     [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
-    public ActionResult<List<ParClaveTexto>> ObtieneIdiomasCatalogo(string entidad, [FromHeader(Name = DOMINIOHEADER)] string? dominioId, [FromHeader(Name = UORGHEADER)] string? uOrgID)
+    public async Task< ActionResult<List<ParClaveTexto>>> ObtieneIdiomasCatalogo(string entidad, [FromHeader(Name = DOMINIOHEADER)] string? dominioId, [FromHeader(Name = UORGHEADER)] string? uOrgID)
     {
-        List<string> response = catalogoAPI.Idiomas();
+        List<string> response = await catalogoAPI.Idiomas();
         return Ok(response);
         
     }

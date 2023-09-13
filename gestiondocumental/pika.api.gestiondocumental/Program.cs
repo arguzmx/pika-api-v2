@@ -26,10 +26,6 @@ namespace pika.api.gestiondocumental
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("pika-gestiondocumental");
-            builder.Services.AddDbContext<PIKADbContext>(options =>
-            {
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-            });
 
             builder.Services.AddDbContext<DbContextGestionDocumental>(options =>
             {

@@ -30,6 +30,7 @@
     <Folder Include="acervo\" />
     <Folder Include="cuadrosclasificacion\" />
     <Folder Include="data\" />
+    <Folder Include="data\migrations\" />
     <Folder Include="prestamo\" />
     <Folder Include="topologia\" />
     <Folder Include="transferencias\" />

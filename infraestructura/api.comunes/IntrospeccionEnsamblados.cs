@@ -9,6 +9,7 @@ namespace api.comunes;
 /// <summary>
 /// Mantiene las funciones comunes de introspeccion de ensamblados para las API genericas
 /// </summary>
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 public static class IntrospeccionEnsamblados
 {
     /// <summary>
@@ -17,7 +18,9 @@ public static class IntrospeccionEnsamblados
     /// <returns></returns>
     public static string ObtieneRutaBin()
     {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         return new FileInfo(Assembly.GetEntryAssembly().Location).Directory.FullName;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 
     public static List<string> OntieneRutasControladorGenrico()
@@ -46,6 +49,7 @@ public static class IntrospeccionEnsamblados
                         switch (att)
                         {
                             case HttpGetAttribute get:
+
                                 template = ((HttpGetAttribute)att).Template;
                                 break;
 
@@ -76,18 +80,15 @@ public static class IntrospeccionEnsamblados
         }
         return rutas;
     }
-        
-
-
 
 
     /// <summary>
     /// Devuelve una lista de las clases que implementan IEntidadAPI
     /// </summary>
     /// <returns></returns>
-    public static List<ServicioEntidadAPI> ObtienesServiciosIEntidadAPI()
+    public static List<ServicioEntidadAPI> ObtienesServiciosICatalogoAPI()
     {
-        List<ServicioEntidadAPI> l = new ();
+        List<ServicioEntidadAPI> l = new();
         string Ruta = ObtieneRutaBin();
 
         var assemblies = Directory.GetFiles(Ruta, "*.dll", new EnumerationOptions() { RecurseSubdirectories = true });
@@ -106,12 +107,65 @@ public static class IntrospeccionEnsamblados
                 foreach (var t in Tipos)
                 {
                     var atributoAPI = t.GetCustomAttribute(typeof(ServicioCatalogoEntidadAPIAttribute));
+                    if (atributoAPI != null)
+                    {
+                        FileInfo fi = new FileInfo(ensamblado);
+                        ServicioEntidadAPI s = new()
+                        {
+                            NombreEnsamblado = t.FullName,
+                            NombreRuteo = ((ServicioCatalogoEntidadAPIAttribute)atributoAPI).Entidad.Name,
+                            Ruta = ensamblado
+                        };
+                        l.Add(s);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex}");
+            }
+        }
+
+        l.ForEach(i =>
+        {
+            Console.WriteLine($"{JsonSerializer.Serialize(i)}");
+        });
+
+        return l;
+    }
+
+
+    /// <summary>
+    /// Devuelve una lista de las clases que implementan IEntidadAPI
+    /// </summary>
+    /// <returns></returns>
+    public static List<ServicioEntidadAPI> ObtienesServiciosIEntidadAPI()
+    {
+        List<ServicioEntidadAPI> l = new ();
+        string Ruta = ObtieneRutaBin();
+
+        var assemblies = Directory.GetFiles(Ruta, "*.dll", new EnumerationOptions() { RecurseSubdirectories = true });
+
+        foreach (var ensamblado in assemblies.Where(s=>s.Contains("pika.servicios.gestiondocumental.")))
+        {
+            try
+            {
+                var assembly = Assembly.LoadFile(ensamblado);
+                var Tipos = assembly.GetTypes()
+                        .Where(t =>
+                        !t.IsAbstract &&
+                        typeof(IServicioEntidadAPI).IsAssignableFrom(t))
+                        .ToArray();
+
+                foreach (var t in Tipos)
+                {
+                    var atributoAPI = t.GetCustomAttribute(typeof(ServicioEntidadAPIAttribute));
                     if (atributoAPI!=null) {
                         FileInfo fi = new FileInfo(ensamblado);
                         ServicioEntidadAPI s = new ()
                         {
                             NombreEnsamblado = t.FullName,
-                            NombreRuteo = ((ServicioCatalogoEntidadAPIAttribute)atributoAPI).Entidad.Name,
+                            NombreRuteo = ((ServicioEntidadAPIAttribute)atributoAPI).Entidad.Name,
                             Ruta  = ensamblado
                         };
                         l.Add (s);
@@ -132,3 +186,4 @@ public static class IntrospeccionEnsamblados
         return l;
     }
 }
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.

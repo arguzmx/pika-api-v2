@@ -1,21 +1,11 @@
-﻿using System.Runtime.InteropServices;
-
+﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 namespace pika.modelo.gestiondocumental
 {
     //public class Activo : Entidad<string>, IEntidadRelacionada, IEntidadIdElectronico,
     //IEntidadEliminada, IEntidadReportes
+
     public class Activo
     {
-        public Activo()
-        {
-            //TipoOrigenId = TipoOrigenDefault;
-            //HistorialArchivosActivo = new HashSet<HistorialArchivoActivo>();
-            //Ampliaciones = new HashSet<Ampliacion>();
-            //PrestamosRelacionados = new HashSet<ActivoPrestamo>();
-            //TransferenciasRelacionados = new HashSet<ActivoTransferencia>();
-            //this.Reportes = new List<IProveedorReporte>();
-            //this.Reportes.Add(new ReporteCaratulaActivo());
-        }
 
         /// <summary>
         /// Identificador único del activo, se genera al insertar
@@ -27,8 +17,9 @@ namespace pika.modelo.gestiondocumental
         /// Identificador único del cuadro de clasificación, 
         /// Este se llena del lado del servidor
         /// </summary>
+
         public string CuadroClasificacionId { get; set; }
-        // [I] [A]
+                              // [I] [A]
 
         /// <summary>
         /// Identificador único de la serie doccumental
@@ -255,3 +246,4 @@ namespace pika.modelo.gestiondocumental
         //public UnidadAdministrativaArchivo UnidadAdministrativa { get; set; }
     }
 }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

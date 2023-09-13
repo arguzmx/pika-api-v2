@@ -1,4 +1,6 @@
 ﻿using pika.comun.metadatos.atributos;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace pika.modelo.gestiondocumental
 {
@@ -39,7 +41,16 @@ namespace pika.modelo.gestiondocumental
         /// <summary>
         /// Tipo de archivo del catálogo
         /// </summary>
-        [UsoCatalogo(idCatelogo: nameof(TipoArchivo))]
+        [UsoCatalogo(idCatalogo: nameof(TipoArchivo))]
         public string TipoArchivoId { get; set; }
+
+
+        /// <summary>
+        /// Propiedades de navegacion
+        /// </summary>
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public TipoArchivo TipoArchivo { get; set; }
     }
 }
