@@ -29,12 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.comunes.modelos", "infr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mysql.comunes", "infraestructura\mysql.comunes\mysql.comunes.csproj", "{709EF50B-E4D2-4D35-B585-6C20819AE4FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.templates", "pika.templates\pika.templates.csproj", "{A9404CEB-8A34-4A0E-81CA-806E66BBF9CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4Utilities", "T4Utilities\T4Utilities.csproj", "{4BE6EEDC-EDC3-4C27-A41B-4BD3632D6E6B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlantillasT4", "PlantillasT4", "{A21CADE8-23F1-4BA3-BCCB-7DDA27F8710B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,14 +71,6 @@ Global
 		{709EF50B-E4D2-4D35-B585-6C20819AE4FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{709EF50B-E4D2-4D35-B585-6C20819AE4FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{709EF50B-E4D2-4D35-B585-6C20819AE4FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9404CEB-8A34-4A0E-81CA-806E66BBF9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9404CEB-8A34-4A0E-81CA-806E66BBF9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9404CEB-8A34-4A0E-81CA-806E66BBF9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9404CEB-8A34-4A0E-81CA-806E66BBF9CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4BE6EEDC-EDC3-4C27-A41B-4BD3632D6E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4BE6EEDC-EDC3-4C27-A41B-4BD3632D6E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4BE6EEDC-EDC3-4C27-A41B-4BD3632D6E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BE6EEDC-EDC3-4C27-A41B-4BD3632D6E6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,8 +85,6 @@ Global
 		{9C6370EF-97C4-430B-A13D-69F2E58891ED} = {198602A7-7F07-4FC6-927C-C574361CA9A0}
 		{F10C2F66-3616-447D-825A-3CEAEC229C95} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
 		{709EF50B-E4D2-4D35-B585-6C20819AE4FA} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
-		{A9404CEB-8A34-4A0E-81CA-806E66BBF9CE} = {A21CADE8-23F1-4BA3-BCCB-7DDA27F8710B}
-		{4BE6EEDC-EDC3-4C27-A41B-4BD3632D6E6B} = {A21CADE8-23F1-4BA3-BCCB-7DDA27F8710B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5708F7F9-1C1E-462C-9F2C-661078716A4D}
