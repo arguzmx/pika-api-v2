@@ -1,0 +1,30 @@
+﻿namespace pika.modelo.gestiondocumental
+{
+    // public class TransferenciaValidador : AbstractValidator<Transferencia>
+    public class TransferenciaValidador 
+    {
+        public TransferenciaValidador(/*IStringLocalizer<Transferencia> localizer*/)
+        {
+            /*
+            RuleFor(x => x.Nombre)
+                .NotNull().WithMessage(x => localizer["El nombre es obligatorio"])
+                .NotEmpty().WithMessage(x => localizer["El nombre es obligatorio"])
+                .MinimumLength(1).WithMessage(x => localizer["El nombre debe tener entre {0} y {1} caracteres", 1, LongitudDatos.Nombre])
+                .MaximumLength(LongitudDatos.Nombre).WithMessage(x => localizer["El nombre debe tener entre {0} y {1} caracteres", 1, LongitudDatos.Nombre]);
+
+
+            RuleFor(x => x.ArchivoOrigenId)
+                .NotNull().WithMessage(x => localizer["El archivo origen es obligatorio"])
+                .NotEmpty().WithMessage(x => localizer["El archivo  origen es obligatorio"])
+                .MinimumLength(1).WithMessage(x => localizer["El archivo origen  debe tener entre {0} y {1} caracteres", 1, LongitudDatos.GUID])
+                .MaximumLength(LongitudDatos.GUID).WithMessage(x => localizer["El archivo origen debe tener entre {0} y {1} caracteres", 1, LongitudDatos.GUID]);
+
+            RuleFor(x => x.ArchivoDestinoId)
+                .NotNull().WithMessage(x => localizer["El archivo destino es obligatorio"])
+                .NotEmpty().WithMessage(x => localizer["El archivo  destino es obligatorio"])
+                .MinimumLength(1).WithMessage(x => localizer["El archivo destino  debe tener entre {0} y {1} caracteres", 1, LongitudDatos.GUID])
+                .MaximumLength(LongitudDatos.GUID).WithMessage(x => localizer["El archivo destino debe tener entre {0} y {1} caracteres", 1, LongitudDatos.GUID]);
+            */
+        }
+    }
+}

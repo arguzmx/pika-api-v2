@@ -1,4 +1,4 @@
-﻿using api.comunes.consultas.dto;
+﻿using api.comunes.modelos.modelos;
 using Microsoft.AspNetCore.Mvc;
 using pika.api.metadatos.mock;
 using pika.comun.metadatos;
@@ -40,12 +40,12 @@ namespace pika.api.metadatos.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<Pagina<EntidadMock>>> MetadatosEntidad([FromBody] Consulta consulta)
+        public async Task<ActionResult<PaginaGenerica<EntidadMock>>> MetadatosEntidad([FromBody] Consulta consulta)
         {
             var e = servicioMock.LaLista().Skip(consulta.Paginado.Indice * consulta.Paginado.Tamano).
                 Take(consulta.Paginado.Tamano).ToList();
 
-            Pagina<EntidadMock> p = new Pagina<EntidadMock>()
+            PaginaGenerica<EntidadMock> p = new PaginaGenerica<EntidadMock>()
             {
                 ConsultaId = "001",
                 Elementos = e,
@@ -82,102 +82,6 @@ namespace pika.api.metadatos.Controllers
             c.HabilitadoEditar = false;
             e.Propiedades.Add(c);
 
-            e.I18n = new List<comun.metadatos.i18n.I18n>();
-            e.I18n.Add(new comun.metadatos.i18n.I18n()
-            {
-                Idioma = "es",
-                 Traducciones  = new List<comun.metadatos.i18n.ElementoI18n>()
-                 {
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "id", Traduccion = "Identificador único"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idLogico", Traduccion = "Campo lógiso"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idListaSeleccionSimple", Traduccion = "Campo lista simple"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idFecha", Traduccion = "Campo fecha"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idFechaHora", Traduccion = "Campo fecha/hora"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idEntero", Traduccion = "Campo entero"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idDecimal", Traduccion = "Campo decimal"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idListaSeleccionMultiple", Traduccion = "Campo lista múltiple"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idTexto", Traduccion = "Campo texto"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idTextoIndexado", Traduccion = "Campo texto indexado"
-                     }
-                 }
-            });
-
-            e.I18n.Add(new comun.metadatos.i18n.I18n()
-            {
-                Idioma = "en",
-                Traducciones = new List<comun.metadatos.i18n.ElementoI18n>()
-                 {
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "id", Traduccion = "* Identificador único"
-                     },
-                    new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idLogico", Traduccion = "* Campo lógico"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idListaSeleccionSimple", Traduccion = "* Campo lista simple"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idFecha", Traduccion = "* Campo fecha"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idFechaHora", Traduccion = "* Campo fecha/hora"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idEntero", Traduccion = "* Campo entero"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idDecimal", Traduccion = "* Campo decimal"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idListaSeleccionMultiple", Traduccion = "* Campo lista múltiple"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idTexto", Traduccion = "* Campo texto"
-                     },
-                     new comun.metadatos.i18n.ElementoI18n()
-                     {
-                          Clave = "idTextoIndexado", Traduccion = "* Campo texto indexado"
-                     }
-                 }
-            });
 
             return e;
         }

@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.16">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.16">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\infraestructura\api.comunes.modelos\api.comunes.modelos.csproj" />
+    <ProjectReference Include="..\pika.modelo.gestiondocumental\pika.modelo.gestiondocumental.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="acervo\" />
+    <Folder Include="cuadrosclasificacion\" />
+    <Folder Include="data\" />
+    <Folder Include="data\migrations\" />
+    <Folder Include="prestamo\" />
+    <Folder Include="topologia\" />
+    <Folder Include="transferencias\" />
+    <Folder Include="validadores\" />
+    <Folder Include="temas\" />
+    <Folder Include="seguridad\" />
+    <Folder Include="reporte\" />
+  </ItemGroup>
+
+</Project>
