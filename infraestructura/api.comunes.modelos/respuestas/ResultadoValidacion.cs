@@ -6,9 +6,9 @@
 public class ResultadoValidacion
 {
     /// <summary>
-    /// Validación exitosa
+    /// Validación exitosa, se estbalce por defecto como false
     /// </summary>
-    public bool Valido { get; set; }
+    public bool Valido { get; set; } = false;
 
     /// <summary>
     /// Error de validación principal

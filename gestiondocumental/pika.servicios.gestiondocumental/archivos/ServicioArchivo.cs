@@ -2,6 +2,7 @@
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pika.comun.metadatos;
 using pika.modelo.gestiondocumental;
@@ -24,6 +25,8 @@ namespace pika.servicios.gestiondocumental.archivos
         public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger) : base (context, context.Archivos, logger)
         {
         }
+
+        private DbContextGestionDocumental DB { get { return (DbContextGestionDocumental)_db; } }
 
         public bool RequiereAutenticacion => true;
 
@@ -108,20 +111,81 @@ namespace pika.servicios.gestiondocumental.archivos
 
 
 
-        public override  Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
+        public override async Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
         {
-            return Task.FromResult(new ResultadoValidacion() { Valido = true });
+            ResultadoValidacion resultado = new ();
+            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+                    && a.DominioId == _contextoUsuario.DominioId
+                    && a.Nombre.Equals(data.Nombre, StringComparison.InvariantCultureIgnoreCase));
+
+            if (encontrado)
+            {
+                resultado.Error = new ErrorProceso()
+                {
+                    HttpCode = HttpCode.Conflict,
+                    Codigo = "DUPLICADO",
+                    Propiedad = "Nombre",
+                    Mensaje = "El nombre se encuentra duplicado en el dominio"
+                };
+
+            } else
+            {
+                resultado.Valido = true;
+            }
+
+            return resultado;
         }
 
-        public override Task<ResultadoValidacion> ValidarEliminacion(string id, Archivo original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Archivo original)
         {
-            return Task.FromResult(new ResultadoValidacion() { Valido = true });
+            ResultadoValidacion resultado = new();
+            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+                    && a.DominioId == _contextoUsuario.DominioId
+                    && a.Id == id);
+
+            if(!encontrado)
+            {
+                resultado.Error = new ErrorProceso()
+                {
+                    HttpCode = HttpCode.NotFound,
+                    Codigo = "INEXISTENTE",
+                    Propiedad = "id",
+                    Mensaje = "El elemento no fue localizado"
+                };
+
+            } else
+            {
+                resultado.Valido = true;
+            }
+
+            return resultado;
         }
 
 
-        public override Task<ResultadoValidacion> ValidarActualizar(string id, ArchivoActualizar actualizacion, Archivo original)
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, ArchivoActualizar actualizacion, Archivo original)
         {
-            return Task.FromResult(new ResultadoValidacion() { Valido = true });
+            ResultadoValidacion resultado = new();
+            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+                    && a.DominioId == _contextoUsuario.DominioId
+                    && a.Id == id);
+
+            if (!encontrado)
+            {
+                resultado.Error = new ErrorProceso()
+                {
+                    HttpCode = HttpCode.NotFound,
+                    Codigo = "INEXISTENTE",
+                    Propiedad = "id",
+                    Mensaje = "El elemento no fue localizado"
+                };
+
+            }
+            else
+            {
+                resultado.Valido = true;
+            }
+
+            return resultado;
         }
 
 
