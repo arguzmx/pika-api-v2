@@ -26,7 +26,12 @@ namespace pika.servicios.gestiondocumental.archivos
         {
         }
 
+
+        /// <summary>
+        /// Acceso al repositorio de gestipon documental local
+        /// </summary>
         private DbContextGestionDocumental DB { get { return (DbContextGestionDocumental)_db; } }
+
 
         public bool RequiereAutenticacion => true;
 
@@ -110,6 +115,7 @@ namespace pika.servicios.gestiondocumental.archivos
         }
 
 
+        #region Overrides para la personalziación de la entidad Archivo
 
         public override async Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
         {
@@ -120,13 +126,7 @@ namespace pika.servicios.gestiondocumental.archivos
 
             if (encontrado)
             {
-                resultado.Error = new ErrorProceso()
-                {
-                    HttpCode = HttpCode.Conflict,
-                    Codigo = "DUPLICADO",
-                    Propiedad = "Nombre",
-                    Mensaje = "El nombre se encuentra duplicado en el dominio"
-                };
+                resultado.Error = "Nombre".ErrorProcesoDuplicado();
 
             } else
             {
@@ -135,6 +135,7 @@ namespace pika.servicios.gestiondocumental.archivos
 
             return resultado;
         }
+
 
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Archivo original)
         {
@@ -145,13 +146,7 @@ namespace pika.servicios.gestiondocumental.archivos
 
             if(!encontrado)
             {
-                resultado.Error = new ErrorProceso()
-                {
-                    HttpCode = HttpCode.NotFound,
-                    Codigo = "INEXISTENTE",
-                    Propiedad = "id",
-                    Mensaje = "El elemento no fue localizado"
-                };
+                resultado.Error = "id".ErrorProcesoNoEncontrado();
 
             } else
             {
@@ -171,18 +166,25 @@ namespace pika.servicios.gestiondocumental.archivos
 
             if (!encontrado)
             {
-                resultado.Error = new ErrorProceso()
-                {
-                    HttpCode = HttpCode.NotFound,
-                    Codigo = "INEXISTENTE",
-                    Propiedad = "id",
-                    Mensaje = "El elemento no fue localizado"
-                };
+                resultado.Error = "id".ErrorProcesoNoEncontrado();
 
             }
             else
             {
-                resultado.Valido = true;
+
+                bool duplicado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+                    && a.DominioId == _contextoUsuario.DominioId
+                    && a.Id != id 
+                    && a.Nombre.Equals( actualizacion.Nombre, StringComparison.InvariantCultureIgnoreCase));
+
+                if (duplicado)
+                {
+                    resultado.Error = "Nombre".ErrorProcesoDuplicado();
+
+                } else
+                {
+                    resultado.Valido = true;
+                }
             }
 
             return resultado;
@@ -218,6 +220,8 @@ namespace pika.servicios.gestiondocumental.archivos
             };
             return archivo;
         }
+
+        #endregion
     }
 }
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.

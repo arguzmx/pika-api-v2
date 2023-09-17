@@ -1,5 +1,6 @@
 ﻿using api.comunes.modelos.modelos;
 using api.comunes.modelos.reflectores;
+using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
@@ -25,5 +26,27 @@ namespace pika.servicios.gestiondocumental.archivos
 
             };
         }
+
+        #region Override
+
+        private DbContextGestionDocumental DB { get { return (DbContextGestionDocumental)_db; } }
+
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, ElementoCatalogo original)
+        {
+            ResultadoValidacion resultado = new ();
+            
+            // Verifica que el Id no esté en uso en la tabla de Archivos
+            if (DB.Archivos.Any(
+                a=>a.TipoArchivoId == id
+                && a.DominioId == _contextoUsuario.DominioId
+                && a.UOrgId == _contextoUsuario.UOrgId))
+            {
+
+            }
+
+            return resultado;
+        }
+
+        #endregion
     }
 }

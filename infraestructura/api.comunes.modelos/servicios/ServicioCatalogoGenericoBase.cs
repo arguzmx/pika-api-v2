@@ -71,7 +71,7 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"LLamada Todo {ex.Message}");
             _logger.LogError($"{ex}");
 
             respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
@@ -113,7 +113,7 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"LLamada  PorTexto {ex.Message}");
             _logger.LogError($"{ex}");
 
             respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
@@ -153,7 +153,7 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"LLamada CreaEntrada {ex.Message}");
             _logger.LogError($"{ex}");
 
             respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
@@ -177,7 +177,8 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
 
             if (elemento == null)
             {
-                return ElementoNoEncontrado(id);
+                respuesta.Error = "id".ErrorProcesoNoEncontrado();
+                return respuesta;
             }
 
             var resultado = await ValidarEliminacion(id, elemento);
@@ -200,7 +201,7 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"LLamada  EliminaEntrada {ex.Message}");
             _logger.LogError($"{ex}");
 
             respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
@@ -228,7 +229,8 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
 
             if (elemento == null)
             {
-                return ElementoNoEncontrado(id);
+                respuesta.Error = "id".ErrorProcesoNoEncontrado();
+                return respuesta;
             }
 
             var resultadoValidacion = await ValidarActualizar(id, elementoActualizar, elemento);
@@ -249,7 +251,7 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Insertar {ex.Message}");
+            _logger.LogError($"LLamada ActualizaEntrada {ex.Message}");
             _logger.LogError($"{ex}");
 
             respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
@@ -260,25 +262,6 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     }
 
 
-    /// <summary>
-    /// Error elemento no eocnontrado
-    /// </summary>
-    /// <returns></returns>
-    private Respuesta ElementoNoEncontrado (string id)
-    {
-        return new Respuesta()
-        {
-            HttpCode = HttpCode.NotFound,
-            Ok = false,
-            Error = new ErrorProceso()
-            {
-                Codigo = "NO_ENCONTRADO",
-                HttpCode = HttpCode.NotFound,
-                Mensaje = $"Elemento de catálogo no localizado {id}",
-                Propiedad = "Id"
-            }
-        };
-    }
 
     /// <summary>
     /// Devuelve la lista de idiomas disponibles para el catálogo
