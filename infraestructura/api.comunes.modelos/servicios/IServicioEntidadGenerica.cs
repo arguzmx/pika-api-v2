@@ -144,7 +144,7 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, DTODesp
     DTOFull ADTOFull(DTOInsert data);
 
     /// <summary>
-    /// Actualza un DTO vigente con lso datos de un DTO de actualizacion
+    /// Crea una entidad de actualización para un DTO Full vigente en el repositorio utilizando los datos de un DTO de actualizacion
     /// </summary>
     /// <param name="actualizacion"></param>
     /// <param name="actual"></param>

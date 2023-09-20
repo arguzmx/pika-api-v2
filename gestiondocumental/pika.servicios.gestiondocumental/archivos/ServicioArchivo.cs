@@ -101,7 +101,7 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public async Task<RespuestaPayload<object>> UnicaPorIdAPI(object id)
         {
-            var temp = await this.UnicaPorIdAPI((string)id);
+            var temp = await this.UnicaPorId((string)id);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
         }

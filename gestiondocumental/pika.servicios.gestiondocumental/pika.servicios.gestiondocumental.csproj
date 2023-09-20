@@ -40,4 +40,23 @@
     <Folder Include="reporte\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="InterfaceEntidadGenerica.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InterfaceEntidadGenerica.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="InterfaceEntidadGenerica.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InterfaceEntidadGenerica.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

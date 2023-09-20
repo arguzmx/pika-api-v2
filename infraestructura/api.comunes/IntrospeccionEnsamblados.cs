@@ -38,7 +38,7 @@ public static class IntrospeccionEnsamblados
                     typeof(ControladorEntidadGenerico).IsClass)
                     .FirstOrDefault();
 
-            if(Tipo != null)
+                
             {
                 var methods = Tipo.GetMethods();
                 foreach(var m in methods) {
