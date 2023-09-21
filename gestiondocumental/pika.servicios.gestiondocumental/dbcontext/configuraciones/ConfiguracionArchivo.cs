@@ -12,7 +12,7 @@ public class ConfiguracionArchivo : IEntityTypeConfiguration<Archivo>
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
-        builder.Property(e => e.Nombre).IsRequired();
+        builder.Property(e => e.Nombre).IsRequired().HasMaxLength(500);
         builder.Property(e => e.DominioId).IsRequired().HasMaxLength(128);
         builder.Property(e => e.UOrgId).IsRequired().HasMaxLength(128);
         builder.Property(e => e.TipoArchivoId).IsRequired().HasMaxLength(128);

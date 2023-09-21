@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace api.comunes.modelos.modelos;
+﻿namespace api.comunes.modelos.modelos;
 
 /// <summary>
 /// Clase base para la implementación de catálogos genéricos

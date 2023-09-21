@@ -18,6 +18,7 @@ namespace pika.modelo.gestiondocumental
         [Tabla(indice: 1, visible: false)]
         public string Id { get; set; }
         // [a] [d] 
+        // R 128
 
         /// <summary>
         /// Nombre del archivo
@@ -27,20 +28,23 @@ namespace pika.modelo.gestiondocumental
         [Tabla(indice: 1)]
         public string Nombre { get; set; }
         // [i] [a] [d] 
+        // R 500
 
         /// <summary>
         /// Dominio al que pertenece el archivo
         /// </summary>
         [Protegido]
         public string DominioId { get; set; }
-        //  
+        // Este valor simpre viene del contexto
+        // R 128
 
         /// <summary>
         /// Unidad organizacional a la que pertenece el archivo
         /// </summary>
         [Protegido]
         public string UOrgId { get; set; }
-        // 
+        //  Este valor simpre viene del contexto
+        // R 128
 
         /// <summary>
         /// Tipo de archivo del catálogo
@@ -48,6 +52,7 @@ namespace pika.modelo.gestiondocumental
         [UsoCatalogo(idCatalogo: nameof(TipoArchivo))]
         public string TipoArchivoId { get; set; }
         // [i] [a]
+        // R 128
 
         /// <summary>
         /// Propiedades de navegacion
