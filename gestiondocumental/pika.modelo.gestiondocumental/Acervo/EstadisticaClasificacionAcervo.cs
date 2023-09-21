@@ -42,6 +42,6 @@
 
         public EntradaClasificacion EntradaClasificacion { get; set; }
 
-        public UnidadAdministrativaArchivo UnidadAdministrativaArchivo { get; set; }
+        public UnidadAdministrativa UnidadAdministrativa { get; set; }
     }
 }

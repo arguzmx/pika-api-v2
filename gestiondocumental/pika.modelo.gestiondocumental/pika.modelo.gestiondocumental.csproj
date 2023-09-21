@@ -16,4 +16,9 @@
     <ProjectReference Include="..\..\pika.comun.metadatos\pika.comun.metadatos.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CuadrosClasificacion\Catalogos\" />
+    <Folder Include="CuadrosClasificacion\TraduccionesCatalogos\" />
+  </ItemGroup>
+
 </Project>
