@@ -99,6 +99,21 @@ namespace pika.servicios.gestiondocumental.archivos
             return respuesta;
         }
 
+        public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijoAPI(Consulta consulta, string tipoPadre, string id)
+        {
+            var temp = await this.PaginaHijo(consulta, tipoPadre, id);
+            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
+            return respuesta;
+        }
+
+        public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijosDespliegueAPI(Consulta consulta, string tipoPadre, string id)
+        {
+            var temp = await this.PaginaHijosDespliegue(consulta, tipoPadre, id);
+            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
+            return respuesta;
+        }
+
+
         public async Task<RespuestaPayload<object>> UnicaPorIdAPI(object id)
         {
             var temp = await this.UnicaPorId((string)id);
@@ -115,10 +130,11 @@ namespace pika.servicios.gestiondocumental.archivos
         }
 
 
+
         #region Overrides para la personalziación de la entidad Archivo
 
         public override async Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
-        {
+        {   
             ResultadoValidacion resultado = new ();
             bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId

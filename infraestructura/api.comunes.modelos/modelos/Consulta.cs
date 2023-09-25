@@ -30,6 +30,6 @@ public class Consulta
     /// <summary>
     /// Filtros utilizados para los datos
     /// </summary>
-    public List<Filtro>? Filtros { get; set; }
+    public List<Filtro>? Filtros { get; set; } = new List<Filtro>();
 
 }

@@ -109,4 +109,19 @@ public interface IServicioEntidadAPI
     Task<RespuestaPayload<PaginaGenerica<object>>> PaginaDespliegueAPI(Consulta consulta);
 
 
+    /// <summary>
+    /// Obtiene una lista de elementos hijos de la entidad padre en base a la configuración de la consulta y su paginado
+    /// </summary>
+    /// <param name="consulta"></param>
+    /// <returns></returns>
+    Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijoAPI(Consulta consulta, string tipoPadre, string id);
+
+    /// <summary>
+    /// Obtiene una lista de elementos hijos de la entidad padre para el despliegue en base a la configuración de la consulta y su paginado
+    /// </summary>
+    /// <param name="consulta"></param>
+    /// <returns></returns>
+    Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijosDespliegueAPI(Consulta consulta, string tipoPadre, string id);
+
+
 }

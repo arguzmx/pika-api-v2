@@ -36,4 +36,16 @@ public static class ExtensionesRespuesta
             Mensaje = $"{propiedad} se encuentra duplicado en el dominio"
         };
     }
+
+
+    public static ErrorProceso ErrorEntidadPadreNoConfigurada(this string propiedad)
+    {
+        return new ErrorProceso()
+        {
+            Codigo = "",
+            HttpCode = HttpCode.BadRequest,
+            Mensaje = $"No existe una regla para el padre {propiedad}",
+            Propiedad = propiedad
+        };
+    }
 }

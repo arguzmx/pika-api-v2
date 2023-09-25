@@ -58,6 +58,7 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 409, type: typeof(ErrorProceso), description: "Los datos proporcionados causan conflictos en el repositorio")]
     [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
     public async Task<IActionResult> POSTGenerico(string entidad, [FromBody] JsonElement dtoInsert, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.InsertarAPI(dtoInsert);
@@ -85,6 +86,7 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 409, type: typeof(ErrorProceso), description: "Los datos proporcionados causan conflictos en el repositorio")]
     [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
     public async Task<IActionResult> PUTGenerico(string entidad, string id, [FromBody] JsonElement dtoUpdate, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.ActualizarAPI((object)id, dtoUpdate);
@@ -110,6 +112,7 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 404, description: "Entidad no localizada o inexistente")]
     [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
     public async Task<IActionResult> UnicoPorId(string entidad, string id, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.UnicaPorIdAPI((object)id);
@@ -135,6 +138,7 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 404, description: "Entidad no localizada o inexistente")]
     [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
     public async Task<IActionResult> UnicoPorIdDespliegue(string entidad, string id, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.UnicaPorIdDespliegueAPI((object)id);
@@ -153,13 +157,14 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
     /// <param name="dominioId">Id del sominio del usuario en sesión</param>
     /// <param name="uOrgID">Id de la unidad organizacional del usuario en sesión</param>
     /// <returns></returns>
-    [HttpGet("/api/{entidad}/entidad/pagina")]
+    [HttpPost("/api/{entidad}/entidad/pagina")]
     [SwaggerOperation("Obtiene una página de entidades tal como se almacena en el repositorio en base a la consulta")]
     [SwaggerResponse(statusCode: 200, type: typeof(PaginaGenerica<object>),  description: "Página de datos de entidad")]
     [SwaggerResponse(statusCode: 400, description: "Datos de consulta incorrectos")]
     [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
-    public async Task<ActionResult<PaginaGenerica<object>>> Pagina(string entidad, Consulta consulta, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<ActionResult<PaginaGenerica<object>>> Pagina(string entidad, [FromBody] Consulta consulta, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.PaginaAPI(consulta);
         if (response.Ok)
@@ -178,13 +183,14 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
     /// <param name="dominioId">Id del sominio del usuario en sesión</param>
     /// <param name="uOrgID">Id de la unidad organizacional del usuario en sesión</param>
     /// <returns></returns>
-    [HttpGet("/api/{entidad}/entidad/despliegue/pagina")]
+    [HttpPost("/api/{entidad}/entidad/pagina/despliegue")]
     [SwaggerOperation("Obtiene una página de entidades para despliegue en base a la consulta")]
     [SwaggerResponse(statusCode: 200, type: typeof(PaginaGenerica<object>), description: "Página de datos de entidad")]
     [SwaggerResponse(statusCode: 400, description: "Datos de consulta incorrectos")]
     [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
-    public async Task<IActionResult> PaginaDespliegue(string entidad, Consulta consulta, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<IActionResult> PaginaDespliegue(string entidad, [FromBody] Consulta consulta, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.PaginaDespliegueAPI(consulta);
         if (response.Ok)
@@ -193,6 +199,64 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
         }
         return StatusCode(response.HttpCode.GetHashCode(), response.Error);
     }
+
+    /// <summary>
+    /// Obtiene una página de entidades hijos de la entidad padre tal como se almacena en el repositorio en base a la consulta
+    /// </summary>
+    /// <param name="entidad">Tipo de entidad en base al ruteo</param>
+    /// <param name="entidadPadre">Tipo de la entidad padre</param>
+    /// <param name="padreId">Identificador único del padre</param>
+    /// <param name="consulta">Configuración para la consulta</param>
+    /// <param name="dominioId">Id del sominio del usuario en sesión</param>
+    /// <param name="uOrgID">Id de la unidad organizacional del usuario en sesión</param>
+    /// <returns></returns>
+    [HttpPost("/api/{entidad}/hijos/{entidadPadre}/{padreId}/pagina")]
+    [SwaggerOperation("Obtiene una página de entidades tal como se almacena en el repositorio en base a la consulta")]
+    [SwaggerResponse(statusCode: 200, type: typeof(PaginaGenerica<object>), description: "Página de datos de entidad")]
+    [SwaggerResponse(statusCode: 400, description: "Datos de consulta incorrectos")]
+    [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
+    [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<ActionResult<PaginaGenerica<object>>> PaginaHijos(string entidad, string entidadPadre, string padreId, 
+        [FromBody] Consulta consulta, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    {
+        var response = await entidadAPI.PaginaHijoAPI(consulta, entidadPadre, padreId);
+        if (response.Ok)
+        {
+            return Ok(response.Payload);
+        }
+        return StatusCode(response.HttpCode.GetHashCode(), response.Error);
+    }
+
+
+    /// <summary>
+    /// Obtiene una página de entidades hijos de la entidad padre de entidades para despliegue en base a la consulta
+    /// </summary>
+    /// <param name="entidad">Tipo de entidad en base al ruteo</param>
+    /// <param name="entidadPadre">Tipo de la entidad padre</param>
+    /// <param name="padreId">Identificador único del padre</param>
+    /// <param name="consulta">Configuración para la consulta</param>
+    /// <param name="dominioId">Id del sominio del usuario en sesión</param>
+    /// <param name="uOrgID">Id de la unidad organizacional del usuario en sesión</param>
+    /// <returns></returns>
+    [HttpGet("/api/{entidad}/hijos/{entidadPadre}/{padreId}/pagina/despliegue")]
+    [SwaggerOperation("Obtiene una página de entidades para despliegue en base a la consulta")]
+    [SwaggerResponse(statusCode: 200, type: typeof(PaginaGenerica<object>), description: "Página de datos de entidad")]
+    [SwaggerResponse(statusCode: 400, description: "Datos de consulta incorrectos")]
+    [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
+    [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<IActionResult> PaginaDespliegueHijos(string entidad, string entidadPadre, string padreId,
+        [FromBody] Consulta consulta, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    {
+        var response = await entidadAPI.PaginaHijosDespliegueAPI(consulta, entidadPadre, padreId);
+        if (response.Ok)
+        {
+            return Ok(response.Payload);
+        }
+        return StatusCode(response.HttpCode.GetHashCode(), response.Error);
+    }
+
 
     /// <summary>
     /// Elimina una entidad en base a su identificador único
@@ -208,6 +272,7 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 404, description: "Entidad inexistente o no localizada")]
     [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
     public async Task<IActionResult> EliminarUnico(string entidad, string id, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
         var response = await entidadAPI.EliminarAPI((object)id);
