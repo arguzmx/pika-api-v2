@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <Folder Include="acervo\" />
-    <Folder Include="cuadrosclasificacion\" />
     <Folder Include="data\" />
     <Folder Include="data\migrations\" />
     <Folder Include="prestamo\" />

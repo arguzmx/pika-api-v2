@@ -17,12 +17,16 @@ public class DbContextGestionDocumental : DbContext
     public DbSet<Archivo> Archivos { get; set; }
     public DbSet<ElementoCatalogo> TipoArchivo { get; set; }
     public DbSet<TraduccionesTipoArchivo> TraduccionesTipoArchivo { get; set; }
+    public DbSet<CuadroClasificacion> CuadrosClasificacion { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionCuadroClasificacion());
+
         base.OnModelCreating(modelBuilder); 
     }
 
