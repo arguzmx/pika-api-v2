@@ -57,7 +57,7 @@ public static class EntidadAPIMiddlewareExtensions
             DominioId = context.Request.Headers?[DOMINIOHEADER],
             Idioma = context.Request.Headers?[IDIOMAHEADER],
             UOrgId = context.Request.Headers?[UORGHEADER],
-            UsuarioId = demo.usuarioId,
+            UsuarioId = "UsuarioId",
             Clains = demo.claims,
             TokenAutenticacion = demo.token
         };
