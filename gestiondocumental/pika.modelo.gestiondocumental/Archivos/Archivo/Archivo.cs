@@ -61,5 +61,8 @@ namespace pika.modelo.gestiondocumental
         [JsonIgnore]
         [XmlIgnore]
         public TipoArchivo TipoArchivo { get; set; }
+        [JsonIgnore]
+        [XmlIgnore]
+        public List<Prestamo> Prestamos { get; set; }
     }
 }

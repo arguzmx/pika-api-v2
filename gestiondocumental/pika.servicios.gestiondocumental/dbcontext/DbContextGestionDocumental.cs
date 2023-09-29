@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos.Catalogos;
+using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
 
@@ -13,7 +14,7 @@ public class DbContextGestionDocumental : DbContext
     {
 
     }
-
+    public DbSet<Prestamo> Prestamos { get; set; }
     public DbSet<Archivo> Archivos { get; set; }
     public DbSet<ElementoCatalogo> TipoArchivo { get; set; }
     public DbSet<I18NCatalogo> TraduccionesTipoArchivo { get; set; }
@@ -22,7 +23,7 @@ public class DbContextGestionDocumental : DbContext
     {
         modelBuilder.ApplyConfiguration(new ConfiguracionCatalogoTipoArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogoTipoArchivo());
-
+        modelBuilder.ApplyConfiguration(new ConfiguracionPrestamo());
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         base.OnModelCreating(modelBuilder); 
     }
