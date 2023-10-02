@@ -13,7 +13,7 @@ public class DbContextGestionDocumental : DbContext
     {
 
     }
-
+    public DbSet<UnidadAdministrativa> UnidadesAdministrativas{ get; set; }
     public DbSet<Archivo> Archivos { get; set; }
     public DbSet<ElementoCatalogo> TipoArchivo { get; set; }
     public DbSet<TraduccionesTipoArchivo> TraduccionesTipoArchivo { get; set; }
@@ -21,7 +21,11 @@ public class DbContextGestionDocumental : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+<<<<<<< HEAD
       
+=======
+>>>>>>> 857ffacdbde21228efaa9662705c9ec716c235ee
+        modelBuilder.ApplyConfiguration(new ConfiguracionUnidadAdministrativa());
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());

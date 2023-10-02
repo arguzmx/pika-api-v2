@@ -6,6 +6,7 @@ namespace pika.modelo.gestiondocumental;
 /// <summary>
 /// REpresenta una unidad administrativa que produce activos de acervo a gestionar
 /// </summary>
+[Entidad()]
 public class UnidadAdministrativa
 {
 
@@ -85,21 +86,21 @@ public class UnidadAdministrativa
     /// <summary>
     /// Identificador único del archivo de trámite donde se crearán los activos del acervo
     /// </summary>
-    public string ArchivoTramiteId { get; set; }
+    public string? ArchivoTramiteId { get; set; }
     // [i] [a] 
     // 128
 
     /// <summary>
     /// Identificador único del archivo de concentración donde se crearán los activos del acervo
     /// </summary>
-    public string ArchivoConcentracionId { get; set; }
+    public string? ArchivoConcentracionId { get; set; }
     // [i] [a] 
     // 128
 
     /// <summary>
     /// Identificador único del archivo histórico donde se crearán los activos del acervo
     /// </summary>
-    public string ArchivoHistoricoId { get; set; }
+    public string? ArchivoHistoricoId { get; set; }
     // [i] [a] 
     // 128
 
