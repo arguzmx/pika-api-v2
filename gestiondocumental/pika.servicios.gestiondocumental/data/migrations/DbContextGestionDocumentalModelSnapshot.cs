@@ -158,10 +158,13 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
+<<<<<<< HEAD
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
+=======
+>>>>>>> 857ffacdbde21228efaa9662705c9ec716c235ee
                     b.Property<string>("Email")
                         .HasMaxLength(250)
                         .HasColumnType("varchar(250)");
@@ -184,9 +187,12 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
+<<<<<<< HEAD
                     b.HasKey("Id");
 
                     b.ToTable("gd$cuadroclasificacion", (string)null);
+=======
+>>>>>>> 857ffacdbde21228efaa9662705c9ec716c235ee
                     b.Property<string>("UbicacionFisica")
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");

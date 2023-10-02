@@ -21,7 +21,10 @@ public class DbContextGestionDocumental : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+<<<<<<< HEAD
       
+=======
+>>>>>>> 857ffacdbde21228efaa9662705c9ec716c235ee
         modelBuilder.ApplyConfiguration(new ConfiguracionUnidadAdministrativa());
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
