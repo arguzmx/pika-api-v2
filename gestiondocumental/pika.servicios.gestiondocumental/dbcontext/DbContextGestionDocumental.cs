@@ -14,17 +14,34 @@ public class DbContextGestionDocumental : DbContext
     {
 
     }
+<<<<<<< HEAD
     public DbSet<Prestamo> Prestamos { get; set; }
+=======
+    public DbSet<UnidadAdministrativa> UnidadesAdministrativas{ get; set; }
+>>>>>>> main
     public DbSet<Archivo> Archivos { get; set; }
     public DbSet<ElementoCatalogo> TipoArchivo { get; set; }
-    public DbSet<I18NCatalogo> TraduccionesTipoArchivo { get; set; }
+    public DbSet<TraduccionesTipoArchivo> TraduccionesTipoArchivo { get; set; }
+    public DbSet<CuadroClasificacion> CuadrosClasificacion { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+<<<<<<< HEAD
         modelBuilder.ApplyConfiguration(new ConfiguracionCatalogoTipoArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogoTipoArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionPrestamo());
+=======
+<<<<<<< HEAD
+      
+=======
+>>>>>>> 857ffacdbde21228efaa9662705c9ec716c235ee
+        modelBuilder.ApplyConfiguration(new ConfiguracionUnidadAdministrativa());
+>>>>>>> main
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionCuadroClasificacion());
+
         base.OnModelCreating(modelBuilder); 
     }
 

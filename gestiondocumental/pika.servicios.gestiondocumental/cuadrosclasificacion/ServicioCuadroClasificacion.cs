@@ -7,25 +7,26 @@ using Microsoft.Extensions.Logging;
 using pika.comun.metadatos;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos;
+using pika.modelo.gestiondocumental.CuadrosClasificacion.CuadroClasificacion;
+using pika.servicios.gestiondocumental.archivos;
 using pika.servicios.gestiondocumental.dbcontext;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-#pragma warning disable CS8603 // Possible null reference return.
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-namespace pika.servicios.gestiondocumental.archivos
+namespace pika.servicios.gestiondocumental.cuadrosclasificacion
 {
-    /// <summary>
-    /// Servicio de datos para la entidad archivo
-    /// </summary>
-    [ServicioEntidadAPI(entidad: typeof(Archivo) )]
-    public class ServicioArchivo : ServicioEntidadGenericaBase<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>,
-        IServicioEntidadAPI, IServicioArchivo
-    {
 
-        public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger) : base (context, context.Archivos, logger)
+    [ServicioEntidadAPI(entidad: typeof(CuadroClasificacion))]
+    public class ServicioCuadroClasificacion : ServicioEntidadGenericaBase<CuadroClasificacion, CuadroClasificacionInsertar, CuadroClasificacionActualizar, CuadroClasificacionDespliegue, string>,
+        IServicioEntidadAPI, IServicioCuadroClasificacion
+    {
+        public ServicioCuadroClasificacion(DbContextGestionDocumental context, ILogger<ServicioCuadroClasificacion> logger) : base(context, context.CuadrosClasificacion, logger)
         {
         }
-
 
         /// <summary>
         /// Acceso al repositorio de gestipon documental local
@@ -35,9 +36,11 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public bool RequiereAutenticacion => true;
 
+
+
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<ArchivoActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<CuadroClasificacionActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -48,7 +51,7 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public Entidad EntidadDespliegueAPI()
         {
-            return  this.EntidadDespliegue();
+            return this.EntidadDespliegue();
         }
 
         public Entidad EntidadInsertAPI()
@@ -78,7 +81,7 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<ArchivoInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<CuadroClasificacionInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -99,21 +102,6 @@ namespace pika.servicios.gestiondocumental.archivos
             return respuesta;
         }
 
-        public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijoAPI(Consulta consulta, string tipoPadre, string id)
-        {
-            var temp = await this.PaginaHijo(consulta, tipoPadre, id);
-            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
-            return respuesta;
-        }
-
-        public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijosDespliegueAPI(Consulta consulta, string tipoPadre, string id)
-        {
-            var temp = await this.PaginaHijosDespliegue(consulta, tipoPadre, id);
-            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
-            return respuesta;
-        }
-
-
         public async Task<RespuestaPayload<object>> UnicaPorIdAPI(object id)
         {
             var temp = await this.UnicaPorId((string)id);
@@ -131,14 +119,20 @@ namespace pika.servicios.gestiondocumental.archivos
 
 
 
-        #region Overrides para la personalziación de la entidad Archivo
 
-        public override async Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
-        {   
+
+
+
+
+
+
+
+        public override async Task<ResultadoValidacion> ValidarInsertar(CuadroClasificacionInsertar data)
+        {
             ResultadoValidacion resultado = new ();
-            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+            bool encontrado = await DB.CuadrosClasificacion.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
-                    && a.Nombre == data.Nombre);
+                    && a.Nombre==data.Nombre);
 
             if (encontrado)
             {
@@ -153,10 +147,10 @@ namespace pika.servicios.gestiondocumental.archivos
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Archivo original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, CuadroClasificacion original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+            bool encontrado = await DB.CuadrosClasificacion.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id == id);
 
@@ -173,10 +167,10 @@ namespace pika.servicios.gestiondocumental.archivos
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id, ArchivoActualizar actualizacion, Archivo original)
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, CuadroClasificacionActualizar actualizacion, CuadroClasificacion original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+            bool encontrado = await DB.CuadrosClasificacion.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id == id);
 
@@ -188,10 +182,10 @@ namespace pika.servicios.gestiondocumental.archivos
             else
             {
 
-                bool duplicado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+                bool duplicado = await DB.CuadrosClasificacion.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id != id 
-                    && a.Nombre.Equals( actualizacion.Nombre, StringComparison.InvariantCultureIgnoreCase));
+                    && a.Nombre==actualizacion.Nombre);
 
                 if (duplicado)
                 {
@@ -207,38 +201,37 @@ namespace pika.servicios.gestiondocumental.archivos
         }
 
 
-        public override Archivo ADTOFull(ArchivoActualizar actualizacion, Archivo actual)
+        public override CuadroClasificacion ADTOFull(CuadroClasificacionActualizar actualizacion, CuadroClasificacion actual)
         {
             actual.Nombre = actualizacion.Nombre;
             return actual;
         }
 
-        public override Archivo ADTOFull(ArchivoInsertar data)
+        public override CuadroClasificacion ADTOFull(CuadroClasificacionInsertar data)
         {
-            Archivo archivo = new Archivo()
+            CuadroClasificacion cuadroclasificacion = new CuadroClasificacion()
             {
                 Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
-                TipoArchivoId = data.TipoArchivoId,
                 UOrgId = _contextoUsuario.UOrgId,
                 DominioId = _contextoUsuario.DominioId,
             };
-            return archivo;
+            return cuadroclasificacion;
         }
 
-        public override ArchivoDespliegue ADTODespliegue(Archivo data)
+        public override CuadroClasificacionDespliegue ADTODespliegue(CuadroClasificacion data)
         {
-            ArchivoDespliegue archivo = new ArchivoDespliegue()
+            CuadroClasificacionDespliegue cuadroclasificacion = new CuadroClasificacionDespliegue()
             {
                 Id = data.Id,
                 Nombre = data.Nombre,
-                TipoArchivoId = data.TipoArchivoId,
+                
             };
-            return archivo;
+            return cuadroclasificacion;
         }
+         
 
-        #endregion
+
+
     }
 }
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning restore CS8603 // Possible null reference return.
