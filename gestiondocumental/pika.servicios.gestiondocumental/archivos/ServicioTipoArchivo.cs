@@ -17,7 +17,7 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public bool RequiereAutenticacion => true;
 
-        public string IdiomaDefault => "es-MX";
+        public string IdiomaDefault => throw new NotImplementedException();
 
         public List<ElementoCatalogo> ElementosDefault()
         {

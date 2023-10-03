@@ -6,7 +6,7 @@ using pika.modelo.gestiondocumental.Archivos.Catalogos;
 
 namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
-public class ConfiguracionCatalogoTipoArchivo : IEntityTypeConfiguration<ElementoCatalogo>
+public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCatalogo>
 {
     public void Configure(EntityTypeBuilder<ElementoCatalogo> builder)
     {
@@ -24,7 +24,7 @@ public class ConfiguracionCatalogoTipoArchivo : IEntityTypeConfiguration<Element
     }
 }
 
-public class ConfiguracionI18NCatalogoTipoArchivo : IEntityTypeConfiguration<I18NCatalogo>
+public class ConfiguracionI18NCatalogo : IEntityTypeConfiguration<I18NCatalogo>
 {
     public void Configure(EntityTypeBuilder<I18NCatalogo> builder)
     {
