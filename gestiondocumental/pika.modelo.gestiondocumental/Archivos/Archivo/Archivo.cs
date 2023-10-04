@@ -64,6 +64,20 @@ namespace pika.modelo.gestiondocumental
 
         [JsonIgnore]
         [XmlIgnore]
+        public List<Prestamo> Prestamos { get; set; }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public List<UnidadAdministrativa>? UnidadesAdministrativasTramite { get; set; }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public List<UnidadAdministrativa>? UnidadesAdministrativasConcentracion { get; set; }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public List<UnidadAdministrativa>? UnidadesAdministrativasHistorico { get; set; }
+
         public List<Activo> ActivosActuales { get; set; }
 
         [JsonIgnore]

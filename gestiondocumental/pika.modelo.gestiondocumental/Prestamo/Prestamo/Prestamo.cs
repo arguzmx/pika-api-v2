@@ -1,8 +1,13 @@
-﻿namespace pika.modelo.gestiondocumental
+namespace pika.modelo.gestiondocumental;
+/// <summary>
+/// Entidad para el control de préstamo de activos del acervo
+/// </summary>
+public class Prestamo
+
+﻿
 {
     // public class Prestamo: Entidad<string>, IEntidadEliminada, IEntidadReportes
-    public class Prestamo
-    {
+   
 
        // public List<IProveedorReporte> Reportes { get; set; }
 
@@ -16,17 +21,23 @@
         }
 
 
+    /// <summary>
+    /// Número de fplio del préstamo
+    /// </summary>
+    public string Folio { get; set; }
+    // [i] [a] [d] 
+    // R 250
+
+
         public string Id { get; set; }
+
 
         /// <summary>
         /// FEcha de creación del regiustro debe ser la fecha del sistema UTC, sin intervención del usuario
         /// </summary>
         public DateTime FechaCreacion { get; set; }
 
-        /// <summary>
-        /// Número de fplio del préstamo
-        /// </summary>
-        public string Folio { get; set; }
+        
 
         /// <summary>
         ///  Número de elementos involucrados en el préstamo
@@ -96,5 +107,5 @@
 
         public virtual ICollection<ComentarioPrestamo> Comentarios { get; set; }
         */
-    }
+    
 }

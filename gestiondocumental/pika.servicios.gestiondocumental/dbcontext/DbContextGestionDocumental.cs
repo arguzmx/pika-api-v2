@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos.Catalogos;
+using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
 
@@ -13,6 +14,10 @@ public class DbContextGestionDocumental : DbContext
     {
 
     }
+
+    public DbSet<Prestamo> Prestamos { get; set; }
+
+    public DbSet<UnidadAdministrativa> UnidadesAdministrativas{ get; set; }
     public DbSet<modelo.gestiondocumental.Activo> Activo { get; set; }
     public DbSet<Archivo> Archivos { get; set; }
     public DbSet<ElementoCatalogo> TipoArchivo { get; set; }
@@ -20,10 +25,17 @@ public class DbContextGestionDocumental : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new ConfiguracionCatalogoTipoArchivo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogoTipoArchivo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionPrestamo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionUnidadAdministrativa());
+        modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionCuadroClasificacion());
         modelBuilder.ApplyConfiguration(new ConfiguracionActivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionCatalogoTipoArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogoTipoArchivo());
-
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         base.OnModelCreating(modelBuilder); 
     }

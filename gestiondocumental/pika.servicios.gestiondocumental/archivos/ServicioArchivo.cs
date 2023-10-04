@@ -26,7 +26,7 @@ namespace pika.servicios.gestiondocumental.archivos
         {
         }
 
-       
+
         /// <summary>
         /// Acceso al repositorio de gestipon documental local
         /// </summary>
