@@ -1,11 +1,15 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+using pika.comun.metadatos.atributos;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace pika.modelo.gestiondocumental;
 
 /// <summary>
 /// Activo del acervo de una unidad adminitrativa gestionado por un archivo
 /// </summary>
+ [Entidad()]
 public class Activo
 {
 
@@ -42,7 +46,7 @@ public class Activo
     /// Identificador único del archivo actual del activo, esta propiedad se asigna automáticamente an la creación
     /// y es idéntica al archivo de origen y se ajusta cuando ocurre una transferencia
     /// </summary>
-    public string ArchivoActualId { get; set; }
+    public string ArchivoActualId { get; set; } //preguntar como proceder
     // [i] [a]  [d]
     // R 128
 
@@ -256,5 +260,13 @@ public class Activo
     /// </summary>
     public string? ContenidoId { get; set; }
     // 128
+
+    [JsonIgnore]
+    [XmlIgnore]
+    public Archivo ArchivoActual { get; set; }
+
+    [JsonIgnore]
+    [XmlIgnore]
+    public Archivo ArchivoOrigen { get; set; }
 }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
