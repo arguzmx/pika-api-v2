@@ -229,9 +229,15 @@ namespace pika.servicios.gestiondocumental.cuadrosclasificacion
             };
             return cuadroclasificacion;
         }
-         
 
+        public Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijoAPI(Consulta consulta, string tipoPadre, string id)
+        {
+            throw new NotImplementedException();
+        }
 
-
+        public Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijosDespliegueAPI(Consulta consulta, string tipoPadre, string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -99,13 +99,13 @@ public class Prestamo
         public bool Eliminada { get; set; }
 
 
-        /*
+        
         public Archivo Archivo { get; set; }
 
         public virtual ICollection<ActivoPrestamo> ActivosRelacionados { get; set; }
 
 
         public virtual ICollection<ComentarioPrestamo> Comentarios { get; set; }
-        */
+        
     
 }

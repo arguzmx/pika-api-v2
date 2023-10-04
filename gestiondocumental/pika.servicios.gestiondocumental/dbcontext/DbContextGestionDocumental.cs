@@ -22,11 +22,11 @@ public class DbContextGestionDocumental : DbContext
     public DbSet<Archivo> Archivos { get; set; }
     public DbSet<ElementoCatalogo> TipoArchivo { get; set; }
     public DbSet<I18NCatalogo> TraduccionesTipoArchivo { get; set; }
+    public DbSet<CuadroClasificacion> CuadrosClasificacion { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new ConfiguracionCatalogoTipoArchivo());
-        modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogoTipoArchivo());
+
         modelBuilder.ApplyConfiguration(new ConfiguracionPrestamo());
         modelBuilder.ApplyConfiguration(new ConfiguracionUnidadAdministrativa());
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
@@ -34,8 +34,6 @@ public class DbContextGestionDocumental : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
         modelBuilder.ApplyConfiguration(new ConfiguracionCuadroClasificacion());
         modelBuilder.ApplyConfiguration(new ConfiguracionActivo());
-        modelBuilder.ApplyConfiguration(new ConfiguracionCatalogoTipoArchivo());
-        modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogoTipoArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         base.OnModelCreating(modelBuilder); 
     }

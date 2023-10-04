@@ -5,6 +5,8 @@
     {
         public ComentarioPrestamo() { }
 
+
+        public string Id { get; set; }
         /// <summary>
         /// FEcha de creación del comentario
         /// </summary>
@@ -27,6 +29,6 @@
         /// Préstamo al que pertenece el comentario
         /// </summary>
 
-       // public Prestamo Prestamo { get; set; }
+      //  public Prestamo Prestamo { get; set; }
     }
 }
