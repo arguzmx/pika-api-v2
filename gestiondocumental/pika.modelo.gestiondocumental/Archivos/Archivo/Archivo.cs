@@ -78,5 +78,10 @@ namespace pika.modelo.gestiondocumental
         [XmlIgnore]
         public List<UnidadAdministrativa>? UnidadesAdministrativasHistorico { get; set; }
 
+        public List<Activo> ActivosActuales { get; set; }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public List<Activo> ActivosOrigen { get; set; }
     }
 }

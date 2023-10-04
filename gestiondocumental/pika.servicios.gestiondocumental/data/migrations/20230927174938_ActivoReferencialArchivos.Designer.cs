@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pika.servicios.gestiondocumental.dbcontext;
 
@@ -10,9 +11,10 @@ using pika.servicios.gestiondocumental.dbcontext;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     [DbContext(typeof(DbContextGestionDocumental))]
-    partial class DbContextGestionDocumentalModelSnapshot : ModelSnapshot
+    [Migration("20230927174938_ActivoReferencialArchivos")]
+    partial class ActivoReferencialArchivos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,83 +268,6 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.HasIndex("TipoArchivoId");
 
                     b.ToTable("gd$archivo", (string)null);
-                });
-
-            modelBuilder.Entity("pika.modelo.gestiondocumental.UnidadAdministrativa", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("ArchivoConcentracionId")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("ArchivoHistoricoId")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("ArchivoTramiteId")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("Cargo")
-                        .HasMaxLength(250)
-                        .HasColumnType("varchar(250)");
-
-                    b.Property<string>("Domicilio")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("DominioId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(250)
-                        .HasColumnType("varchar(250)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("Responsable")
-                        .HasMaxLength(250)
-                        .HasColumnType("varchar(250)");
-
-                    b.Property<string>("Telefono")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("UOrgId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("gd$cuadroclasificacion", (string)null);
-
-                    b.Property<string>("UbicacionFisica")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArchivoConcentracionId");
-
-                    b.HasIndex("ArchivoHistoricoId");
-
-                    b.HasIndex("ArchivoTramiteId");
-
-                    b.ToTable("gd$unidadadministrativa", (string)null);
                 });
 
             modelBuilder.Entity("pika.modelo.gestiondocumental.Archivos.Catalogos.TraduccionesTipoArchivo", b =>
