@@ -182,7 +182,7 @@ public class ServicioActivo : ServicioEntidadGenericaBase<modelo.gestiondocument
         {
 
             bool duplicado = await DB.Activo.AnyAsync(a =>a.DominioId == _contextoUsuario.DominioId
-                && a.Id != id);
+                && a.Id == id && a.Nombre == actualizacion.Nombre);
 
             if (duplicado)
             {
@@ -201,7 +201,21 @@ public class ServicioActivo : ServicioEntidadGenericaBase<modelo.gestiondocument
 
     public override modelo.gestiondocumental.Activo ADTOFull(ActivoActualizar actualizacion, modelo.gestiondocumental.Activo actual)
     {
+        actual.CuadroClasificacionId = actualizacion.CuadroClasificacionId;
+        actual.SerieDocumentalId = actualizacion.SerieDocumentalId;
+        actual.ArchivoOrigenId = actualizacion.ArchivoOrigenId;
+        actual.ArchivoActualId = actualizacion.ArchivoActualId;
+        actual.UnidadAdministrativaId = actualizacion.UnidadAdministrativaId;
         actual.Nombre = actualizacion.Nombre;
+        actual.IdentificadorInterno = actualizacion.IdentificadorInterno;
+        actual.FechaApertura = actualizacion.FechaApertura;
+        actual.FechaCierre = actualizacion.FechaCierre;
+        actual.Asunto= actualizacion.Asunto;
+        actual.CodigoOptico= actualizacion.CodigoOptico;
+        actual.CodigoElectronico = actualizacion.CodigoElectronico;
+        actual.EsElectronico= actualizacion.EsElectronico;
+        actual.UbicacionCaja=actualizacion.UbicacionCaja;
+        actual.UbicacionRack = actualizacion.UbicacionRack;
         return actual;
     }
 
