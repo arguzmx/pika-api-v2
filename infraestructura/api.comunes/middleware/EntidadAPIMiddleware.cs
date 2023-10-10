@@ -146,7 +146,7 @@ public class EntidadAPIMiddleware
     {
         string entidad = context.GetRouteData().Values["entidad"].ToString() ?? "";
         var servicios = _configuracionAPI.ObtienesServiciosIEntidadAPI();
-        var servicio = servicios.FirstOrDefault(x => x.NombreRuteo.Equals(entidad, StringComparison.InvariantCultureIgnoreCase));
+        var servicio = servicios.FirstOrDefault(x => x.NombreRuteo.Equals(entidad));
 
         if (servicio == null)
         {
