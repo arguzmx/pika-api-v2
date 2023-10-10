@@ -187,7 +187,7 @@ public class ServicioUnidadAdministrativa : ServicioEntidadGenericaBase<UnidadAd
 
             bool duplicado = await DB.UnidadesAdministrativas.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                 && a.DominioId == _contextoUsuario.DominioId
-                && a.Id != id
+                && a.Id == id
                 && a.Nombre == actualizacion.Nombre);
 
             if (duplicado)
@@ -207,7 +207,17 @@ public class ServicioUnidadAdministrativa : ServicioEntidadGenericaBase<UnidadAd
 
     public override UnidadAdministrativa ADTOFull(UnidadAdministrativaActualizar actualizacion, UnidadAdministrativa actual)
     {
+
         actual.Nombre = actualizacion.Nombre;
+        actual.Responsable = actualizacion.Responsable;
+        actual.Cargo = actualizacion.Cargo;
+        actual.Telefono = actualizacion.Telefono;
+        actual.Email = actualizacion.Email;
+        actual.Domicilio = actualizacion.Domicilio;
+        actual.UbicacionFisica = actual.UbicacionFisica;
+        actual.ArchivoTramiteId = actual.ArchivoTramiteId;
+        actual.ArchivoConcentracionId = actual.ArchivoConcentracionId;
+        actual.ArchivoHistoricoId = actual.ArchivoHistoricoId;
         return actual;
     }
 
