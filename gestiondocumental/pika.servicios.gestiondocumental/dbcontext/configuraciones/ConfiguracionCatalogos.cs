@@ -6,7 +6,7 @@ using pika.modelo.gestiondocumental.Archivos.Catalogos;
 
 namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
-public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCatalogo>
+public class ConfiguracionCatalogoTipoArchivo : IEntityTypeConfiguration<ElementoCatalogo>
 {
     public void Configure(EntityTypeBuilder<ElementoCatalogo> builder)
     {
@@ -15,16 +15,16 @@ public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCa
         builder.HasDiscriminator<string>("Catalogo")
             .HasValue<TipoArchivo>("TipoArchivo");
 
-        builder.HasKey(e => new { e.Id } );
+        builder.HasKey(e => new { e.Id });
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
-        builder.Property(e => e.Texto).IsRequired().HasMaxLength(512); 
-        builder.Property(e => e.Idioma).IsRequired().HasMaxLength(10); 
+        builder.Property(e => e.Texto).IsRequired().HasMaxLength(512);
+        builder.Property(e => e.Idioma).IsRequired().HasMaxLength(10);
         builder.Property(e => e.DominioId).IsRequired().HasMaxLength(128);
         builder.Property(e => e.UnidadOrganizacionalId).IsRequired().HasMaxLength(128);
     }
 }
 
-public class ConfiguracionI18NCatalogo : IEntityTypeConfiguration<I18NCatalogo>
+public class ConfiguracionI18NCatalogoTipoArchivo : IEntityTypeConfiguration<I18NCatalogo>
 {
     public void Configure(EntityTypeBuilder<I18NCatalogo> builder)
     {

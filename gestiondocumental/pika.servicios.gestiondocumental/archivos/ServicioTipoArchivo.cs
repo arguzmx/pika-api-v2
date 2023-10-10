@@ -41,8 +41,9 @@ namespace pika.servicios.gestiondocumental.archivos
                 && a.DominioId == _contextoUsuario.DominioId
                 && a.UOrgId == _contextoUsuario.UOrgId))
             {
-
+                return resultado;
             }
+            resultado.Valido = true;
 
             return resultado;
         }

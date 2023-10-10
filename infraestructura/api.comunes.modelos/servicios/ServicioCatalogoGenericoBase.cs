@@ -191,12 +191,7 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
             }
             else
             {
-                respuesta = new ()
-                {
-                    HttpCode = resultado.Error.HttpCode,
-                    Ok = false,
-                    Error = resultado.Error
-                };
+                respuesta = new () {Ok = false,HttpCode = HttpCode.Conflict};
             }
         }
         catch (Exception ex)
