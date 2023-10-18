@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-
-namespace pika.modelo.contenido;
+namespace pika.modelo.contenido.Carpeta;
 
 /// <summary>
 /// Representa una carpeta para el arrglo lógico del conteido
@@ -74,6 +73,13 @@ public class Carpeta
     /// </summary>
     [XmlIgnore]
     [JsonIgnore]
-    public Repositorio Repositorio { get; set; }
+    public Repositorio.Repositorio Repositorio { get; set; }
+
+    /// <summary>
+    /// Popieadd de navegacion para Contenido
+    /// </summary>
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<Contenido.Contenido> Contenido{ get; set; }
 
 }

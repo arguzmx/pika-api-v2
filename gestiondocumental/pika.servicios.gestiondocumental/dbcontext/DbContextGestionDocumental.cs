@@ -19,6 +19,10 @@ public class DbContextGestionDocumental : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      //  modelBuilder.ApplyConfiguration(new ConfiguracionCatalogoTipoArchivo());
+      //  modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogoTipoArchivo());
+      //  modelBuilder.ApplyConfiguration(new ConfiguracionPrestamo());
+       // modelBuilder.ApplyConfiguration(new ConfiguracionUnidadAdministrativa());
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
