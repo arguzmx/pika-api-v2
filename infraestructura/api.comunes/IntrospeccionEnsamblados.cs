@@ -146,7 +146,7 @@ public static class IntrospeccionEnsamblados
 
         var assemblies = Directory.GetFiles(Ruta, "*.dll", new EnumerationOptions() { RecurseSubdirectories = true });
 
-        foreach (var ensamblado in assemblies.Where(s=>s.Contains("pika.servicios.gestiondocumental.")))
+        foreach (var ensamblado in assemblies)
         {
             try
             {
