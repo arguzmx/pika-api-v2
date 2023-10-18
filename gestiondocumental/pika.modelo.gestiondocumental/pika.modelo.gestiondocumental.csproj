@@ -19,8 +19,6 @@
   <ItemGroup>
     <Folder Include="Acervo\Catalogos\" />
     <Folder Include="Acervo\TraduccionesCatalogos\" />
-    <Folder Include="CuadrosClasificacion\Catalogos\" />
-    <Folder Include="CuadrosClasificacion\TraduccionesCatalogos\" />
   </ItemGroup>
 
 </Project>

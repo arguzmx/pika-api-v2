@@ -4,7 +4,7 @@
 
 namespace pika.servicios.gestiondocumental.data.migrations
 {
-    public partial class GDArchivos : Migration
+    public partial class InicialGD : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,7 +40,7 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 {
                     Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                    Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DominioId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),

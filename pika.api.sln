@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "indentity", "indentity", "{6C0EB938-9917-4300-A90B-C55E710A3308}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identity", "identity", "{6C0EB938-9917-4300-A90B-C55E710A3308}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "metadatos", "metadatos", "{C12B8EB2-0DA8-459A-9126-0D6A9E2DE690}"
 EndProject
@@ -41,11 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.modelo.organizacion", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.servicios.organizacion", "organizacion\pika.servicios.organizacion\pika.servicios.organizacion.csproj", "{E851BCD9-463A-4F03-9928-6FF4F463CFD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.api.contenido", "contenido\pika.api.contenido\pika.api.contenido.csproj", "{7A03DF15-D01B-4D19-9DA8-B8CD0B332503}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.api.contenido", "contenido\pika.api.contenido\pika.api.contenido.csproj", "{7A03DF15-D01B-4D19-9DA8-B8CD0B332503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.modelo.contenido", "contenido\pika.modelo.contenido\pika.modelo.contenido.csproj", "{7916FA46-94A9-4E30-A47B-2615B03BAE75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.modelo.contenido", "contenido\pika.modelo.contenido\pika.modelo.contenido.csproj", "{7916FA46-94A9-4E30-A47B-2615B03BAE75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pika.servicios.contenido", "contenido\pika.servicios.contenido\pika.servicios.contenido.csproj", "{AD8C1AD0-EE8D-47BD-9947-F67200A92EAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pika.servicios.contenido", "contenido\pika.servicios.contenido\pika.servicios.contenido.csproj", "{AD8C1AD0-EE8D-47BD-9947-F67200A92EAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
