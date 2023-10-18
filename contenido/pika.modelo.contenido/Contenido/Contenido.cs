@@ -1,0 +1,103 @@
+﻿using System.Text.Json.Serialization;
+using System.Xml.Serialization;
+
+namespace pika.modelo.contenido;
+
+public class Contenido
+{
+    /// <summary>
+    /// Indetificador único del elemento de contenido
+    /// </summary>
+    public string Id { get; set; }
+    // [a] [d] 
+    // R 128
+
+    /// <summary>
+    /// Nombre común dado al elemento de contenido
+    /// </summary>
+    public string Nombre { get; set; }
+    // [I ][a] [d] 
+    // R 500
+
+    /// <summary>
+    /// Identificador del punto de montaje asociado a la carpeta
+    /// </summary>
+    public string RepositorioId { get; set; }
+    // [i] 
+    // R 128
+
+    /// <summary>
+    /// Identificador único del creador de la carpeta
+    /// </summary>
+    public string CreadorId { get; set; }
+    // [d] Este valor simpre viene del contexto del id en el JWT
+    // R 128
+
+    /// <summary>
+    /// FEcha de creación en formato UTC
+    /// </summary>
+    public DateTime FechaCreacion { get; set; }
+    // [d]
+    // Este valor viene del contexto se crea de la fecha del sistema al insertar y sólo se despliega
+
+    /// <summary>
+    /// Número de adjuntos en la vesion actual del contenido
+    /// </summary>
+    public int ConteoAnexos { get; set; } = 0;
+    // [d]
+    // Este valor viene del contexto se actualiza con el CRUD de anexos del contenido
+
+
+    /// <summary>
+    /// Tamaño en bytes del total de anexos en la versión actual del contenido
+    /// </summary>
+    public long TamanoBytes { get; set; } = 0;
+    // [d]
+    // Este valor viene del contexto se actualiza con el CRUD de anexos del contenido
+
+    /// <summary>
+    /// IDentificador único del volumen al que se añadió el contenido
+    /// </summary>
+    public string VolumenId { get; set; }
+    // [i] [d] 
+    // R 128
+
+    /// <summary>
+    /// Identificador de la carpeta donde se creó el contenido
+    /// </summary>
+    public string CarpetaId { get; set; }
+    // [i] [d] 
+    // R 128
+
+    /// <summary>
+    /// Identifica el tipo del elemento mostrado, nulo para tipo defautl
+    /// o un tipo asociado al visor por ejemplo, expediente, cfdi, entro otros
+    /// puede utilizarse también para determinarl el ícono del elemento
+    /// </summary>
+    public string? TipoElemento { get; set; }
+    // [i] [d] 
+    // R 128
+
+    /// <summary>
+    /// Esta Identificador permite asociar el elemento a un sistema externo
+    /// como clave de búsqueda
+    /// </summary>
+    public string? IdExterno { get; set; }
+    // [i] [a] [d] 
+    // R 128
+
+
+    // Propieades de navegación
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public Volumen Volumen { get; set; }
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public Repositorio Repositorio { get; set; }
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public Carpeta Carpeta { get; set; }
+}
