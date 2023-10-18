@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Volumen\Catalogos\" />
+    <Folder Include="Volumen\TraduccionesCatalogos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\infraestructura\api.comunes.modelos\api.comunes.modelos.csproj" />
+    <ProjectReference Include="..\..\pika.comun.metadatos\pika.comun.metadatos.csproj" />
+  </ItemGroup>
+
 </Project>
