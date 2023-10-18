@@ -1,17 +1,21 @@
-﻿namespace pika.modelo.contenido;
+﻿using pika.comun.metadatos.atributos;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
+
+namespace pika.modelo.contenido.Volumen;
 
 /// <summary>
 /// Un volumen de contenido es una ruta de almacenamiento de datos
 /// por ejemplo una carpeta en el disco duro 
 /// </summary>
-public class Volumen 
+
+public class Volumen
 {
-    
     /// <summary>
     ///  Identificdor únio del volumen
     ///  Se obtiene con GUID new
     /// </summary>
-    public  string Id { get ; set ; }
+    public string Id { get; set; }
     // [a] [d] 
     // R 128
 
@@ -103,5 +107,22 @@ public class Volumen
     public bool ConfiguracionValida { get; set; } = false;
     // Esta valos se calcula por el sistema
     // R 
+
+
+    /// <summary>
+    /// Propiedad de navegacion para el volumen del repositorio
+    /// </summary>
+    [JsonIgnore]
+    [XmlIgnore]
+    public List<Repositorio.Repositorio> Repositorios { get; set; }
+    /// <summary>
+    /// Popieadd de navegacion para Contenido
+    /// </summary>
+    ///  [JsonIgnore]
+    [XmlIgnore]
+    public List<Contenido.Contenido> Contenido { get; set; }
+    /// <summary>
+    /// Popieadd de navegacion para Contenido
+    /// </summary>
 
 }

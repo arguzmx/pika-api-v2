@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-
-namespace pika.modelo.contenido;
+using pika.modelo.contenido.Volumen;
+namespace pika.modelo.contenido.Repositorio;
 
 /// <summary>
 /// Representa un repositorio para el almacenamiento y clasificación de contenido
@@ -49,8 +49,21 @@ public class Repositorio
     /// <summary>
     /// Propiedad de navegacion para el volumen del repositorio
     /// </summary>
+    [JsonIgnore]
+    [XmlIgnore]
+    public pika.modelo.contenido.Volumen.Volumen Volumen { get; set; }
+
+    /// <summary>
+    /// Propiedad de navegacion para el carpeta del repositorio
+    /// </summary>
+    [JsonIgnore]
+    [XmlIgnore]
+    public List<Carpeta.Carpeta> Carpetas { get; set; }
+
+    /// <summary>
+    /// Popieadd de navegacion para Contenido
+    /// </summary>
     [XmlIgnore]
     [JsonIgnore]
-    public Volumen Volumen { get; set; }
-
+    public List<Contenido.Contenido> Contenido { get; set; }
 }

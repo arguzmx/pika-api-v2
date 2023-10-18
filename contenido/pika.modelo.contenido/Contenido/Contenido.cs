@@ -1,7 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-
-namespace pika.modelo.contenido;
+using pika.modelo.contenido.Carpeta;
+using pika.modelo.contenido.Repositorio;
+using pika.modelo.contenido.Volumen;
+namespace pika.modelo.contenido.Contenido;
 
 public class Contenido
 {
@@ -99,11 +101,11 @@ public class Contenido
 
     [XmlIgnore]
     [JsonIgnore]
-    public Volumen Volumen { get; set; }
+    public pika.modelo.contenido.Volumen.Volumen Volumen { get; set; }
 
     [XmlIgnore]
     [JsonIgnore]
-    public Repositorio Repositorio { get; set; }
+    public pika.modelo.contenido.Repositorio.Repositorio Repositorio { get; set; }
 
     [XmlIgnore]
     [JsonIgnore]
