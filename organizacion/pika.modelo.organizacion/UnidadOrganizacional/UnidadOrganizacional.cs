@@ -12,7 +12,7 @@ namespace pika.modelo.organizacion
         /// <summary>
         /// Identificador único de la UI
         /// </summary>
-        public string Id { get;; set; }
+        public string Id { get; set; }
         // [a] [d] 
         // R 128
 

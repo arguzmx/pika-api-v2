@@ -100,4 +100,9 @@ public class Contenido
     [XmlIgnore]
     [JsonIgnore]
     public Carpeta Carpeta { get; set; }
+
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<Version> Versiones { get; set; }
 }
