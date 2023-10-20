@@ -58,6 +58,16 @@ public class Carpeta
     public bool EsRaiz { get; set; }
     // Se calcula automaticamente, si carpeta padre id es nulo entonces EsRaiz = true, false en caso contrario
 
+    /// <summary>
+    /// Identificador del permiso asociado a la carpeta, null por default
+    /// </summary>
+    public string? PermisoId { get; set; }
+    // 128 esta propiedad se va a llenar en una operacion especial
+
+    // Propiedades de navegación
+
+    [XmlIgnore, JsonIgnore]
+    public Permiso? Permiso { get; set; }
 
     /// <summary>
     /// Popieadd de navegacion para RepositorioId

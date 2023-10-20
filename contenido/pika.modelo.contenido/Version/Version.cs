@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace pika.modelo.contenido;
@@ -63,6 +62,12 @@ public class Version
     // [i] [d] 
     // R 128
 
+
+    /// <summary>
+    /// LIsta de anexos asociados a la versión de contenido
+    /// </summary>
+    public List<Anexo> Anexos { get; set; } = new List<Anexo>();
+    // Se actualiza vía el CRUD de Anexos
 
     [XmlIgnore]
     [JsonIgnore]

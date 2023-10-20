@@ -86,8 +86,16 @@ public class Contenido
     // [i] [a] [d] 
     // R 128
 
+    /// <summary>
+    /// Identificador del permiso asociado al contenido, null por defaulr
+    /// </summary>
+    public string? PermisoId { get; set; }
+    // 128 esta propiedad se va a llenar en una operacion especial
 
     // Propieades de navegación
+
+    [XmlIgnore, JsonIgnore]
+    public Permiso? Permiso { get; set; }
 
     [XmlIgnore]
     [JsonIgnore]
