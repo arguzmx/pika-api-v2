@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CouchDB.NET.DependencyInjection" Version="3.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\infraestructura\api.comunes.modelos\api.comunes.modelos.csproj" />
     <ProjectReference Include="..\..\pika.comun.metadatos\pika.comun.metadatos.csproj" />
   </ItemGroup>

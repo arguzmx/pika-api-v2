@@ -5,25 +5,30 @@ using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pika.comun.metadatos;
-using pika.modelo.contenido.Carpeta;
-using pika.modelo.contenido.Volumen;
+using pika.modelo.contenido.Version;
 using pika.servicios.contenido.dbcontext;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace pika.servicios.contenido.carpeta;
+namespace pika.servicios.contenido.version;
 
 /// <summary>
-/// Servicio de datos para la entidad Carpeta
+/// Servicio de datos para la entidad version
 /// </summary>
-[ServicioEntidadAPI(entidad: typeof(Carpeta))]
-public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInsertar, CarpetaActualizar, CarpetaDespliegue, string>,
-    IServicioEntidadAPI, IServicioCarpeta
+[ServicioEntidadAPI(entidad: typeof(modelo.contenido.Version.Version))]
+public class ServicioVersion : ServicioEntidadGenericaBase<modelo.contenido.Version.Version, VersionInsertar, VersionActualizar, VersionDespliegue, string>,
+    IServicioEntidadAPI, IServicioVersion
 {
+    private readonly VersionCouchDbContext dbCouch;
 
-    public ServicioCarpeta(DbContextContenido context, ILogger<ServicioCarpeta> logger) : base(context, context.Carpeta, logger)
+    public ServicioVersion(DbContext db, DbSet<modelo.contenido.Version.Version> dbSetFull, ILogger logger, VersionCouchDbContext dbCouch) : base(db, dbSetFull, logger)
     {
+        this.dbCouch = dbCouch;
     }
-
 
     /// <summary>
     /// Acceso al repositorio de gestipon documental local
@@ -35,7 +40,7 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
     {
-        var update = data.Deserialize<CarpetaActualizar>(JsonAPIDefaults());
+        var update = data.Deserialize<VersionActualizar>(JsonAPIDefaults());
         return await this.Actualizar((string)id, update);
     }
 
@@ -76,8 +81,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
     {
-        var add = data.Deserialize<CarpetaInsertar>(JsonAPIDefaults());
-        var temp = await this.Insertar(add);
+        var add = data.Deserialize<VersionInsertar>(JsonAPIDefaults());
+        var entidad = ADTOFull(add);
+        var temp = await dbCouch.Versiones.AddAsync(entidad);
+        //var temp = await this.Insertar(add);
         RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
         return respuesta;
     }
@@ -131,10 +138,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     #region Overrides para la personalziación de la entidad Archivo
 
-    public override async Task<ResultadoValidacion> ValidarInsertar(CarpetaInsertar data)
+    public override async Task<ResultadoValidacion> ValidarInsertar(VersionInsertar data)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a => a.Nombre == data.Nombre && a.RepositorioId==data.RepositorioId && a.CarpetaPadreId==data.CarpetaPadreId);
+        bool encontrado = true;
 
         if (encontrado)
         {
@@ -150,10 +157,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
     }
 
 
-    public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Carpeta original)
+    public override async Task<ResultadoValidacion> ValidarEliminacion(string id, modelo.contenido.Version.Version original)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a =>a.Id == id);
+        bool encontrado = true;
 
         if (!encontrado)
         {
@@ -169,10 +176,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
     }
 
 
-    public override async Task<ResultadoValidacion> ValidarActualizar(string id, CarpetaActualizar actualizacion, Carpeta original)
+    public override async Task<ResultadoValidacion> ValidarActualizar(string id, VersionActualizar actualizacion, modelo.contenido.Version.Version original)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a =>a.Id == id);
+        bool encontrado = true;
 
         if (!encontrado)
         {
@@ -182,8 +189,7 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
         else
         {
 
-            bool duplicado = await DB.Carpeta.AnyAsync(a => a.Id != id
-                && a.Nombre == actualizacion.Nombre);
+            bool duplicado = false;
 
             if (duplicado)
             {
@@ -200,40 +206,30 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
     }
 
 
-    public override Carpeta ADTOFull(CarpetaActualizar actualizacion, Carpeta actual)
+    public override modelo.contenido.Version.Version ADTOFull(VersionActualizar actualizacion, modelo.contenido.Version.Version actual)
     {
-        actual.Id = actualizacion.Id;
-        actual.Nombre = actualizacion.Nombre;
-        actual.CarpetaPadreId = actualizacion.CarpetaPadreId;
-        actual.PermisoId = actualizacion.PermisoId;
+       
         return actual;
     }
 
-    public override Carpeta ADTOFull(CarpetaInsertar data)
+    public override modelo.contenido.Version.Version ADTOFull(VersionInsertar data)
     {
-        Carpeta archivo = new Carpeta()
+        modelo.contenido.Version.Version archivo = new modelo.contenido.Version.Version()
         {
-            Id = Guid.NewGuid().ToString(),
-            RepositorioId = data.RepositorioId,
-            CarpetaPadreId = data.CarpetaPadreId,
-            FechaCreacion = DateTime.UtcNow,
-            Nombre = data.Nombre,
-            CreadorId = _contextoUsuario.UsuarioId,
-            EsRaiz = string.IsNullOrEmpty(data.CarpetaPadreId) ? true : false,
-             PermisoId = data.PermisoId
         };
+        archivo.Id = Guid.NewGuid().ToString();
+        archivo.Activa = data.Activa;
+        archivo.VolumenId=data.VolumenId;
         return archivo;
     }
 
-    public override CarpetaDespliegue ADTODespliegue(Carpeta data)
+    public override VersionDespliegue ADTODespliegue(modelo.contenido.Version.Version data)
     {
-        CarpetaDespliegue archivo = new CarpetaDespliegue()
+        VersionDespliegue archivo = new VersionDespliegue()
         {
             Id = data.Id,
-            CreadorId=data.CreadorId,
-            FechaCreacion=data.FechaCreacion,
-            Nombre = data.Nombre,
-            CarpetaPadreId=data.CarpetaPadreId
+
+            VolumenId = data.VolumenId
         };
         return archivo;
     }
@@ -243,4 +239,5 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning restore CS8603 // Possible null reference return.
+
 

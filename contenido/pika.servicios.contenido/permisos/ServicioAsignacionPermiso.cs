@@ -5,22 +5,21 @@ using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pika.comun.metadatos;
-using pika.modelo.contenido.Carpeta;
-using pika.modelo.contenido.Volumen;
+using pika.modelo.contenido.Permisos;
 using pika.servicios.contenido.dbcontext;
 using System.Text.Json;
 
-namespace pika.servicios.contenido.carpeta;
+namespace pika.servicios.contenido.permisos;
 
 /// <summary>
-/// Servicio de datos para la entidad Carpeta
+/// Servicio de datos para la entidad Asignacionpermiso
 /// </summary>
-[ServicioEntidadAPI(entidad: typeof(Carpeta))]
-public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInsertar, CarpetaActualizar, CarpetaDespliegue, string>,
-    IServicioEntidadAPI, IServicioCarpeta
+[ServicioEntidadAPI(entidad: typeof(AsignacionPermiso))]
+public class ServicioAsignacionPermiso : ServicioEntidadGenericaBase<AsignacionPermiso, AsignacionPermiso, AsignacionPermiso, AsignacionPermiso, string>,
+    IServicioEntidadAPI, IServicioAsignacionPermiso
 {
 
-    public ServicioCarpeta(DbContextContenido context, ILogger<ServicioCarpeta> logger) : base(context, context.Carpeta, logger)
+    public ServicioAsignacionPermiso(DbContextContenido context, ILogger<ServicioPermiso> logger) : base(context, context.AsignacionPermiso, logger)
     {
     }
 
@@ -35,7 +34,7 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
     {
-        var update = data.Deserialize<CarpetaActualizar>(JsonAPIDefaults());
+        var update = data.Deserialize<AsignacionPermiso>(JsonAPIDefaults());
         return await this.Actualizar((string)id, update);
     }
 
@@ -76,7 +75,7 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
     {
-        var add = data.Deserialize<CarpetaInsertar>(JsonAPIDefaults());
+        var add = data.Deserialize<AsignacionPermiso>(JsonAPIDefaults());
         var temp = await this.Insertar(add);
         RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
         return respuesta;
@@ -131,10 +130,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     #region Overrides para la personalziación de la entidad Archivo
 
-    public override async Task<ResultadoValidacion> ValidarInsertar(CarpetaInsertar data)
+    public override async Task<ResultadoValidacion> ValidarInsertar(AsignacionPermiso data)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a => a.Nombre == data.Nombre && a.RepositorioId==data.RepositorioId && a.CarpetaPadreId==data.CarpetaPadreId);
+        bool encontrado = await DB.AsignacionPermiso.AnyAsync(a => a.RolId==data.RolId && a.UsuarioId==data.UsuarioId  && a.PermisoId==data.PermisoId);
 
         if (encontrado)
         {
@@ -150,10 +149,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
     }
 
 
-    public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Carpeta original)
+    public override async Task<ResultadoValidacion> ValidarEliminacion(string id, AsignacionPermiso original)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a =>a.Id == id);
+        bool encontrado = await DB.AsignacionPermiso.AnyAsync(a => a.Id == id);
 
         if (!encontrado)
         {
@@ -168,11 +167,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
         return resultado;
     }
 
-
-    public override async Task<ResultadoValidacion> ValidarActualizar(string id, CarpetaActualizar actualizacion, Carpeta original)
+    public override async Task<ResultadoValidacion> ValidarActualizar(string id, AsignacionPermiso actualizacion, AsignacionPermiso original)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a =>a.Id == id);
+        bool encontrado = await DB.AsignacionPermiso.AnyAsync(a => a.Id == id);
 
         if (!encontrado)
         {
@@ -182,8 +180,7 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
         else
         {
 
-            bool duplicado = await DB.Carpeta.AnyAsync(a => a.Id != id
-                && a.Nombre == actualizacion.Nombre);
+            bool duplicado = await DB.AsignacionPermiso.AnyAsync(a => a.Id != id &&  a.RolId == actualizacion.RolId && a.UsuarioId == actualizacion.UsuarioId  && a.PermisoId == actualizacion.PermisoId);
 
             if (duplicado)
             {
@@ -200,42 +197,30 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
     }
 
 
-    public override Carpeta ADTOFull(CarpetaActualizar actualizacion, Carpeta actual)
+    public override AsignacionPermiso ADTOFull(AsignacionPermiso actualizacion, AsignacionPermiso actual)
     {
         actual.Id = actualizacion.Id;
-        actual.Nombre = actualizacion.Nombre;
-        actual.CarpetaPadreId = actualizacion.CarpetaPadreId;
+        actual.RolId = actualizacion.RolId;
+        actual.UsuarioId = actualizacion.UsuarioId;
         actual.PermisoId = actualizacion.PermisoId;
         return actual;
     }
 
-    public override Carpeta ADTOFull(CarpetaInsertar data)
+    public override AsignacionPermiso ADTOFull(AsignacionPermiso data)
     {
-        Carpeta archivo = new Carpeta()
+        AsignacionPermiso archivo = new AsignacionPermiso()
         {
             Id = Guid.NewGuid().ToString(),
-            RepositorioId = data.RepositorioId,
-            CarpetaPadreId = data.CarpetaPadreId,
-            FechaCreacion = DateTime.UtcNow,
-            Nombre = data.Nombre,
-            CreadorId = _contextoUsuario.UsuarioId,
-            EsRaiz = string.IsNullOrEmpty(data.CarpetaPadreId) ? true : false,
-             PermisoId = data.PermisoId
-        };
+            RolId = data.RolId,
+            UsuarioId = data.UsuarioId,
+            PermisoId = data.PermisoId,
+    };
         return archivo;
     }
 
-    public override CarpetaDespliegue ADTODespliegue(Carpeta data)
+    public override AsignacionPermiso ADTODespliegue(AsignacionPermiso data)
     {
-        CarpetaDespliegue archivo = new CarpetaDespliegue()
-        {
-            Id = data.Id,
-            CreadorId=data.CreadorId,
-            FechaCreacion=data.FechaCreacion,
-            Nombre = data.Nombre,
-            CarpetaPadreId=data.CarpetaPadreId
-        };
-        return archivo;
+        return data;
     }
 
     #endregion
@@ -243,4 +228,5 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning restore CS8603 // Possible null reference return.
+
 
