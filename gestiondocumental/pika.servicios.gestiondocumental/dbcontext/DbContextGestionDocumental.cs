@@ -1,6 +1,7 @@
 ﻿using api.comunes.modelos.modelos;
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
+using pika.modelo.gestiondocumental.Acervo.Activo.Activo;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
 
@@ -16,12 +17,16 @@ public class DbContextGestionDocumental : DbContext
     public DbSet<Archivo> Archivos { get; set; }
     public DbSet<ElementoCatalogo> TipoArchivo { get; set; }
     public DbSet<I18NCatalogo> TraduccionesTipoArchivo { get; set; }
+    public DbSet<Activo> Activos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ConfiguracionArchivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionActivo());
+
+
         base.OnModelCreating(modelBuilder); 
     }
 

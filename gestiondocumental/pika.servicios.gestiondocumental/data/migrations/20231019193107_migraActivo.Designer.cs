@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pika.servicios.gestiondocumental.dbcontext;
 
@@ -10,9 +11,10 @@ using pika.servicios.gestiondocumental.dbcontext;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     [DbContext(typeof(DbContextGestionDocumental))]
-    partial class DbContextGestionDocumentalModelSnapshot : ModelSnapshot
+    [Migration("20231019193107_migraActivo")]
+    partial class migraActivo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,6 +104,7 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasColumnType("varchar(128)");
 
                     b.Property<string>("AlmacenArchivoId")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
@@ -119,14 +122,17 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasColumnType("varchar(128)");
 
                     b.Property<string>("Asunto")
+                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("varchar(2000)");
 
                     b.Property<string>("CodigoElectronico")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
                     b.Property<string>("CodigoOptico")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
@@ -134,10 +140,12 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ContenedorAlmacenId")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
                     b.Property<string>("ContenidoId")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
@@ -164,18 +172,22 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("FechaCierre")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("FechaRetencionAC")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("FechaRetencionAT")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("IdentificadorInterno")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
@@ -226,6 +238,7 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasColumnType("varchar(128)");
 
                     b.Property<string>("ZonaAlmacenId")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 

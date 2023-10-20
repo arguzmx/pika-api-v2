@@ -1,4 +1,5 @@
 ﻿using pika.comun.metadatos.atributos;
+using pika.modelo.gestiondocumental.Acervo.Activo.Activo;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
@@ -61,6 +62,16 @@ namespace pika.modelo.gestiondocumental
         [JsonIgnore]
         [XmlIgnore]
         public TipoArchivo TipoArchivo { get; set; }
+
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public List<Activo> ActivosActuales { get; set; }
+
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public List<Activo> ActivosOrigen { get; set; }
 
     }
 }
