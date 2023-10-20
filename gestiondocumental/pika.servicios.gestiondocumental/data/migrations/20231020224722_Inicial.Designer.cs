@@ -10,8 +10,8 @@ using pika.servicios.gestiondocumental.dbcontext;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     [DbContext(typeof(DbContextGestionDocumental))]
-    [Migration("20231018013443_InicialGD")]
-    partial class InicialGD
+    [Migration("20231020224722_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

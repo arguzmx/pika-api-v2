@@ -1,6 +1,7 @@
 ﻿using api.comunes.modelos.modelos;
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
+using pika.modelo.gestiondocumental.Archivos.Catalogos;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
 

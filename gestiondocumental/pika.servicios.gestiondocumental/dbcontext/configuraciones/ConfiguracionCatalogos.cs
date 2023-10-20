@@ -12,8 +12,7 @@ public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCa
     {
 
         builder.ToTable("gd$catalogos");
-        builder.HasDiscriminator<string>("Catalogo")
-            .HasValue<TipoArchivo>("TipoArchivo");
+        builder.HasDiscriminator<string>("Catalogo").HasValue<TipoArchivo>("TipoArchivo");
 
         builder.HasKey(e => new { e.Id } );
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
@@ -30,8 +29,7 @@ public class ConfiguracionI18NCatalogo : IEntityTypeConfiguration<I18NCatalogo>
     {
 
         builder.ToTable("gd$i18ncatalogos");
-        builder.HasDiscriminator<string>("Catalogo")
-            .HasValue<TraduccionesTipoArchivo>("TipoArchivo");
+        builder.HasDiscriminator<string>("Catalogo").HasValue<TraduccionesTipoArchivo>("TipoArchivo");
 
         builder.HasKey(e => new { e.Id, e.Idioma, e.DominioId, e.UnidadOrganizacionalId });
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
