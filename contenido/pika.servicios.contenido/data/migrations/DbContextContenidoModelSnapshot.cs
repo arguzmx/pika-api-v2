@@ -46,12 +46,18 @@ namespace pika.servicios.contenido.data.migrations
                         .HasMaxLength(512)
                         .HasColumnType("varchar(512)");
 
+                    b.Property<string>("PermisoId")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
                     b.Property<string>("RepositorioId")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PermisoId");
 
                     b.HasIndex("RepositorioId");
 
@@ -90,6 +96,10 @@ namespace pika.servicios.contenido.data.migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<string>("PermisoId")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
                     b.Property<string>("RepositorioId")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -112,11 +122,64 @@ namespace pika.servicios.contenido.data.migrations
 
                     b.HasIndex("CarpetaId");
 
+                    b.HasIndex("PermisoId");
+
                     b.HasIndex("RepositorioId");
 
                     b.HasIndex("VolumenId");
 
                     b.ToTable("contenido$contenido", (string)null);
+                });
+
+            modelBuilder.Entity("pika.modelo.contenido.Permiso", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<bool>("Crear")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Eliminar")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Escribir")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Leer")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("contenido$permiso", (string)null);
+                });
+
+            modelBuilder.Entity("pika.modelo.contenido.Permisos.AsignacionPermiso", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("PermisoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("RolId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermisoId");
+
+                    b.ToTable("contenido$asignacionpermiso", (string)null);
                 });
 
             modelBuilder.Entity("pika.modelo.contenido.Repositorio.Repositorio", b =>
@@ -209,11 +272,18 @@ namespace pika.servicios.contenido.data.migrations
 
             modelBuilder.Entity("pika.modelo.contenido.Carpeta.Carpeta", b =>
                 {
+                    b.HasOne("pika.modelo.contenido.Permiso", "Permiso")
+                        .WithMany("Carpetas")
+                        .HasForeignKey("PermisoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("pika.modelo.contenido.Repositorio.Repositorio", "Repositorio")
                         .WithMany("Carpetas")
                         .HasForeignKey("RepositorioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Permiso");
 
                     b.Navigation("Repositorio");
                 });
@@ -225,6 +295,11 @@ namespace pika.servicios.contenido.data.migrations
                         .HasForeignKey("CarpetaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("pika.modelo.contenido.Permiso", "Permiso")
+                        .WithMany("Contenidos")
+                        .HasForeignKey("PermisoId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("pika.modelo.contenido.Repositorio.Repositorio", "Repositorio")
                         .WithMany("Contenido")
@@ -240,9 +315,22 @@ namespace pika.servicios.contenido.data.migrations
 
                     b.Navigation("Carpeta");
 
+                    b.Navigation("Permiso");
+
                     b.Navigation("Repositorio");
 
                     b.Navigation("Volumen");
+                });
+
+            modelBuilder.Entity("pika.modelo.contenido.Permisos.AsignacionPermiso", b =>
+                {
+                    b.HasOne("pika.modelo.contenido.Permiso", "Permiso")
+                        .WithMany("Asignaciones")
+                        .HasForeignKey("PermisoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Permiso");
                 });
 
             modelBuilder.Entity("pika.modelo.contenido.Repositorio.Repositorio", b =>
@@ -259,6 +347,15 @@ namespace pika.servicios.contenido.data.migrations
             modelBuilder.Entity("pika.modelo.contenido.Carpeta.Carpeta", b =>
                 {
                     b.Navigation("Contenido");
+                });
+
+            modelBuilder.Entity("pika.modelo.contenido.Permiso", b =>
+                {
+                    b.Navigation("Asignaciones");
+
+                    b.Navigation("Carpetas");
+
+                    b.Navigation("Contenidos");
                 });
 
             modelBuilder.Entity("pika.modelo.contenido.Repositorio.Repositorio", b =>

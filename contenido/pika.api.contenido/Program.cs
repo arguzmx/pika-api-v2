@@ -2,6 +2,7 @@ using api.comunes;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using pika.servicios.contenido.dbcontext;
+using CouchDB.Driver.DependencyInjection;
 
 namespace pika.api.contenido;
 
@@ -10,6 +11,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var configuration = builder.Configuration;
 
         IWebHostEnvironment environment = builder.Environment;
 
@@ -32,6 +34,12 @@ public class Program
         {
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         });
+
+        builder.Services.AddCouchContext<VersionCouchDbContext>(builder => builder
+    .EnsureDatabaseExists()
+    .UseEndpoint(configuration.GetValue<string>("promodeldrivers:couchdb:endpoint"))
+    .UseBasicAuthentication(username: configuration.GetValue<string>("promodeldrivers:couchdb:username"),
+    password: configuration.GetValue<string>("promodeldrivers:couchdb:password")));
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -20,5 +20,6 @@ public class CarpetaInsertar
     /// Identificador de la carpeta padre de la actual 
     /// </summary>
     public string? CarpetaPadreId { get; set; }
+    public string? PermisoId { get; set; }
 
 }

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using pika.modelo.contenido.Volumen;
+using pika.modelo.contenido;
 namespace pika.modelo.contenido.Repositorio;
 
 /// <summary>
@@ -51,7 +51,7 @@ public class Repositorio
     /// </summary>
     [JsonIgnore]
     [XmlIgnore]
-    public pika.modelo.contenido.Volumen.Volumen Volumen { get; set; }
+    public Volumen.Volumen Volumen { get; set; }
 
     /// <summary>
     /// Propiedad de navegacion para el carpeta del repositorio

@@ -203,6 +203,7 @@ public class ServicioContenido : ServicioEntidadGenericaBase<Contenido, Contenid
         actual.Id = actualizacion.Id;
         actual.Nombre = actualizacion.Nombre;
         actual.IdExterno = actualizacion.IdExterno;
+        actual.PermisoId = actualizacion.PermisoId;
         return actual;
     }
 
@@ -218,8 +219,9 @@ public class ServicioContenido : ServicioEntidadGenericaBase<Contenido, Contenid
             VolumenId = data.VolumenId,
             CarpetaId = data.CarpetaId,
             TipoElemento = data.TipoElemento,
-            IdExterno=data.IdExterno
-        };
+            IdExterno=data.IdExterno,
+            PermisoId = data.PermisoId
+    };
         return archivo;
     }
 

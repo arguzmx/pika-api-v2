@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using pika.modelo.contenido.Carpeta;
 using pika.modelo.contenido.Repositorio;
@@ -101,19 +102,20 @@ public class Contenido
 
     [XmlIgnore]
     [JsonIgnore]
-    public pika.modelo.contenido.Volumen.Volumen Volumen { get; set; }
+    public Volumen.Volumen Volumen { get; set; }
 
     [XmlIgnore]
     [JsonIgnore]
-    public pika.modelo.contenido.Repositorio.Repositorio Repositorio { get; set; }
+    public Repositorio.Repositorio Repositorio { get; set; }
 
     [XmlIgnore]
     [JsonIgnore]
-    public pika.modelo.contenido.Carpeta.Carpeta Carpeta { get; set; }
+    public Carpeta.Carpeta Carpeta { get; set; }
 
 
     [XmlIgnore]
     [JsonIgnore]
-    public List<Version> Versiones { get; set; }
+    [NotMapped]
+    public List<Version.Version> Versiones { get; set; }
 
 }

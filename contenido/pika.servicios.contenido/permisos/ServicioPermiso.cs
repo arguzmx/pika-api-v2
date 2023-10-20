@@ -5,22 +5,22 @@ using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pika.comun.metadatos;
-using pika.modelo.contenido.Carpeta;
-using pika.modelo.contenido.Volumen;
+using pika.modelo.contenido;
 using pika.servicios.contenido.dbcontext;
 using System.Text.Json;
 
-namespace pika.servicios.contenido.carpeta;
+namespace pika.servicios.contenido.permisos;
+
 
 /// <summary>
-/// Servicio de datos para la entidad Carpeta
+/// Servicio de datos para la entidad permiso
 /// </summary>
-[ServicioEntidadAPI(entidad: typeof(Carpeta))]
-public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInsertar, CarpetaActualizar, CarpetaDespliegue, string>,
-    IServicioEntidadAPI, IServicioCarpeta
+[ServicioEntidadAPI(entidad: typeof(Permiso))]
+public class ServicioPermiso : ServicioEntidadGenericaBase<Permiso, Permiso, Permiso, Permiso, string>,
+    IServicioEntidadAPI, IServicioPermiso
 {
 
-    public ServicioCarpeta(DbContextContenido context, ILogger<ServicioCarpeta> logger) : base(context, context.Carpeta, logger)
+    public ServicioPermiso(DbContextContenido context, ILogger<ServicioPermiso> logger) : base(context, context.Permiso, logger)
     {
     }
 
@@ -35,7 +35,7 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
     {
-        var update = data.Deserialize<CarpetaActualizar>(JsonAPIDefaults());
+        var update = data.Deserialize<Permiso>(JsonAPIDefaults());
         return await this.Actualizar((string)id, update);
     }
 
@@ -76,7 +76,7 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
     {
-        var add = data.Deserialize<CarpetaInsertar>(JsonAPIDefaults());
+        var add = data.Deserialize<Permiso>(JsonAPIDefaults());
         var temp = await this.Insertar(add);
         RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
         return respuesta;
@@ -131,10 +131,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
     #region Overrides para la personalziación de la entidad Archivo
 
-    public override async Task<ResultadoValidacion> ValidarInsertar(CarpetaInsertar data)
+    public override async Task<ResultadoValidacion> ValidarInsertar(Permiso data)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a => a.Nombre == data.Nombre && a.RepositorioId==data.RepositorioId && a.CarpetaPadreId==data.CarpetaPadreId);
+        bool encontrado = await DB.Permiso.AnyAsync(a => a.Leer == data.Leer && a.Escribir == data.Escribir && a.Eliminar == data.Eliminar && a.Crear == data.Crear);
 
         if (encontrado)
         {
@@ -150,10 +150,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
     }
 
 
-    public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Carpeta original)
+    public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Permiso original)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a =>a.Id == id);
+        bool encontrado = await DB.Permiso.AnyAsync(a =>a.Id == id);
 
         if (!encontrado)
         {
@@ -169,10 +169,10 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
     }
 
 
-    public override async Task<ResultadoValidacion> ValidarActualizar(string id, CarpetaActualizar actualizacion, Carpeta original)
+    public override async Task<ResultadoValidacion> ValidarActualizar(string id, Permiso actualizacion, Permiso original)
     {
         ResultadoValidacion resultado = new();
-        bool encontrado = await DB.Carpeta.AnyAsync(a =>a.Id == id);
+        bool encontrado = await DB.Permiso.AnyAsync(a => a.Id == id);
 
         if (!encontrado)
         {
@@ -182,8 +182,7 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
         else
         {
 
-            bool duplicado = await DB.Carpeta.AnyAsync(a => a.Id != id
-                && a.Nombre == actualizacion.Nombre);
+            bool duplicado = await DB.Permiso.AnyAsync(a =>a.Id != id && a.Leer == actualizacion.Leer && a.Escribir == actualizacion.Escribir && a.Eliminar == actualizacion.Eliminar && a.Crear == actualizacion.Crear);
 
             if (duplicado)
             {
@@ -200,42 +199,31 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
     }
 
 
-    public override Carpeta ADTOFull(CarpetaActualizar actualizacion, Carpeta actual)
+    public override Permiso ADTOFull(Permiso actualizacion, Permiso actual)
     {
         actual.Id = actualizacion.Id;
-        actual.Nombre = actualizacion.Nombre;
-        actual.CarpetaPadreId = actualizacion.CarpetaPadreId;
-        actual.PermisoId = actualizacion.PermisoId;
+        actual.Escribir = actualizacion.Escribir;
+        actual.Leer = actualizacion.Leer;  
+        actual.Crear = actualizacion.Crear;
+        actual.Eliminar= actualizacion.Eliminar;
         return actual;
     }
 
-    public override Carpeta ADTOFull(CarpetaInsertar data)
+    public override Permiso ADTOFull(Permiso data)
     {
-        Carpeta archivo = new Carpeta()
+        Permiso archivo = new Permiso()
         {
             Id = Guid.NewGuid().ToString(),
-            RepositorioId = data.RepositorioId,
-            CarpetaPadreId = data.CarpetaPadreId,
-            FechaCreacion = DateTime.UtcNow,
-            Nombre = data.Nombre,
-            CreadorId = _contextoUsuario.UsuarioId,
-            EsRaiz = string.IsNullOrEmpty(data.CarpetaPadreId) ? true : false,
-             PermisoId = data.PermisoId
+            Leer = data.Leer,
+            Crear = data.Crear,
+            Eliminar = data.Eliminar
         };
         return archivo;
     }
 
-    public override CarpetaDespliegue ADTODespliegue(Carpeta data)
+    public override Permiso ADTODespliegue(Permiso data)
     {
-        CarpetaDespliegue archivo = new CarpetaDespliegue()
-        {
-            Id = data.Id,
-            CreadorId=data.CreadorId,
-            FechaCreacion=data.FechaCreacion,
-            Nombre = data.Nombre,
-            CarpetaPadreId=data.CarpetaPadreId
-        };
-        return archivo;
+        return data;
     }
 
     #endregion
@@ -243,4 +231,6 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
 
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning restore CS8603 // Possible null reference return.
+
+
 

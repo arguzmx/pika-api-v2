@@ -20,11 +20,12 @@ public class ConfiguracionContenido : IEntityTypeConfiguration<Contenido>
         builder.Property(e => e.CarpetaId).IsRequired().HasMaxLength(128);
         builder.Property(e => e.TipoElemento).IsRequired().HasMaxLength(128);
         builder.Property(e => e.IdExterno).IsRequired().HasMaxLength(128);
-
+        builder.Property(e => e.PermisoId).HasMaxLength(128);
 
         builder.HasOne(x => x.Volumen).WithMany(y => y.Contenido).HasForeignKey(z => z.VolumenId).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => x.Carpeta).WithMany(y => y.Contenido).HasForeignKey(z => z.CarpetaId).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => x.Repositorio).WithMany(y => y.Contenido).HasForeignKey(z => z.RepositorioId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x=>x.Permiso).WithMany(y=>y.Contenidos).HasForeignKey(z=>z.PermisoId).OnDelete(DeleteBehavior.Restrict);
 
     }
 }

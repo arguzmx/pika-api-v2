@@ -39,5 +39,6 @@ public class ContenidoInsertar
     /// como clave de búsqueda
     /// </summary>
     public string? IdExterno { get; set; }
+    public string? PermisoId { get; set; }
 
 }
