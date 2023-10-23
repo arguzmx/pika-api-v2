@@ -33,7 +33,10 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, ElementoCatalogo original)
         {
-            ResultadoValidacion resultado = new ();
+            ResultadoValidacion resultado = new ()
+            {
+                Valido= true
+            };
             
             // Verifica que el Id no esté en uso en la tabla de Archivos
             if (DB.Archivos.Any(
@@ -41,7 +44,7 @@ namespace pika.servicios.gestiondocumental.archivos
                 && a.DominioId == _contextoUsuario.DominioId
                 && a.UOrgId == _contextoUsuario.UOrgId))
             {
-
+                resultado.Valido= false;
             }
 
             return resultado;
