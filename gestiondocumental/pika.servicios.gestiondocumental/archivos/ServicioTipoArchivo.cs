@@ -2,6 +2,7 @@
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
