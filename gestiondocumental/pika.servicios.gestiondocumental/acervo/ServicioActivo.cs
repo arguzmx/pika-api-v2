@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using pika.comun.metadatos;
-using pika.modelo.gestiondocumental.Acervo.Activo.Activo;
+using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
 using System.Runtime.ConstrainedExecution;
 using System.Text.Json;

@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using pika.modelo.gestiondocumental.Acervo.Activo.Activo;
+
 
 namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
 {

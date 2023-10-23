@@ -3,7 +3,7 @@ using pika.comun.metadatos.atributos;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-namespace pika.modelo.gestiondocumental.Acervo.Activo.Activo;
+namespace pika.modelo.gestiondocumental;
 
 /// <summary>
 /// Activo del acervo de una unidad adminitrativa gestionado por un archivo

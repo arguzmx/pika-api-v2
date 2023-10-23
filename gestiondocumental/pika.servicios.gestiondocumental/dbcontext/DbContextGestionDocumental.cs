@@ -1,7 +1,6 @@
 ﻿using api.comunes.modelos.modelos;
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
-using pika.modelo.gestiondocumental.Acervo.Activo.Activo;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
 

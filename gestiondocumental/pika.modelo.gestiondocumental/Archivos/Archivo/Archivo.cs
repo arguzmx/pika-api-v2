@@ -1,5 +1,5 @@
 ﻿using pika.comun.metadatos.atributos;
-using pika.modelo.gestiondocumental.Acervo.Activo.Activo;
+using pika.modelo.gestiondocumental;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 

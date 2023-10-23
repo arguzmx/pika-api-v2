@@ -1,5 +1,5 @@
 ﻿using api.comunes.modelos.servicios;
-using pika.modelo.gestiondocumental.Acervo.Activo.Activo;
+using pika.modelo.gestiondocumental;
 using System;
 using System.Collections.Generic;
 using System.Linq;

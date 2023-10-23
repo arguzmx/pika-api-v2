@@ -95,7 +95,7 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.HasDiscriminator<string>("Catalogo").HasValue("I18NCatalogo");
                 });
 
-            modelBuilder.Entity("pika.modelo.gestiondocumental.Acervo.Activo.Activo.Activo", b =>
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Activo", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(128)
@@ -292,7 +292,7 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasForeignKey("ElementoCatalogoId");
                 });
 
-            modelBuilder.Entity("pika.modelo.gestiondocumental.Acervo.Activo.Activo.Activo", b =>
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Activo", b =>
                 {
                     b.HasOne("pika.modelo.gestiondocumental.Archivo", "ArchivoActual")
                         .WithMany("ActivosActuales")
