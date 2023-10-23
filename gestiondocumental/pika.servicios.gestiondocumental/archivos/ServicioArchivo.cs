@@ -191,7 +191,7 @@ namespace pika.servicios.gestiondocumental.archivos
                 bool duplicado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id != id 
-                    && a.Nombre.Equals( actualizacion.Nombre, StringComparison.InvariantCultureIgnoreCase));
+                    && a.Nombre.Equals( actualizacion.Nombre));
 
                 if (duplicado)
                 {
