@@ -10,14 +10,15 @@ using pika.servicios.gestiondocumental.dbcontext;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     [DbContext(typeof(DbContextGestionDocumental))]
-    [Migration("20231018013443_InicialGD")]
-    partial class InicialGD
+    [Migration("20231024213743_InicialArchivo")]
+    partial class InicialArchivo
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("api.comunes.modelos.modelos.ElementoCatalogo", b =>
@@ -26,9 +27,13 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<string>("Catalogo")
+                    b.Property<string>("CatalogoId")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<int>("Discriminator")
+                        .HasColumnType("int");
 
                     b.Property<string>("DominioId")
                         .IsRequired()
@@ -52,9 +57,13 @@ namespace pika.servicios.gestiondocumental.data.migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CatalogoId");
+
                     b.ToTable("gd$catalogos", (string)null);
 
-                    b.HasDiscriminator<string>("Catalogo").HasValue("ElementoCatalogo");
+                    b.HasDiscriminator<int>("Discriminator").HasValue(0);
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("api.comunes.modelos.modelos.I18NCatalogo", b =>
@@ -63,21 +72,24 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<string>("Idioma")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
-
                     b.Property<string>("DominioId")
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
                     b.Property<string>("UnidadOrganizacionalId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Idioma")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("CatalogoId")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<string>("Catalogo")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Discriminator")
+                        .HasColumnType("int");
 
                     b.Property<string>("ElementoCatalogoId")
                         .HasColumnType("varchar(128)");
@@ -87,13 +99,17 @@ namespace pika.servicios.gestiondocumental.data.migrations
                         .HasMaxLength(512)
                         .HasColumnType("varchar(512)");
 
-                    b.HasKey("Id", "Idioma", "DominioId", "UnidadOrganizacionalId");
+                    b.HasKey("Id", "DominioId", "UnidadOrganizacionalId", "Idioma");
 
                     b.HasIndex("ElementoCatalogoId");
 
+                    b.HasIndex("CatalogoId", "Idioma");
+
                     b.ToTable("gd$i18ncatalogos", (string)null);
 
-                    b.HasDiscriminator<string>("Catalogo").HasValue("I18NCatalogo");
+                    b.HasDiscriminator<int>("Discriminator").HasValue(0);
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("pika.modelo.gestiondocumental.Archivo", b =>
@@ -129,18 +145,18 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.ToTable("gd$archivo", (string)null);
                 });
 
-            modelBuilder.Entity("pika.modelo.gestiondocumental.Archivos.Catalogos.TraduccionesTipoArchivo", b =>
-                {
-                    b.HasBaseType("api.comunes.modelos.modelos.I18NCatalogo");
-
-                    b.HasDiscriminator().HasValue("TipoArchivo");
-                });
-
             modelBuilder.Entity("pika.modelo.gestiondocumental.TipoArchivo", b =>
                 {
                     b.HasBaseType("api.comunes.modelos.modelos.ElementoCatalogo");
 
-                    b.HasDiscriminator().HasValue("TipoArchivo");
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Archivos.Catalogos.TraduccionesTipoArchivo", b =>
+                {
+                    b.HasBaseType("api.comunes.modelos.modelos.I18NCatalogo");
+
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("api.comunes.modelos.modelos.I18NCatalogo", b =>

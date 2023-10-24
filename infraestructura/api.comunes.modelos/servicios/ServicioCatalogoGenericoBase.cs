@@ -1,5 +1,4 @@
 ﻿using api.comunes.modelos.modelos;
-using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -49,17 +48,18 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// </summary>
     /// <param name="Idioma">Idioma del catálogo</param>
     /// <returns></returns>
-    public virtual async Task<RespuestaPayload<List<ParClaveTexto>>> Todo(string? idioma)
+    public virtual async Task<RespuestaPayload<List<ParClaveTexto>>> Todo(string catalogoId, string? idioma)
     {
         RespuestaPayload<List<ParClaveTexto>> respuesta = new();
         try
         {
 
             List<ParClaveTexto> payload = await _dbSetFull.Where
-         (c => c.DominioId == _contextoUsuario.DominioId
-         && c.UnidadOrganizacionalId == _contextoUsuario.UOrgId
-         && c.Idioma == idioma).OrderBy(c => c.Texto)
-         .Select(x => new ParClaveTexto() { Clave = x.Id, Texto = x.Texto }).ToListAsync();
+                (c => c.DominioId == _contextoUsuario.DominioId
+                && c.UnidadOrganizacionalId == _contextoUsuario.UOrgId
+                && c.CatalogoId == catalogoId
+                && c.Idioma == idioma).OrderBy(c => c.Texto)
+            .Select(x => new ParClaveTexto() { Clave = x.Id, Texto = x.Texto }).ToListAsync();
 
             respuesta = new()
             {
@@ -87,8 +87,9 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// </summary>
     /// <param name="idioma">Idioma del catálogo</param>
     /// <param name="buscar">Texto a buscar</param>
+    /// <param name="catalogoId">Texto a buscar</param>
     /// <returns></returns>
-    public virtual async Task<RespuestaPayload<List<ParClaveTexto>>> PorTexto(string? idioma, string? buscar) 
+    public virtual async Task<RespuestaPayload<List<ParClaveTexto>>> PorTexto(string catalogoId, string? idioma, string? buscar ) 
     {
         RespuestaPayload<List<ParClaveTexto>> respuesta = new();
         try
@@ -98,7 +99,7 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
             {
                 payload = await _dbSetFull.Where(c => c.DominioId == _contextoUsuario.DominioId
                 && c.UnidadOrganizacionalId == _contextoUsuario.UOrgId
-                && c.Idioma == idioma
+                && c.Idioma == idioma && c.CatalogoId == catalogoId
                 && buscar.Contains(c.Texto, StringComparison.InvariantCultureIgnoreCase))
                 .OrderBy(c => c.Texto)
                 .Select(x => new ParClaveTexto() { Clave = x.Id, Texto = x.Texto }).ToListAsync();
@@ -127,13 +128,14 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// Crea una nueva entrada nueva en el catálogo
     /// </summary>
     /// <param name="elemento"></param>
+    /// <param name="catalogoId"></param>
     /// <returns></returns>
-    public virtual async Task<RespuestaPayload<ElementoCatalogo>> CreaEntrada(ElementoCatalogoInsertar elemento) 
+    public virtual async Task<RespuestaPayload<ElementoCatalogo>> CreaEntrada(string catalogoId, ElementoCatalogoInsertar elemento) 
     {
         var respuesta = new RespuestaPayload<ElementoCatalogo>();
         try
         {
-            var elementoNuevo = ADTOFull(elemento);
+            var elementoNuevo = ADTOFull(catalogoId, elemento);
             var resultadoValidacion = await ValidarInsertar(elemento);
             if (resultadoValidacion.Valido)
             {
@@ -166,14 +168,17 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// Elimina una entrada del catálogo para todos los idiomas
     /// </summary>
     /// <param name="Id">Identificador único de la entrada</param>
+    /// <param name="catalogoId">Identificador único de la entrada</param>
     /// <returns></returns>
-    public virtual async Task<Respuesta> EliminaEntrada(string id)
+    public virtual async Task<Respuesta> EliminaEntrada(string catalogoId, string id)
     {
         var respuesta = new Respuesta();
         try
         {
             var elemento = await _dbSetFull.FirstOrDefaultAsync(x => x.DominioId == _contextoUsuario.DominioId
-                   && x.UnidadOrganizacionalId == _contextoUsuario.UOrgId && x.Id == id);
+                   && x.UnidadOrganizacionalId == _contextoUsuario.UOrgId 
+                   && x.CatalogoId == catalogoId
+                   && x.Id == id);
 
             if (elemento == null)
             {
@@ -219,13 +224,13 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
     /// <param name="idioma">Idioma de la entrada</param>
     /// <param name="texto">texto para la enrada</param>
     /// <returns></returns>
-    public async Task<Respuesta> ActualizaEntrada(string id, ElementoCatalogoActualizar elementoActualizar)
+    public async Task<Respuesta> ActualizaEntrada(string catalogoId, string id, ElementoCatalogoActualizar elementoActualizar)
     {
         Respuesta respuesta = new ();
         try
         {
             var elemento = await _dbSetFull.FirstOrDefaultAsync(x => x.DominioId == _contextoUsuario.DominioId
-                       && x.UnidadOrganizacionalId == _contextoUsuario.UOrgId && x.Id == elementoActualizar.Id);
+                       && x.UnidadOrganizacionalId == _contextoUsuario.UOrgId && x.Id == elementoActualizar.Id && x.CatalogoId == catalogoId);
 
             if (elemento == null)
             {
@@ -287,17 +292,17 @@ public class ServicioCatalogoGenericoBase : IServicioCatalogoGenerico
         return new ResultadoValidacion() { Valido = true };
     }
 
-    public virtual ElementoCatalogo ADTOFull(ElementoCatalogoInsertar data)
+    public virtual ElementoCatalogo ADTOFull(string catalogoId, ElementoCatalogoInsertar data )
     {
         ElementoCatalogo el = new()
         {
-            Id = data.Id ?? Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid().ToString(),
             Texto = data.Texto,
             Idioma = data.Idioma,
             DominioId = _contextoUsuario.DominioId,
-            UnidadOrganizacionalId = _contextoUsuario.UOrgId
+            UnidadOrganizacionalId = _contextoUsuario.UOrgId, 
+            CatalogoId = catalogoId
         };
-
         return el;
     }
 

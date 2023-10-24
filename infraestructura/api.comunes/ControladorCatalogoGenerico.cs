@@ -98,10 +98,10 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
         RespuestaPayload<List<ParClaveTexto>>? response;
         if (!string.IsNullOrEmpty(buscar))
         {
-            response = await catalogoAPI.PorTexto(idiomaCatalogo, buscar);
+            response = await catalogoAPI.PorTexto(entidad,idiomaCatalogo, buscar);
         } else
         {
-            response = await catalogoAPI.Todo(idiomaCatalogo);
+            response = await catalogoAPI.Todo(entidad, idiomaCatalogo);
         }
         
         if (response.Ok)
@@ -127,10 +127,10 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
     public async Task<IActionResult> CrearElementoCatalogo(string entidad, [FromBody] ElementoCatalogoInsertar elemento, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
-        var response = await catalogoAPI.CreaEntrada(elemento);
+        var response = await catalogoAPI.CreaEntrada(entidad, elemento);
         if (response.Ok)
         {
-            return NoContent();
+            return Ok(response.Payload);
         }
 
         return StatusCode(response.HttpCode.GetHashCode(), response.Error);
@@ -152,7 +152,7 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
     public async Task<IActionResult> EliminaEntradaCatalogo(string entidad, string clave, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
     {
-        var response = await catalogoAPI.EliminaEntrada(clave);
+        var response = await catalogoAPI.EliminaEntrada(entidad, clave);
         if(response.Ok)
         {
             return NoContent();
@@ -183,7 +183,7 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
             return BadRequest();
         }
 
-        var response = await catalogoAPI.ActualizaEntrada(elemento.Id, elemento);
+        var response = await catalogoAPI.ActualizaEntrada(entidad, elemento.Id, elemento);
         if (response.Ok)
         {
             return NoContent();

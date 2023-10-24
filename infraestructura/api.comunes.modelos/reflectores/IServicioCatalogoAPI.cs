@@ -37,7 +37,7 @@ public interface IServicioCatalogoAPI
     /// </summary>
     /// <param name="Idioma">Idioma del catálogo</param>
     /// <returns></returns>
-    Task<RespuestaPayload<List<ParClaveTexto>>> Todo(string? idioma);
+    Task<RespuestaPayload<List<ParClaveTexto>>> Todo(string catalogoId, string? idioma);
 
 
     /// <summary>
@@ -46,7 +46,7 @@ public interface IServicioCatalogoAPI
     /// <param name="idioma">Idioma del catálogo</param>
     /// <param name="buscar">Texto a buscar</param>
     /// <returns></returns>
-    Task<RespuestaPayload<List<ParClaveTexto>>> PorTexto(string? idioma, string? buscar);
+    Task<RespuestaPayload<List<ParClaveTexto>>> PorTexto(string catalogoId, string? idioma, string? buscar);
 
 
     /// <summary>
@@ -54,14 +54,14 @@ public interface IServicioCatalogoAPI
     /// </summary>
     /// <param name="elemento"></param>
     /// <returns></returns>
-    Task<RespuestaPayload<ElementoCatalogo>> CreaEntrada(ElementoCatalogoInsertar elemento);
+    Task<RespuestaPayload<ElementoCatalogo>> CreaEntrada(string catalogoId, ElementoCatalogoInsertar elemento);
 
     /// <summary>
     /// Elimina una entrada del catálogo para todos los idiomas
     /// </summary>
     /// <param name="Id">Identificador único de la entrada</param>
     /// <returns></returns>
-    Task<Respuesta> EliminaEntrada(string Id);
+    Task<Respuesta> EliminaEntrada(string catalogoId, string Id);
 
 
     /// <summary>
@@ -71,7 +71,7 @@ public interface IServicioCatalogoAPI
     /// <param name="idioma">Idioma de la entrada</param>
     /// <param name="texto">texto para la enrada</param>
     /// <returns></returns>
-    Task<Respuesta> ActualizaEntrada(string Id, ElementoCatalogoActualizar elemento);
+    Task<Respuesta> ActualizaEntrada(string catalogoId, string Id, ElementoCatalogoActualizar elemento);
 
 
     /// <summary>
@@ -116,7 +116,7 @@ public interface IServicioCatalogoAPI
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    ElementoCatalogo ADTOFull(ElementoCatalogoInsertar data);
+    ElementoCatalogo ADTOFull(string catalogoId, ElementoCatalogoInsertar data);
 
     /// <summary>
     /// Convierte a una entidad complete desde la actualización

@@ -8,6 +8,8 @@ namespace pika.modelo.gestiondocumental;
 /// </summary>
 public class TipoArchivo : ElementoCatalogo
 {
+
+
     /// <summary>
     /// Propiedades de nevegacion
     /// </summary>

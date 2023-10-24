@@ -10,10 +10,10 @@ public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCa
 {
     public void Configure(EntityTypeBuilder<ElementoCatalogo> builder)
     {
-
         builder.ToTable("gd$catalogos");
-        builder.HasDiscriminator<string>("Catalogo")
-            .HasValue<TipoArchivo>("TipoArchivo");
+        builder.HasDiscriminator<int>("Discriminator")
+            .HasValue<ElementoCatalogo>(0)
+            .HasValue<TipoArchivo>(1);
 
         builder.HasKey(e => new { e.Id } );
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
@@ -21,6 +21,8 @@ public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCa
         builder.Property(e => e.Idioma).IsRequired().HasMaxLength(10); 
         builder.Property(e => e.DominioId).IsRequired().HasMaxLength(128);
         builder.Property(e => e.UnidadOrganizacionalId).IsRequired().HasMaxLength(128);
+        builder.Property(e => e.CatalogoId).IsRequired().HasMaxLength(128);
+        builder.HasIndex(e => e.CatalogoId);
     }
 }
 
@@ -30,15 +32,17 @@ public class ConfiguracionI18NCatalogo : IEntityTypeConfiguration<I18NCatalogo>
     {
 
         builder.ToTable("gd$i18ncatalogos");
-        builder.HasDiscriminator<string>("Catalogo")
-            .HasValue<TraduccionesTipoArchivo>("TipoArchivo");
+        builder.HasDiscriminator<int>("Discriminator")
+            .HasValue<I18NCatalogo>(0)
+            .HasValue<TraduccionesTipoArchivo>(1); 
 
-        builder.HasKey(e => new { e.Id, e.Idioma, e.DominioId, e.UnidadOrganizacionalId });
+        builder.HasKey(e => new { e.Id, e.DominioId, e.UnidadOrganizacionalId, e.Idioma });
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
         builder.Property(e => e.Texto).IsRequired().HasMaxLength(512);
         builder.Property(e => e.Idioma).IsRequired().HasMaxLength(10);
         builder.Property(e => e.DominioId).IsRequired().HasMaxLength(128);
-        builder.Property(e => e.UnidadOrganizacionalId).IsRequired().HasMaxLength(128);
+        builder.Property(e => e.CatalogoId).IsRequired().HasMaxLength(128);
+        builder.HasIndex(e => new { e.CatalogoId, e.Idioma });
 
     }
 }

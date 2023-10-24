@@ -29,4 +29,9 @@ public class I18NCatalogo
     /// Identificador único de la unidad organizacional a la que pertenece el elemento
     /// </summary>
     public virtual string UnidadOrganizacionalId { get; set; }
+
+    /// <summary>
+    /// Identificador único del catálogo al que pertenece el elemento
+    /// </summary>
+    public virtual string CatalogoId { get; set; }
 }
