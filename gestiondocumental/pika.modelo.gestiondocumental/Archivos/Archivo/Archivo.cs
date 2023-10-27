@@ -1,4 +1,4 @@
-﻿using pika.comun.metadatos.atributos;
+﻿using api.comunes.metadatos.atributos;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 

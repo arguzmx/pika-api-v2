@@ -1,6 +1,6 @@
-﻿using api.comunes.modelos.modelos;
+﻿using api.comunes.metadatos;
+using api.comunes.modelos.modelos;
 using api.comunes.modelos.respuestas;
-using pika.comun.metadatos;
 using System.Text.Json;
 
 namespace api.comunes.modelos.reflectores;

@@ -1,6 +1,6 @@
 ﻿using api.comunes.modelos.modelos;
 using api.comunes.modelos.respuestas;
-using pika.comun.metadatos;
+using api.comunes.metadatos;
 
 namespace api.comunes.modelos.servicios;
 

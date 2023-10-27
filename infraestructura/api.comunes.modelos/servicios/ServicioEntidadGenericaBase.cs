@@ -2,7 +2,7 @@
 using api.comunes.modelos.respuestas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using pika.comun.metadatos;
+using api.comunes.metadatos;
 using System.Text.Json;
 
 
