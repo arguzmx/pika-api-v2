@@ -1,18 +1,15 @@
-﻿using api.comunes.modelos.modelos;
+﻿using api.comunes.metadatos;
+using api.comunes.modelos.modelos;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using pika.comun.metadatos;
 using pika.modelo.contenido.Version;
 using pika.servicios.contenido.dbcontext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using System.Text.Json;
-using System.Threading.Tasks;
+
 
 namespace pika.servicios.contenido.version;
 

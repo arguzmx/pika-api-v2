@@ -12,7 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CouchDB.NET.DependencyInjection" Version="3.4.0" />
+      <PackageReference Include="CouchDB.NET.DependencyInjection" Version="3.4.0" />
+	  <PackageReference Include="api.comunes.metadatos" Version="1.0.1" />
+	  <PackageReference Include="api.comunes.modelos" Version="1.0.2" />
+	  <PackageReference Include="RepoDb" Version="1.13.1" />
+	  <PackageReference Include="Serilog" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>

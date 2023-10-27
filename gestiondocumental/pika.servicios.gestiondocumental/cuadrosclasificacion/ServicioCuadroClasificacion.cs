@@ -4,7 +4,6 @@ using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using pika.comun.metadatos;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos;
 //using pika.modelo.gestiondocumental.CuadrosClasificacion.CuadroClasificacion;
