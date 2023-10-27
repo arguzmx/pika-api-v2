@@ -36,13 +36,14 @@ namespace pika.servicios.gestiondocumental.archivos
         {
             ResultadoValidacion resultado = new ();
             
+            resultado.Valido = true;
             // Verifica que el Id no esté en uso en la tabla de Archivos
             if (DB.Archivos.Any(
                 a=>a.TipoArchivoId == id
                 && a.DominioId == _contextoUsuario.DominioId
                 && a.UOrgId == _contextoUsuario.UOrgId))
             {
-
+                resultado.Valido = false;
             }
 
             return resultado;
