@@ -1,12 +1,15 @@
-﻿using System.Text.Json.Serialization;
+﻿using pika.comun.metadatos.atributos;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
-namespace pika.modelo.organizacion;
-
-/// <summary>
-/// Un dominio de datos es un contenedor lógico para todos los elementos relaciondso 
-/// con una instancia de gestión documental
-/// </summary>
+namespace pika.modelo.organizacion
+{
+    /// <summary>
+    /// Un dominio de datos es un contenedor lógico para todos los elementos relaciondso 
+    /// con una instancia de gestión documental
+    /// </summary>
+    /// 
+    [Entidad()]
 public class Dominio
 {
     /// <summary>
@@ -34,11 +37,10 @@ public class Dominio
 
     [XmlIgnore]
     [JsonIgnore]
-    public List<UsuarioDominio> UsuariosDominio { get; set; }
+    public List<UsuarioDominio> UsuarioDominio { get; set; }
 
     [XmlIgnore]
     [JsonIgnore]
     public List<UnidadOrganizacional> UnidadesOrganizacionales { get; set; }
-
-
+}
 }

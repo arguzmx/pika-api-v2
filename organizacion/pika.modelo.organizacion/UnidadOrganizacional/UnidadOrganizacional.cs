@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using pika.comun.metadatos.atributos;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.organizacion
@@ -6,6 +7,8 @@ namespace pika.modelo.organizacion
     /// <summary>
     /// Las unidades organizacionales agrupan recursos para la organización del trabajo
     /// </summary>
+    /// 
+    //[Entidad()]
     public class UnidadOrganizacional
     {
         
