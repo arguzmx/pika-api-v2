@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Implementacions de API para las entidades genéricas </Title>
-    <Version>1.0.2</Version>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <Version>1.0.3</Version>
+    <AssemblyVersion>1.0.3</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
