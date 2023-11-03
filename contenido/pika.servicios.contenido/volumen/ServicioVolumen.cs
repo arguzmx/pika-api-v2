@@ -84,10 +84,48 @@ public class ServicioVolumen : ServicioEntidadGenericaBase<Volumen, VolumenInser
 
     public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaAPI(Consulta consulta)
     {
-        var temp = await this.Pagina(consulta);
-        RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
 
-        return respuesta;
+
+        RespuestaPayload<PaginaGenerica<Volumen>> respuesta = new RespuestaPayload<PaginaGenerica<Volumen>>();
+
+
+        string consultaBaseSQL = "SELECT * FROM contenido$volumen";
+        string condicionSQL = consulta.Filtros.SQL();
+        if (!string.IsNullOrEmpty(condicionSQL))
+        {
+            consultaBaseSQL += $" WHERE {condicionSQL}";
+        }
+        PaginaGenerica<object> paginado = (PaginaGenerica<object>)respuesta.Payload;
+        string consultaQuery = $"{consultaBaseSQL} {consulta.OrdenarConsulta()} {paginado.PaginarConsulta(consulta)};";
+        var resultadoConsulta = DB.Volumen.FromSqlRaw(consultaQuery).ToList();
+
+        PaginaGenerica<Volumen> pagina = (PaginaGenerica<Volumen>)(respuesta.Payload = new PaginaGenerica<Volumen>
+        {
+            ConsultaId = Guid.NewGuid().ToString(),
+            Elementos = resultadoConsulta,
+            Milisegundos = 0L,
+            Paginado = new Paginado
+            {
+                Indice = consulta.Paginado.Indice,
+                Tamano = consulta.Paginado.Tamano,
+                Ordenamiento = consulta.Paginado.Ordenamiento,
+                ColumnaOrdenamiento = consulta.Paginado.ColumnaOrdenamiento
+            },
+            Total = resultadoConsulta.Count
+
+        });
+        respuesta.Payload = pagina;
+        respuesta.Ok = true;
+        respuesta.HttpCode = HttpCode.Ok;
+
+        RespuestaPayload<PaginaGenerica<object>> r = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(respuesta));
+        return r;
+
+
+        //var temp = await this.pagina(consulta);
+        //respuestapayload<paginagenerica<object>> respuesta = jsonserializer.deserialize<respuestapayload<paginagenerica<object>>>(jsonserializer.serialize(temp));
+
+        //return respuesta;
     }
 
     public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaDespliegueAPI(Consulta consulta)

@@ -9,6 +9,7 @@ using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos;
 using pika.servicios.gestiondocumental.dbcontext;
 using System.Text.Json;
+using pika.servicios.gestiondocumental.archivos;
 
 #pragma warning disable CS8603 // Possible null reference return.
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -86,10 +87,48 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaAPI(Consulta consulta)
         {
-            var temp = await this.Pagina(consulta);
-            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
 
-            return respuesta;
+
+            RespuestaPayload<PaginaGenerica<Archivo>> respuesta = new RespuestaPayload<PaginaGenerica<Archivo>>();
+          
+       
+            string consultaBaseSQL = "SELECT * FROM gd$archivo";
+            string condicionSQL = consulta.Filtros.SQL();
+            if (!string.IsNullOrEmpty(condicionSQL))
+            {
+                consultaBaseSQL += $" WHERE {condicionSQL}";
+            }
+            PaginaGenerica<Archivo> paginado = (PaginaGenerica<Archivo>)respuesta.Payload;
+            string consultaQuery = $"{consultaBaseSQL} {consulta.OrdenarConsulta()} {paginado.PaginarConsulta(consulta)};";
+            var resultadoConsulta = DB.Archivos.FromSqlRaw(consultaQuery).ToList();
+
+            PaginaGenerica<Archivo> pagina = (PaginaGenerica<Archivo>)(respuesta.Payload = new PaginaGenerica<Archivo>
+            {
+                ConsultaId = Guid.NewGuid().ToString(),
+                Elementos = resultadoConsulta,
+                Milisegundos = 0L,
+                Paginado = new Paginado
+                {
+                    Indice = consulta.Paginado.Indice,
+                    Tamano = consulta.Paginado.Tamano,
+                    Ordenamiento=consulta.Paginado.Ordenamiento,
+                    ColumnaOrdenamiento=consulta.Paginado.ColumnaOrdenamiento
+                },
+                Total = resultadoConsulta.Count
+              
+            });
+            respuesta.Payload = pagina;
+            respuesta.Ok = true;
+            respuesta.HttpCode = HttpCode.Ok;
+
+            RespuestaPayload<PaginaGenerica<object>> r = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(respuesta));
+            return r;
+
+
+            var temp = await this.Pagina(consulta);
+            //RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
+
+            //return respuesta;
         }
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaDespliegueAPI(Consulta consulta)

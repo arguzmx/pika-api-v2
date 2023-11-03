@@ -24,7 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\infraestructura\api.comunes.modelos\api.comunes.modelos.csproj" />
     <ProjectReference Include="..\pika.modelo.contenido\pika.modelo.contenido.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="data\migrations\" />
   </ItemGroup>
 
 </Project>

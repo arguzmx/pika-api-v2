@@ -413,6 +413,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     }
 
 
+
     public virtual Entidad EntidadInsert()
     {
         throw new NotImplementedException();
