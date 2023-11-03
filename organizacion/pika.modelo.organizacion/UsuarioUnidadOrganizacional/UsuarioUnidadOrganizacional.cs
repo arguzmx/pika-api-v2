@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using api.comunes.metadatos.atributos;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.organizacion;
@@ -6,6 +7,8 @@ namespace pika.modelo.organizacion;
 /// <summary>
 /// Relaciona un usuario con una unidad organizacional
 /// </summary>
+/// 
+[Entidad()]
 public class UsuarioUnidadOrganizacional
 {
 

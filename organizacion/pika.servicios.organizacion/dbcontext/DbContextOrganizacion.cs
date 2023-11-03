@@ -18,10 +18,13 @@ namespace pika.servicios.organizacion.dbcontext
 
         public DbSet<Dominio> Dominios { get; set; }
 
+        public DbSet<UnidadOrganizacional> UnidadesOrganizacionales { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ConfiguracionDominio());
+            modelBuilder.ApplyConfiguration(new ConfiguracionUnidadOrganizacional());
 
             base.OnModelCreating(modelBuilder);
         }

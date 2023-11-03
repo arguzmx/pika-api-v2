@@ -35,9 +35,9 @@ public class Dominio
     // R 
 
 
-    [XmlIgnore]
-    [JsonIgnore]
-    public List<UsuarioDominio> UsuarioDominio { get; set; }
+   // [XmlIgnore]
+   // [JsonIgnore]
+   // public List<UsuarioDominio> UsuarioDominio { get; set; }
 
     [XmlIgnore]
     [JsonIgnore]

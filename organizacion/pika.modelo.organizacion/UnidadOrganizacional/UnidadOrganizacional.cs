@@ -8,7 +8,7 @@ namespace pika.modelo.organizacion
     /// Las unidades organizacionales agrupan recursos para la organización del trabajo
     /// </summary>
     /// 
-    //[Entidad()]
+    [Entidad()]
     public class UnidadOrganizacional
     {
         
@@ -38,9 +38,9 @@ namespace pika.modelo.organizacion
         public Dominio Dominio { get; set; }
 
 
-        [XmlIgnore]
-        [JsonIgnore]
-        public List<UsuarioUnidadOrganizacional> UsuariosUnidad { get; set; }
+       // [XmlIgnore]
+       // [JsonIgnore]
+       // public List<UsuarioUnidadOrganizacional> UsuariosUnidad { get; set; }
 
     }
 }

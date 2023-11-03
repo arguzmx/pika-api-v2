@@ -10,6 +10,7 @@ namespace pika.api.organizacion.Controllers
 
         public EntidadGenericaController(ILogger<EntidadGenericaController> logger, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
+            _logger = logger;
         }
     }
 }

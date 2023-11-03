@@ -25,4 +25,8 @@
     <ProjectReference Include="..\pika.modelo.organizacion\pika.modelo.organizacion.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="data\migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -48,4 +48,15 @@ public static class ExtensionesRespuesta
             Propiedad = propiedad
         };
     }
+
+    public static ErrorProceso Error409(this string propiedad)
+    {
+        return new ErrorProceso()
+        {
+            Codigo = "",
+            HttpCode = HttpCode.Conflict,
+            Mensaje = $"Error en la ejecucion ",
+            Propiedad = propiedad
+        };
+    }
 }

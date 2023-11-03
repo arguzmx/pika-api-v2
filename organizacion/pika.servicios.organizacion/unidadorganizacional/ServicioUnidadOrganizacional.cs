@@ -9,19 +9,16 @@ using pika.modelo.organizacion;
 using pika.servicios.organizacion.dbcontext;
 using System.Text.Json;
 
-
 #pragma warning disable CS8603 // Possible null reference return.
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-namespace pika.servicios.organizacion.dominio
+namespace pika.servicios.organizacion.unidadorganizacional
 {
-
-
-    [ServicioEntidadAPI(entidad: typeof(Dominio))]
-    public class ServicioDominio : ServicioEntidadGenericaBase<Dominio, DominioInsertar, DominioActualizar, DominioDespliegue, string>,
-        IServicioEntidadAPI, IServicioDominio
+    [ServicioEntidadAPI(entidad: typeof(UnidadOrganizacional))]
+    public class ServicioUnidadOrganizacional : ServicioEntidadGenericaBase<UnidadOrganizacional, UnidadOrganizacionalInsertar, UnidadOrganizacionalActualizar, UnidadOrganizacionalDespliegue, string>,
+  IServicioEntidadAPI, IServicioUnidadOrganizacional
     {
 
-        public ServicioDominio(DbContextOrganizacion context, ILogger<ServicioDominio> logger) : base(context, context.Dominios, logger)
+        public ServicioUnidadOrganizacional(DbContextOrganizacion context, ILogger<ServicioUnidadOrganizacional> logger) : base(context, context.UnidadesOrganizacionales, logger)
         {
         }
 
@@ -35,7 +32,7 @@ namespace pika.servicios.organizacion.dominio
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<DominioActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<UnidadOrganizacionalActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -76,7 +73,7 @@ namespace pika.servicios.organizacion.dominio
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<DominioInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<UnidadOrganizacionalInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -126,18 +123,18 @@ namespace pika.servicios.organizacion.dominio
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
         }
-   
+
 
 
 
         #region Overrides para la personalizacion de la entidad dominio
 
-        public override async Task<ResultadoValidacion> ValidarInsertar(DominioInsertar data)
+        public override async Task<ResultadoValidacion> ValidarInsertar(UnidadOrganizacionalInsertar data)
         {
             ResultadoValidacion resultado = new();
 
             resultado.Valido = false;
-            bool encontrado = await DB.Dominios.AnyAsync(a =>  a.Nombre == data.Nombre);
+            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Nombre == data.Nombre);
 
             if (encontrado)
             {
@@ -153,15 +150,15 @@ namespace pika.servicios.organizacion.dominio
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Dominio original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, UnidadOrganizacional original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.DominioId==original.Id);
+            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Id == id);
 
             resultado.Valido = false;
-            if (encontrado)
+            if (!encontrado)
             {
-                resultado.Error = "Id".Error409();
+                resultado.Error = "id".ErrorProcesoNoEncontrado();
 
             }
             else
@@ -171,13 +168,12 @@ namespace pika.servicios.organizacion.dominio
 
             return resultado;
         }
-     
-        
 
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id, DominioActualizar actualizacion, Dominio original)
+
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, UnidadOrganizacionalActualizar actualizacion, UnidadOrganizacional original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Dominios.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Id == id);
 
             resultado.Valido = false;
             if (!encontrado)
@@ -188,7 +184,7 @@ namespace pika.servicios.organizacion.dominio
             else
             {
 
-                bool duplicado = await DB.Dominios.AnyAsync(a => a.Nombre== actualizacion.Nombre);
+                bool duplicado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Nombre == actualizacion.Nombre);
 
                 if (duplicado)
                 {
@@ -204,27 +200,27 @@ namespace pika.servicios.organizacion.dominio
         }
 
 
-        public override Dominio ADTOFull(DominioActualizar actualizacion, Dominio actual)
+        public override UnidadOrganizacional ADTOFull(UnidadOrganizacionalActualizar actualizacion, UnidadOrganizacional actual)
         {
             actual.Nombre = actualizacion.Nombre;
-            actual.Activo = actualizacion.Activo;
+            actual.DominioId = actualizacion.DominioId;
             return actual;
         }
 
-        public override Dominio ADTOFull(DominioInsertar data)
+        public override UnidadOrganizacional ADTOFull(UnidadOrganizacionalInsertar data)
         {
-            Dominio archivo = new Dominio()
+            UnidadOrganizacional archivo = new UnidadOrganizacional()
             {
                 Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
-                Activo = data.Activo,
+                DominioId = data.DominioId,
             };
             return archivo;
         }
 
-        public override DominioDespliegue ADTODespliegue(Dominio data)
+        public override UnidadOrganizacionalDespliegue ADTODespliegue(UnidadOrganizacional data)
         {
-            DominioDespliegue archivo = new DominioDespliegue()
+            UnidadOrganizacionalDespliegue archivo = new UnidadOrganizacionalDespliegue()
             {
                 Id = data.Id,
             };
@@ -232,7 +228,6 @@ namespace pika.servicios.organizacion.dominio
         }
 
         #endregion
-
     }
 }
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
