@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using api.comunes.metadatos;
 using System.Text.Json;
-
+using api.comunes.modelos.reflectores;
 
 namespace api.comunes.modelos.servicios;
 
@@ -27,11 +27,13 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     protected DbContext _db;
     protected ContextoUsuario? _contextoUsuario;
     protected ILogger _logger;
+    private readonly IReflectorEntidadesAPI reflector;
 
-    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull, ILogger logger) {
+    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull, ILogger logger,IReflectorEntidadesAPI reflector) {
         _dbSetFull = dbSetFull;
         _db = db;
         _logger = logger;
+        this.reflector = reflector;
     }
 
     public JsonSerializerOptions JsonAPIDefaults()

@@ -51,6 +51,11 @@ public class Propiedad
     /// </summary>
     public bool HabilitadoEditar { get; set; }
 
+    /// <summary>
+    /// Determina si el campo se muestra al desplegar
+    /// </summary>
+    public bool HabilitadoDespliegue { get; set; }
+
 
     /// <summary>
     /// Establace el tipo de control para el despligue en la UI
