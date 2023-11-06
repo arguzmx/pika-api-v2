@@ -21,9 +21,11 @@ namespace pika.servicios.gestiondocumental.archivos
     public class ServicioArchivo : ServicioEntidadGenericaBase<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>,
         IServicioEntidadAPI, IServicioArchivo
     {
+        private readonly IReflectorEntidadesAPI reflector;
 
-        public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger) : base (context, context.Archivos, logger)
+        public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger, IReflectorEntidadesAPI Reflector) : base (context, context.Archivos, logger,Reflector)
         {
+            reflector = Reflector;
         }
 
 
@@ -86,6 +88,13 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaAPI(Consulta consulta)
         {
+            Archivo archivo = new Archivo();
+            ArchivoInsertar dtoInsertar = new ();
+            ArchivoActualizar dtoActualizar = new ();
+            ArchivoDespliegue dtoDespliegue= new ();
+           
+            var entidad = reflector.ObtieneEntidad(archivo.GetType());
+            var entidadUI= reflector.ObtieneEntidadUI(dtoInsertar.GetType(),dtoActualizar.GetType(), dtoDespliegue.GetType());
             var temp = await this.Pagina(consulta);
             RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
 
@@ -93,7 +102,7 @@ namespace pika.servicios.gestiondocumental.archivos
         }
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaDespliegueAPI(Consulta consulta)
-        {
+        {            
             var temp = await this.PaginaDespliegue(consulta);
             RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
             return respuesta;
