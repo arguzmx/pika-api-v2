@@ -1,4 +1,5 @@
 ﻿using api.comunes.metadatos;
+using api.comunes.modelos.interpretes;
 using api.comunes.modelos.modelos;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
@@ -21,11 +22,11 @@ namespace pika.servicios.gestiondocumental.archivos
     public class ServicioArchivo : ServicioEntidadGenericaBase<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>,
         IServicioEntidadAPI, IServicioArchivo
     {
-        private readonly IReflectorEntidadesAPI reflector;
-
+        private DbContextGestionDocumental localContext;
         public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger, IReflectorEntidadesAPI Reflector) : base (context, context.Archivos, logger,Reflector)
         {
-            reflector = Reflector;
+            interpreteConsulta = new InterpreteConsultaMySQL();
+            localContext = context;
         }
 
 
@@ -88,16 +89,8 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaAPI(Consulta consulta)
         {
-            Archivo archivo = new Archivo();
-            ArchivoInsertar dtoInsertar = new ();
-            ArchivoActualizar dtoActualizar = new ();
-            ArchivoDespliegue dtoDespliegue= new ();
-           
-            var entidad = reflector.ObtieneEntidad(archivo.GetType());
-            var entidadUI= reflector.ObtieneEntidadUI(dtoInsertar.GetType(),dtoActualizar.GetType(), dtoDespliegue.GetType());
             var temp = await this.Pagina(consulta);
             RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
-
             return respuesta;
         }
 
@@ -138,6 +131,24 @@ namespace pika.servicios.gestiondocumental.archivos
             return respuesta;
         }
 
+
+        public override async Task<List<Archivo>> ObtienePaginaElementos(Consulta consulta)
+        {
+            await Task.Delay(0);
+
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Archivo));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaArchivos);
+
+            List<Archivo> elementos = localContext.Archivos.FromSqlRaw(query).ToList();
+
+            if(elementos!=null)
+            {
+                return elementos;
+            } else
+            {
+                return new List<Archivo>();
+            }
+        }
 
 
         #region Overrides para la personalziación de la entidad Archivo
