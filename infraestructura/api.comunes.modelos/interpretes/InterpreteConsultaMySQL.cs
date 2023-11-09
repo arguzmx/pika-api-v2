@@ -36,6 +36,7 @@ public class InterpreteConsultaMySQL : IInterpreteConsulta
         
             if (condiciones.Count > 0)
             {
+                sql = $"{sql} WHERE";
                 if (condiciones.Count == 1)
                 {
                     sql = $"{sql} {condiciones.First()}";
