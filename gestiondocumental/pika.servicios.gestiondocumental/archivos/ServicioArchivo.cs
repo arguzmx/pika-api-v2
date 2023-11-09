@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos;
 using pika.servicios.gestiondocumental.dbcontext;
+using RepoDb.Extensions;
 using System.Text.Json;
 
 #pragma warning disable CS8603 // Possible null reference return.
@@ -142,13 +143,15 @@ namespace pika.servicios.gestiondocumental.archivos
             int? total = null;
             List<Archivo> elementos = localContext.Archivos.FromSqlRaw(query).ToList();
 
-            if(consulta.Contar)
+            if (consulta.Contar)
             {
-                // total =  calculr el total con el query sin LIMIT y utilizas select count(*)
+                query = query.Split("ORDER")[0];
+                query = $"{query.Replace("*", "count(*)")}";
+                total = localContext.Database.SqlQueryRaw<int>(query).ToArray().First();
             }
 
 
-            if(elementos != null)
+            if (elementos != null)
             {
                 return new (elementos, total);
             } else
