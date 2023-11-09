@@ -157,10 +157,12 @@ namespace pika.servicios.organizacion.dominio
         {
             ResultadoValidacion resultado = new();
             bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.DominioId==original.Id);
+            bool encontrado2 = await DB.UsuarioDominios.AnyAsync(a => a.DominioId==original.Id);
 
             resultado.Valido = false;
-            if (encontrado)
+            if (encontrado || encontrado2)
             {
+                
                 resultado.Error = "Id".Error409();
 
             }

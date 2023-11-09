@@ -22,7 +22,7 @@ namespace pika.servicios.organizacion.dbcontext.configuraciones
             builder.Property(e => e.DominioId).IsRequired(true).HasMaxLength(128);
          
             builder.HasOne(x => x.Dominio).WithMany(y => y.UnidadesOrganizacionales).HasForeignKey(z => z.DominioId).OnDelete(DeleteBehavior.Restrict);
-          //  builder.HasMany(x => x.UsuariosUnidad).WithOne(y => y.UnidadOrganizacional).HasForeignKey(z => z.Id).OnDelete(DeleteBehavior.Cascade);
+           // builder.HasMany(x => x.UsuariosUnidad).WithOne(y => y.UnidadOrganizacional).HasForeignKey(z => z.Id).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

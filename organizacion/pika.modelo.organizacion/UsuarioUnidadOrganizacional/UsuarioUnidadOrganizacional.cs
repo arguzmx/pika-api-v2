@@ -47,8 +47,8 @@ public class UsuarioUnidadOrganizacional
     [XmlIgnore]
     public UnidadOrganizacional UnidadOrganizacional { get; set; }
 
+
     [JsonIgnore]
     [XmlIgnore]
     public Dominio Dominio { get; set; }
-
 }
