@@ -132,21 +132,28 @@ namespace pika.servicios.gestiondocumental.archivos
         }
 
 
-        public override async Task<List<Archivo>> ObtienePaginaElementos(Consulta consulta)
+        public override async Task<(List<Archivo> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
         {
             await Task.Delay(0);
 
             Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Archivo));
             string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaArchivos);
 
+            int? total = null;
             List<Archivo> elementos = localContext.Archivos.FromSqlRaw(query).ToList();
 
-            if(elementos!=null)
+            if(consulta.Contar)
             {
-                return elementos;
+                // total =  calculr el total con el query sin LIMIT y utilizas select count(*)
+            }
+
+
+            if(elementos != null)
+            {
+                return new (elementos, total);
             } else
             {
-                return new List<Archivo>();
+                return new(new List<Archivo>(), total); ;
             }
         }
 

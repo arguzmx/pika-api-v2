@@ -221,15 +221,15 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
                 return respuesta;
             }
 
-            var elementos = await ObtienePaginaElementos(consulta);
+            var queryElementos = await ObtienePaginaElementos(consulta);
 
             PaginaGenerica<DTOFull> pagina = new()
             {
                 ConsultaId = Guid.NewGuid().ToString(),
-                Elementos = elementos,
+                Elementos = queryElementos.Elementos,
                 Milisegundos = 0,
-                Paginado = new Paginado() { Indice = 0, Tamano = elementos.Count,Ordenamiento=consulta.Paginado.Ordenamiento,ColumnaOrdenamiento=consulta.Paginado.ColumnaOrdenamiento },
-                Total = elementos.Count,
+                Paginado = new Paginado() { Indice = consulta.Paginado.Indice, Tamano = consulta.Paginado.Tamano, Ordenamiento=consulta.Paginado.Ordenamiento, ColumnaOrdenamiento=consulta.Paginado.ColumnaOrdenamiento },
+                Total = queryElementos.Total,
             };
 
             respuesta.Payload = pagina;
@@ -255,7 +255,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
 
-    public virtual async Task<List<DTOFull>> ObtienePaginaElementos (Consulta consulta)
+    public virtual async Task<(List<DTOFull> Elementos, int? Total)> ObtienePaginaElementos (Consulta consulta)
     {
         
         throw new NotImplementedException();

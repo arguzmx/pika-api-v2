@@ -26,7 +26,7 @@ public class PaginaGenerica<T>
     /// <summary>
     /// Total de elementos hallados por la consulta
     /// </summary>
-    public int Total { get; set; }
+    public int? Total { get; set; }
 
     /// <summary>
     /// Detalle del paginado 
