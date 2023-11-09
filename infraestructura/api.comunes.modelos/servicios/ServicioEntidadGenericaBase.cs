@@ -228,8 +228,8 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
                 ConsultaId = Guid.NewGuid().ToString(),
                 Elementos = elementos,
                 Milisegundos = 0,
-                Paginado = new Paginado() { Indice = 0, Tamano = elementos.Count },
-                Total = elementos.Count
+                Paginado = new Paginado() { Indice = 0, Tamano = elementos.Count,Ordenamiento=consulta.Paginado.Ordenamiento,ColumnaOrdenamiento=consulta.Paginado.ColumnaOrdenamiento },
+                Total = elementos.Count,
             };
 
             respuesta.Payload = pagina;
@@ -335,7 +335,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
                     ConsultaId = Guid.NewGuid().ToString(),
                     Elementos = new List<DTODespliegue>(),
                     Milisegundos = 0,
-                    Paginado = new Paginado() { Indice = 0, Tamano = ((PaginaGenerica<DTOFull>)resultado.Payload).Paginado.Tamano },
+                    Paginado = new Paginado() { Indice = 0, Tamano = ((PaginaGenerica<DTOFull>)resultado.Payload).Paginado.Tamano, Ordenamiento = consulta.Paginado.Ordenamiento, ColumnaOrdenamiento = consulta.Paginado.ColumnaOrdenamiento },
                     Total = ((PaginaGenerica<DTOFull>)resultado.Payload).Total
                 };
 
