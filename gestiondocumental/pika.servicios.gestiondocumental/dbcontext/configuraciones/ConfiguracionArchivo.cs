@@ -11,11 +11,11 @@ public class ConfiguracionArchivo : IEntityTypeConfiguration<Archivo>
         builder.ToTable("gd$archivo");
         builder.HasKey(e => e.Id);
 
-        builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
-        builder.Property(e => e.Nombre).IsRequired().HasMaxLength(500);
-        builder.Property(e => e.DominioId).IsRequired().HasMaxLength(128);
-        builder.Property(e => e.UOrgId).IsRequired().HasMaxLength(128);
-        builder.Property(e => e.TipoArchivoId).IsRequired().HasMaxLength(128);
+        builder.Property(e => e.Id).IsRequired(true).HasMaxLength(128);
+        builder.Property(e => e.Nombre).IsRequired(true).HasMaxLength(500);
+        builder.Property(e => e.DominioId).IsRequired(true).HasMaxLength(128);
+        builder.Property(e => e.UOrgId).IsRequired(true).HasMaxLength(128);
+        builder.Property(e => e.TipoArchivoId).IsRequired(true).HasMaxLength(128);
 
         builder.HasOne(x => x.TipoArchivo).WithMany(y => y.Archivos).HasForeignKey(z => z.TipoArchivoId).OnDelete(DeleteBehavior.Cascade);
     }

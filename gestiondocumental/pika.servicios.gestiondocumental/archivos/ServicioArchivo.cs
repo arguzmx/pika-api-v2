@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos;
 using pika.servicios.gestiondocumental.dbcontext;
+using System.Net.Mail;
 using System.Text.Json;
 
 #pragma warning disable CS8603 // Possible null reference return.
@@ -139,10 +140,15 @@ namespace pika.servicios.gestiondocumental.archivos
             bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Nombre == data.Nombre);
+            bool encontrado2 = await DB.TipoArchivo.AnyAsync(a => a.Id == data.TipoArchivoId);
 
-            if (encontrado)
+            if (encontrado || !encontrado2)
             {
-                resultado.Error = "Nombre".ErrorProcesoDuplicado();
+                resultado.Error = "Nombre".ErrorEntidadPadreNoConfigurada();
+                if(!encontrado2)
+                {
+                    resultado.Error = "id".ErrorEntidadPadreNoConfigurada();
+                }
 
             } else
             {
@@ -162,7 +168,8 @@ namespace pika.servicios.gestiondocumental.archivos
 
             if(!encontrado)
             {
-                resultado.Error = "id".ErrorProcesoNoEncontrado();
+               
+                resultado.Error = "id".ErrorProcesoDuplicado();
 
             } else
             {

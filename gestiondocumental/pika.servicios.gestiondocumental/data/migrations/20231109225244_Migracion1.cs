@@ -5,7 +5,7 @@
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     /// <inheritdoc />
-    public partial class InicialArchivo : Migration
+    public partial class Migracion1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
