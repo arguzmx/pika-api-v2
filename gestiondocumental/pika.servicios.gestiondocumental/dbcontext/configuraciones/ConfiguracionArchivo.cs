@@ -8,7 +8,7 @@ public class ConfiguracionArchivo : IEntityTypeConfiguration<Archivo>
 {
     public void Configure(EntityTypeBuilder<Archivo> builder)
     {
-        builder.ToTable("gd$archivo");
+        builder.ToTable(DbContextGestionDocumental.TablaArchivos);
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);

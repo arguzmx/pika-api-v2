@@ -5,8 +5,12 @@ using Microsoft.Extensions.Logging;
 using api.comunes.metadatos;
 using System.Text.Json;
 using api.comunes.modelos.reflectores;
+using api.comunes.modelos.abstracciones;
 
 namespace api.comunes.modelos.servicios;
+
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 
 /// <summary>
 /// Definición para la API genérica de entidades
@@ -22,18 +26,25 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     where DTOUpdate : class
     where DTOInsert : class
 {
-
+    protected IInterpreteConsulta? interpreteConsulta;
     protected DbSet<DTOFull> _dbSetFull;
     protected DbContext _db;
     protected ContextoUsuario? _contextoUsuario;
     protected ILogger _logger;
-    private readonly IReflectorEntidadesAPI reflector;
+    protected IReflectorEntidadesAPI reflectorEntidades;
 
-    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull, ILogger logger,IReflectorEntidadesAPI reflector) {
+    /// <summary>
+    /// Constructor de la clase base
+    /// </summary>
+    /// <param name="db"></param>
+    /// <param name="dbSetFull"></param>
+    /// <param name="logger"></param>
+    /// <param name="reflectorEntidades"></param>
+    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull, ILogger logger, IReflectorEntidadesAPI reflectorEntidades) {
         _dbSetFull = dbSetFull;
         _db = db;
         _logger = logger;
-        this.reflector = reflector;
+        this.reflectorEntidades = reflectorEntidades;
     }
 
     public JsonSerializerOptions JsonAPIDefaults()
@@ -87,7 +98,9 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
                 return respuesta;
             }
 
+
             DTOFull actual = _dbSetFull.Find(id);
+
             if (actual == null)
             {
                 respuesta.HttpCode = HttpCode.NotFound;
@@ -201,7 +214,14 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
         RespuestaPayload<PaginaGenerica<DTOFull>> respuesta = new();
         try
         {
-            var elementos = await _dbSetFull.ToListAsync();
+            if(interpreteConsulta == null)
+            {
+                respuesta.HttpCode = HttpCode.UnprocessableEntity;
+                respuesta.Error = new ErrorProceso() { HttpCode = HttpCode.UnprocessableEntity, Codigo = "SIN-INTERPRETE-CONSULTA", Mensaje = "No hay un interprete de consulta definido" };
+                return respuesta;
+            }
+
+            var elementos = await ObtienePaginaElementos(consulta);
 
             PaginaGenerica<DTOFull> pagina = new()
             {
@@ -225,6 +245,20 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
             respuesta.HttpCode = HttpCode.ServerError;
         }
         return respuesta;
+    }
+
+
+    /// <summary>
+    /// Este método siempre debe implementarse en la clase derivada
+    /// </summary>
+    /// <param name="consulta"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+
+    public virtual async Task<List<DTOFull>> ObtienePaginaElementos (Consulta consulta)
+    {
+        
+        throw new NotImplementedException();
     }
 
     public virtual ContextoUsuario? ObtieneContextoUsuario()
@@ -434,8 +468,8 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     {
         throw new NotImplementedException();
     }
-
-
-
-
 }
+
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.

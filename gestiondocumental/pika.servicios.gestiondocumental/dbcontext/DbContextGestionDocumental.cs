@@ -8,6 +8,9 @@ namespace pika.servicios.gestiondocumental.dbcontext;
 
 public class DbContextGestionDocumental : DbContext
 {
+
+    public const string TablaArchivos = "gd$archivo";
+
     public DbContextGestionDocumental(DbContextOptions<DbContextGestionDocumental> options) : base(options)
     {
 

@@ -12,26 +12,28 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
     public Entidad ObtieneEntidad (Type Tipo)
     {
 
-        Entidad entidad = new Entidad();
-        entidad.Nombre = Tipo.Name.ToString();
-        entidad.Id = Guid.NewGuid().ToString();
+        Entidad entidad = new()
+        {
+            Nombre = Tipo.Name.ToString(),
+            Id = Guid.NewGuid().ToString()
+        };
 
         foreach (var propertyInfo in Tipo.GetProperties())
         {
-            entidad.Propiedades.Add(getTipoPropiedad(propertyInfo));
+            entidad.Propiedades.Add(GetTipoPropiedad(propertyInfo));
         }
         return entidad;
     }
     public Entidad ObtieneEntidadUI(Type dtoInsertar,Type dtoActualizar,Type dtoDespliegue)
     {
-        Entidad entidad = new Entidad();
+        Entidad entidad = new ();
 
         foreach (var propiedad in dtoInsertar.GetProperties())
         {
             var propiedadEncontrada = entidad.Propiedades.FirstOrDefault(_ => _.Nombre == propiedad.Name);
             if (propiedadEncontrada==null)
             {
-                var tmp = getTipoPropiedad(propiedad);
+                var tmp = GetTipoPropiedad(propiedad);
                 tmp.HabilitadoCrear = true;
                 entidad.Propiedades.Add(tmp);
             }
@@ -47,7 +49,7 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
             var propiedadEncontrada = entidad.Propiedades.FirstOrDefault(_ => _.Nombre == propiedad.Name);
             if (propiedadEncontrada == null)
             {
-                var tmp = getTipoPropiedad(propiedad);
+                var tmp = GetTipoPropiedad(propiedad);
                 tmp.HabilitadoEditar = true;
                 entidad.Propiedades.Add(tmp);
             }
@@ -63,7 +65,7 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
             var propiedadEncontrada = entidad.Propiedades.FirstOrDefault(_ => _.Nombre == propiedad.Name);
             if (propiedadEncontrada == null)
             {
-                var tmp = getTipoPropiedad(propiedad);
+                var tmp = GetTipoPropiedad(propiedad);
                 tmp.HabilitadoDespliegue = true;
                 entidad.Propiedades.Add(tmp);
             }
@@ -77,7 +79,7 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
         return entidad;
     }
 
-    protected Propiedad getTipoPropiedad(PropertyInfo propiedadObjeto)
+    protected Propiedad GetTipoPropiedad(PropertyInfo propiedadObjeto)
     {
         Propiedad propiedad = new();
         switch (propiedadObjeto.PropertyType)
