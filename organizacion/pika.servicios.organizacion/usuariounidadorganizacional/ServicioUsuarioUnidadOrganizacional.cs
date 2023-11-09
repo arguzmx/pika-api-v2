@@ -135,10 +135,16 @@ namespace pika.servicios.organizacion.usuariounidadorganizacional
 
             resultado.Valido = false;
             bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Id == data.UnidadOrganizacionalId);
+            bool encontrado2 = await DB.Dominios.AnyAsync(a => a.Id == data.DominioId);
+           
 
-            if (!encontrado)
+            if (!encontrado || !encontrado2)
             {
                 resultado.Error = "UnidadOrganizacionalId".ErrorProcesoNoEncontrado();
+                if(!encontrado2)
+                {
+                    resultado.Error = "DominioId".ErrorProcesoNoEncontrado();
+                }
 
             }
             else
@@ -158,7 +164,7 @@ namespace pika.servicios.organizacion.usuariounidadorganizacional
             resultado.Valido = false;
             if (!encontrado)
             {
-                resultado.Error = "id".ErrorProcesoNoEncontrado();
+                resultado.Error = "Id".ErrorProcesoNoEncontrado();
             }
             else
             {

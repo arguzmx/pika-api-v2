@@ -15,7 +15,7 @@ namespace pika.servicios.gestiondocumental.data.migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("api.comunes.modelos.modelos.ElementoCatalogo", b =>

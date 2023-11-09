@@ -158,9 +158,10 @@ namespace pika.servicios.organizacion.dominio
             ResultadoValidacion resultado = new();
             bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.DominioId==original.Id);
             bool encontrado2 = await DB.UsuarioDominios.AnyAsync(a => a.DominioId==original.Id);
+            bool encontrado3 = await DB.UsuariosUnidadesOrganizacionales.AnyAsync(a=> a.DominioId==original.Id);
 
             resultado.Valido = false;
-            if (encontrado || encontrado2)
+            if ((encontrado || encontrado2) || encontrado3)
             {
                 
                 resultado.Error = "Id".Error409();
@@ -228,7 +229,7 @@ namespace pika.servicios.organizacion.dominio
         {
             DominioDespliegue archivo = new DominioDespliegue()
             {
-                Id = data.Id,
+                Id = data.Id
             };
             return archivo;
         }

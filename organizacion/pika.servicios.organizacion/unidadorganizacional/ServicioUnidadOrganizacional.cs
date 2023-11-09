@@ -135,17 +135,19 @@ namespace pika.servicios.organizacion.unidadorganizacional
 
             resultado.Valido = false;
             bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Nombre == data.Nombre);
-
-            if (encontrado)
+            bool encontrado2 = await DB.Dominios.AnyAsync(a => a.Id == data.DominioId);
+            if (encontrado || !encontrado2)
             {
                 resultado.Error = "Nombre".ErrorProcesoDuplicado();
-
+                if (!encontrado2)
+                {
+                    resultado.Error = "DominioId".Error409();
+                }
             }
             else
             {
                 resultado.Valido = true;
             }
-
             return resultado;
         }
 
@@ -154,13 +156,18 @@ namespace pika.servicios.organizacion.unidadorganizacional
         {
             ResultadoValidacion resultado = new();
             bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Id == id);
+            bool encontrado2 = await DB.UsuariosUnidadesOrganizacionales.AnyAsync(a => a.UnidadOrganizacionalId == id);
 
             resultado.Valido = false;
-            if (!encontrado)
+            if (!encontrado || encontrado2)
             {
-                resultado.Error = "id".ErrorProcesoNoEncontrado();
-
+                resultado.Error = "Id".ErrorProcesoNoEncontrado();
+                if (encontrado2)
+                {
+                    resultado.Error = "Id".Error409();
+                }
             }
+          
             else
             {
                 resultado.Valido = true;
@@ -174,18 +181,19 @@ namespace pika.servicios.organizacion.unidadorganizacional
         {
             ResultadoValidacion resultado = new();
             bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Id == id);
-
+            bool encontrado2 = await DB.Dominios.AnyAsync(a => a.Id== actualizacion.DominioId);
             resultado.Valido = false;
-            if (!encontrado)
+            if (!encontrado || !encontrado2)
             {
-                resultado.Error = "id".ErrorProcesoNoEncontrado();
-
+                resultado.Error = "Id".ErrorProcesoNoEncontrado();
+                if(!encontrado2)
+                {
+                    resultado.Error = "DominioId".Error409();
+                }
             }
             else
             {
-
                 bool duplicado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Nombre == actualizacion.Nombre);
-
                 if (duplicado)
                 {
                     resultado.Error = "Nombre".ErrorProcesoDuplicado();
