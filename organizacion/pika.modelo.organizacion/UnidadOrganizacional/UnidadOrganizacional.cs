@@ -38,9 +38,9 @@ namespace pika.modelo.organizacion
         public Dominio Dominio { get; set; }
 
 
-       // [XmlIgnore]
-       // [JsonIgnore]
-       // public List<UsuarioUnidadOrganizacional> UsuariosUnidad { get; set; }
+        [XmlIgnore]
+        [JsonIgnore]
+        public List<UsuarioUnidadOrganizacional> UsuariosUnidad { get; set; }
 
     }
 }

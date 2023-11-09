@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using api.comunes.modelos.modelos;
+using Microsoft.EntityFrameworkCore;
 using pika.modelo.organizacion;
 using pika.servicios.organizacion.dbcontext.configuraciones;
 using System;
@@ -20,11 +21,17 @@ namespace pika.servicios.organizacion.dbcontext
 
         public DbSet<UnidadOrganizacional> UnidadesOrganizacionales { get; set; }
 
+        public DbSet<UsuarioDominio> UsuarioDominios { get; set; }
+
+        public DbSet<UsuarioUnidadOrganizacional> UsuariosUnidadesOrganizacionales { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ConfiguracionDominio());
             modelBuilder.ApplyConfiguration(new ConfiguracionUnidadOrganizacional());
+            modelBuilder.ApplyConfiguration(new ConfiguracionUsuarioDominio());
+            modelBuilder.ApplyConfiguration(new ConfiguracionUsuarioUnidadOrganizacional());
 
             base.OnModelCreating(modelBuilder);
         }

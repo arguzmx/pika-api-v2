@@ -10,8 +10,8 @@ namespace pika.modelo.organizacion
     /// <summary>
     /// Relaciona un usuario con su dominio
     /// </summary>
-   // [Entidad()]
-    public class UsuarioDominio// : ElementoCatalogo
+    [Entidad()]
+    public class UsuarioDominio
     {
 
         /// <summary>

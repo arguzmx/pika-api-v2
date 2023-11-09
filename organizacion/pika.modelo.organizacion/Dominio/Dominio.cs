@@ -35,12 +35,17 @@ public class Dominio
     // R 
 
 
-   // [XmlIgnore]
-   // [JsonIgnore]
-   // public List<UsuarioDominio> UsuarioDominio { get; set; }
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<UsuarioDominio> UsuarioDominio { get; set; }
 
     [XmlIgnore]
     [JsonIgnore]
     public List<UnidadOrganizacional> UnidadesOrganizacionales { get; set; }
-}
+
+        //propiedad de navegacion agregaada para relacionar con UsuarioUnidadOrganizacional
+        [XmlIgnore]
+        [JsonIgnore]
+        public List<UsuarioUnidadOrganizacional> UsuarioUnidadOrganizacionals { get; set; }
+    }
 }

@@ -9,16 +9,15 @@ using pika.modelo.organizacion;
 using pika.servicios.organizacion.dbcontext;
 using System.Text.Json;
 
-#pragma warning disable CS8603 // Possible null reference return.
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-namespace pika.servicios.organizacion.unidadorganizacional
-{
-    [ServicioEntidadAPI(entidad: typeof(UnidadOrganizacional))]
-    public class ServicioUnidadOrganizacional : ServicioEntidadGenericaBase<UnidadOrganizacional, UnidadOrganizacionalInsertar, UnidadOrganizacionalActualizar, UnidadOrganizacionalDespliegue, string>,
-  IServicioEntidadAPI, IServicioUnidadOrganizacional
-    {
 
-        public ServicioUnidadOrganizacional(DbContextOrganizacion context, ILogger<ServicioUnidadOrganizacional> logger) : base(context, context.UnidadesOrganizacionales, logger)
+namespace pika.servicios.organizacion.usuariounidadorganizacional
+{
+
+    [ServicioEntidadAPI(entidad: typeof(UsuarioUnidadOrganizacional))]
+    public class ServicioUsuarioUnidadOrganizacional : ServicioEntidadGenericaBase<UsuarioUnidadOrganizacional, UsuarioUnidadOrganizacionalInsertar, UsuarioUnidadOrganizacionalActualizar, UsuarioUnidadOrganizacionalDespliegue, string>,
+        IServicioEntidadAPI, IServicioUsuarioUnidadOrganizacional
+    {
+        public ServicioUsuarioUnidadOrganizacional(DbContextOrganizacion context, ILogger<ServicioUsuarioUnidadOrganizacional> logger) : base(context, context.UsuariosUnidadesOrganizacionales, logger)
         {
         }
 
@@ -28,11 +27,12 @@ namespace pika.servicios.organizacion.unidadorganizacional
         /// </summary>
         private DbContextOrganizacion DB { get { return (DbContextOrganizacion)_db; } }
 
+
         public bool RequiereAutenticacion => true;
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<UnidadOrganizacionalActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<UsuarioUnidadOrganizacionalActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -73,7 +73,7 @@ namespace pika.servicios.organizacion.unidadorganizacional
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<UnidadOrganizacionalInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<UsuarioUnidadOrganizacionalInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -128,17 +128,17 @@ namespace pika.servicios.organizacion.unidadorganizacional
 
 
         #region Overrides para la personalizacion de la entidad dominio
-
-        public override async Task<ResultadoValidacion> ValidarInsertar(UnidadOrganizacionalInsertar data)
+        //Validar si UnidadOrganizacionalId EXIXTE 
+        public override async Task<ResultadoValidacion> ValidarInsertar(UsuarioUnidadOrganizacionalInsertar data)
         {
             ResultadoValidacion resultado = new();
 
             resultado.Valido = false;
-            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Nombre == data.Nombre);
+            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Id == data.UnidadOrganizacionalId);
 
-            if (encontrado)
+            if (!encontrado)
             {
-                resultado.Error = "Nombre".ErrorProcesoDuplicado();
+                resultado.Error = "UnidadOrganizacionalId".ErrorProcesoNoEncontrado();
 
             }
             else
@@ -149,17 +149,16 @@ namespace pika.servicios.organizacion.unidadorganizacional
             return resultado;
         }
 
-
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, UnidadOrganizacional original)
+        // Validar si se encuentra el id
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, UsuarioUnidadOrganizacional original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.UsuariosUnidadesOrganizacionales.AnyAsync(a => a.Id == id);
 
             resultado.Valido = false;
             if (!encontrado)
             {
                 resultado.Error = "id".ErrorProcesoNoEncontrado();
-
             }
             else
             {
@@ -169,62 +168,42 @@ namespace pika.servicios.organizacion.unidadorganizacional
             return resultado;
         }
 
-
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id, UnidadOrganizacionalActualizar actualizacion, UnidadOrganizacional original)
+        // validacion inhabilitada
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, UsuarioUnidadOrganizacionalActualizar actualizacion, UsuarioUnidadOrganizacional original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Id == id);
-
             resultado.Valido = false;
-            if (!encontrado)
-            {
-                resultado.Error = "id".ErrorProcesoNoEncontrado();
-
-            }
-            else
-            {
-
-                bool duplicado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.Nombre == actualizacion.Nombre);
-
-                if (duplicado)
-                {
-                    resultado.Error = "Nombre".ErrorProcesoDuplicado();
-                }
-                else
-                {
-                    resultado.Valido = true;
-                }
-            }
-
+            resultado.Error = "Metodo Inhabilitado".Error409();
             return resultado;
         }
 
 
-        public override UnidadOrganizacional ADTOFull(UnidadOrganizacionalActualizar actualizacion, UnidadOrganizacional actual)
+        public override UsuarioUnidadOrganizacional ADTOFull(UsuarioUnidadOrganizacionalActualizar actualizacion, UsuarioUnidadOrganizacional actual)
         {
-            actual.Nombre = actualizacion.Nombre;
-            actual.DominioId = actualizacion.DominioId;
+
             return actual;
         }
 
-        public override UnidadOrganizacional ADTOFull(UnidadOrganizacionalInsertar data)
+        public override UsuarioUnidadOrganizacional ADTOFull(UsuarioUnidadOrganizacionalInsertar data)
         {
-            UnidadOrganizacional archivo = new UnidadOrganizacional()
+            UsuarioUnidadOrganizacional archivo = new UsuarioUnidadOrganizacional()
             {
                 Id = Guid.NewGuid().ToString(),
-                Nombre = data.Nombre,
+                UsuarioId = data.UsuarioId,
                 DominioId = data.DominioId,
+                UnidadOrganizacionalId=data.UnidadOrganizacionalId
             };
             return archivo;
         }
 
-        public override UnidadOrganizacionalDespliegue ADTODespliegue(UnidadOrganizacional data)
+        public override UsuarioUnidadOrganizacionalDespliegue ADTODespliegue(UsuarioUnidadOrganizacional data)
         {
-            UnidadOrganizacionalDespliegue archivo = new UnidadOrganizacionalDespliegue()
+            UsuarioUnidadOrganizacionalDespliegue archivo = new UsuarioUnidadOrganizacionalDespliegue()
             {
                 Id = data.Id,
-                Nombre = data.Nombre,
-                DominioId =data.DominioId
+                UsuarioId =data.UsuarioId,
+                DominioId= data.DominioId,
+                UnidadOrganizacionalId= data.UnidadOrganizacionalId
             };
             return archivo;
         }
@@ -232,5 +211,3 @@ namespace pika.servicios.organizacion.unidadorganizacional
         #endregion
     }
 }
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning restore CS8603 // Possible null reference return.
