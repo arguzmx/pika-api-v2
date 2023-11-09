@@ -1,5 +1,8 @@
 ﻿using api.comunes.metadatos;
+using api.comunes.metadatos.configuraciones;
+using System;
 using System.Reflection;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace api.comunes.modelos.reflectores;
 
@@ -20,7 +23,24 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
 
         foreach (var propertyInfo in Tipo.GetProperties())
         {
-            entidad.Propiedades.Add(GetTipoPropiedad(propertyInfo));
+            var propiedad = GetTipoPropiedad(propertyInfo);
+
+            foreach (var attribute in propertyInfo.CustomAttributes)
+            {
+                switch (attribute.AttributeType.Name)
+                {
+
+                    case "TablaAttribute":
+
+                        propiedad.ConfiguracionTabular = ObtenerConfiguracionTabular(attribute.ConstructorArguments);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            entidad.Propiedades.Add(propiedad);
         }
         return entidad;
     }
@@ -127,6 +147,17 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
                 break;
         }
         return propiedad;
+    }
+    protected ConfiguracionTabular ObtenerConfiguracionTabular(IList<CustomAttributeTypedArgument> argumentosConstructor)
+    {
+        return new ConfiguracionTabular()
+        {
+            Indice = (int)argumentosConstructor[0].Value,
+            MostrarEnTabla = (bool)argumentosConstructor[1].Value,
+            Ancho = (int)argumentosConstructor[2].Value,
+            Ordenable = (bool)argumentosConstructor[3].Value,
+            AlternarEnTabla = (bool)argumentosConstructor[4].Value         
+        };
     }
 
 }

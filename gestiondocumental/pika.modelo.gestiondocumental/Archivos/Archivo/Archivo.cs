@@ -15,7 +15,7 @@ namespace pika.modelo.gestiondocumental
         /// </summary>
         [Id]
         [Formulario(indice: 1, visible: false)]
-        [Tabla(indice: 1, visible: false)]
+        [Tabla(indice: 0, visible: false)]
         public string Id { get; set; }
         // [a] [d] 
         // R 128
