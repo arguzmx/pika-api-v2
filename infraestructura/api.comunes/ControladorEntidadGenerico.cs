@@ -1,4 +1,5 @@
-﻿using api.comunes.modelos.modelos;
+﻿using api.comunes.metadatos;
+using api.comunes.modelos.modelos;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using Microsoft.AspNetCore.Http;
@@ -41,6 +42,23 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
 #pragma warning restore CS8601 // Posible asignación de referencia nula
 #pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
     }
+
+
+    /// <summary>
+    /// Obtiene los metadatos de una entidad
+    /// </summary>
+    /// <param name="entidad"></param>
+    /// <returns></returns>
+    [HttpGet("/api/{entidad}/metadatos")]
+    public async Task<IActionResult> DefinicionEntidad(string entidad)
+    {
+        // calcula la Entidad desde el servico y s ni deveule¿ve null devolver 404
+        var resultado = await entidadAPI.Metadatos(entidad);
+        if(resultado== null) {
+            return NotFound(entidad);
+        }
+        return Ok(resultado);
+    } 
 
 
     /// <summary>

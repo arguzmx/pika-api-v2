@@ -5,6 +5,7 @@ using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos;
@@ -24,7 +25,7 @@ namespace pika.servicios.gestiondocumental.archivos
         IServicioEntidadAPI, IServicioArchivo
     {
         private DbContextGestionDocumental localContext;
-        public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger, IReflectorEntidadesAPI Reflector) : base (context, context.Archivos, logger,Reflector)
+        public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base (context, context.Archivos, logger,Reflector, cache)
         {
             interpreteConsulta = new InterpreteConsultaMySQL();
             localContext = context;

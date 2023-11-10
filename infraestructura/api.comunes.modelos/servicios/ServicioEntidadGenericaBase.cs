@@ -6,6 +6,7 @@ using api.comunes.metadatos;
 using System.Text.Json;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.abstracciones;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace api.comunes.modelos.servicios;
 
@@ -32,7 +33,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     protected ContextoUsuario? _contextoUsuario;
     protected ILogger _logger;
     protected IReflectorEntidadesAPI reflectorEntidades;
-
+    protected IDistributedCache _cache;
     /// <summary>
     /// Constructor de la clase base
     /// </summary>
@@ -40,7 +41,8 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     /// <param name="dbSetFull"></param>
     /// <param name="logger"></param>
     /// <param name="reflectorEntidades"></param>
-    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull, ILogger logger, IReflectorEntidadesAPI reflectorEntidades) {
+    public ServicioEntidadGenericaBase(DbContext db, DbSet<DTOFull> dbSetFull, ILogger logger, IReflectorEntidadesAPI reflectorEntidades, IDistributedCache cache) {
+        _cache = cache;
         _dbSetFull = dbSetFull;
         _db = db;
         _logger = logger;
@@ -85,6 +87,15 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
         }
         
         return respuesta;
+    }
+
+    public virtual async Task<Entidad>? Metadatos(string Tipo)
+    {
+        await Task.Delay(0);
+        // Bucamos primero en cache
+        // Si no esta utiizamos la conuuncion de los DTS para generarlos con reflectorEntidades y si existe lo añadimos al cache
+        // si no exiwte devolvemos null
+        throw new NotImplementedException();
     }
 
     public virtual async Task<Respuesta> Actualizar(string id, DTOUpdate data)
