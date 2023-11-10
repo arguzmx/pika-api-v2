@@ -34,6 +34,7 @@ public static class EntidadAPIMiddlewareExtensions
 
     public static IServiceCollection AddServiciosEntidadAPI(this IServiceCollection services)
     {
+        services.AddDistributedMemoryCache();
         services.AddHttpContextAccessor();
         return services;
     }
