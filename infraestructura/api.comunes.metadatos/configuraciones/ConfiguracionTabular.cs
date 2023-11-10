@@ -13,12 +13,12 @@ public class ConfiguracionTabular
     /// <summary>
     /// Determina si la propiedad se muestra en el despliegue tabular
     /// </summary>
-    public bool MostrarEnTabla { get; set; }
+    public bool Visible { get; set; }
 
     /// <summary>
     /// Determina si la propiedad puede alternar su visibilidad en el despliegue tabular
     /// </summary>
-    public bool AlternarEnTabla { get; set; }
+    public bool Alternable { get; set; }
     /// <summary>
     /// Determina si la propiedad puede ordenar su visibilidad en el despliegue tabular
     /// </summary>
