@@ -63,6 +63,7 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
         {
             case Type type when type == typeof(string):
 
+                propiedad.Id= propiedadObjeto.Name;
                 propiedad.Nombre = propiedadObjeto.Name;
                 propiedad.Tipo = TipoDatos.Texto;
 
@@ -70,17 +71,20 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
 
             case Type type when type == typeof(decimal) || type == typeof(decimal?):
 
+                propiedad.Id = propiedadObjeto.Name;
                 propiedad.Nombre = propiedadObjeto.Name;
                 propiedad.Tipo = TipoDatos.Decimal;
                 break;
 
             case Type type when type == typeof(DateTime):
 
+                propiedad.Id = propiedadObjeto.Name;
                 propiedad.Nombre = propiedadObjeto.Name;
                 propiedad.Tipo = TipoDatos.FechaHora;
                 break;
             case Type type when type == typeof(int):
 
+                propiedad.Id = propiedadObjeto.Name;
                 propiedad.Nombre = propiedadObjeto.Name;
                 propiedad.Tipo = TipoDatos.Entero;
                 break;
@@ -88,17 +92,20 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
 
             case Type type when type == typeof(bool):
 
+                propiedad.Id = propiedadObjeto.Name;
                 propiedad.Nombre = propiedadObjeto.Name;
                 propiedad.Tipo = TipoDatos.Logico;
                 break;
 
             case Type type when type == typeof(List<string>):
 
+                propiedad.Id = propiedadObjeto.Name;
                 propiedad.Nombre = propiedadObjeto.Name;
                 propiedad.Tipo = TipoDatos.ListaSeleccionMultiple;
                 break;
             default:
 
+                propiedad.Id = propiedadObjeto.Name;
                 propiedad.Nombre = propiedadObjeto.Name;
                 propiedad.Tipo = TipoDatos.Desconocido;
                 break;
