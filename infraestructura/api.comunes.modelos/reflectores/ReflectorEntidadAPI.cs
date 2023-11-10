@@ -1,7 +1,9 @@
 ﻿using api.comunes.metadatos;
+using api.comunes.metadatos.atributos;
 using api.comunes.metadatos.configuraciones;
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace api.comunes.modelos.reflectores;
@@ -24,22 +26,6 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
         foreach (var propertyInfo in Tipo.GetProperties())
         {
             var propiedad = GetTipoPropiedad(propertyInfo);
-
-            foreach (var attribute in propertyInfo.CustomAttributes)
-            {
-                switch (attribute.AttributeType.Name)
-                {
-
-                    case "TablaAttribute":
-
-                        propiedad.ConfiguracionTabular = ObtenerConfiguracionTabular(attribute.ConstructorArguments);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
             entidad.Propiedades.Add(propiedad);
         }
         return entidad;
@@ -96,12 +82,15 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
                 entidad.Propiedades[index] = propiedadEncontrada;
             }
         }
-        return entidad;
+
+
+            return entidad;
     }
 
     protected Propiedad GetTipoPropiedad(PropertyInfo propiedadObjeto)
     {
-        Propiedad propiedad = new();
+        Propiedad propiedad = ObtenerArgumentos(propiedadObjeto);
+
         switch (propiedadObjeto.PropertyType)
         {
             case Type type when type == typeof(string):
@@ -148,16 +137,36 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
         }
         return propiedad;
     }
-    protected ConfiguracionTabular ObtenerConfiguracionTabular(IList<CustomAttributeTypedArgument> argumentosConstructor)
+
+
+    protected Propiedad ObtenerArgumentos (PropertyInfo InformacionPropiedad)
     {
-        return new ConfiguracionTabular()
+        Propiedad propiedad = new Propiedad();
+        foreach (var attribute in InformacionPropiedad.CustomAttributes)
         {
-            Indice = (int)argumentosConstructor[0].Value,
-            MostrarEnTabla = (bool)argumentosConstructor[1].Value,
-            Ancho = (int)argumentosConstructor[2].Value,
-            Ordenable = (bool)argumentosConstructor[3].Value,
-            AlternarEnTabla = (bool)argumentosConstructor[4].Value         
-        };
+            switch (attribute.AttributeType.Name)
+            {
+
+                case "TablaAttribute":
+                    propiedad.ConfiguracionTabular = ObtenerConfiguracionTabular(attribute);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        return propiedad;
+    }
+    protected ConfiguracionTabular ObtenerConfiguracionTabular(CustomAttributeData atributo)
+    {
+        ConfiguracionTabular configuracion = new();
+        foreach (var argumento in atributo.Constructor.GetParameters())
+        {
+            var ValorDato = atributo.ConstructorArguments[argumento.Position].Value;
+            configuracion.GetType().GetProperty($"{argumento.Name.Substring(0, 1).ToUpper()}{argumento.Name.Substring(1).ToLower()}").SetValue(configuracion, ValorDato);
+        }
+        return configuracion;
     }
 
 }
