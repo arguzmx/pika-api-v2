@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="api.comunes.metadatos" Version="1.0.1" />
-    <PackageReference Include="api.comunes.modelos" Version="1.0.2" />
     <PackageReference Include="RepoDb" Version="1.13.1" />
     <PackageReference Include="Serilog" Version="3.0.1" />
   </ItemGroup>
@@ -16,6 +14,11 @@
   <ItemGroup>
     <Folder Include="Acervo\Catalogos\" />
     <Folder Include="Acervo\TraduccionesCatalogos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\infraestructura\api.comunes.metadatos\api.comunes.metadatos.csproj" />
+    <ProjectReference Include="..\..\infraestructura\api.comunes.modelos\api.comunes.modelos.csproj" />
   </ItemGroup>
 
 </Project>

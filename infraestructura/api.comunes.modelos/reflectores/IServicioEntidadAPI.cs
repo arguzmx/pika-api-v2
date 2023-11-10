@@ -124,4 +124,10 @@ public interface IServicioEntidadAPI
     Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijosDespliegueAPI(Consulta consulta, string tipoPadre, string id);
 
 
+    /// <summary>
+    /// DEvulver la conjunción de DTOFull, DTOInsert y DTOUpdate para la entidad con el tipo
+    /// </summary>
+    /// <param name="Tipo"></param>
+    /// <returns></returns>
+    Task<Entidad>? Metadatos(string Tipo);
 }

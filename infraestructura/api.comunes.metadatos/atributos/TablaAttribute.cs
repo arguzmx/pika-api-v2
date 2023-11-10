@@ -63,7 +63,7 @@ public class TablaAttribute : Attribute
     }
 
     /// <summary>
-    /// Define el aencho relativo de la propiedad un unidades de división de la UI
+    /// Define el ancho relativo de la propiedad un unidades de división de la UI
     /// y relativas a las otras propiedades a desplegar
     /// </summary>
     public virtual int Ancho

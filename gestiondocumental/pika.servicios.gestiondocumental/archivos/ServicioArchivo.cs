@@ -1,13 +1,16 @@
 ﻿using api.comunes.metadatos;
+using api.comunes.modelos.interpretes;
 using api.comunes.modelos.modelos;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos;
 using pika.servicios.gestiondocumental.dbcontext;
+using RepoDb.Extensions;
 using System.Text.Json;
 
 #pragma warning disable CS8603 // Possible null reference return.
@@ -21,9 +24,11 @@ namespace pika.servicios.gestiondocumental.archivos
     public class ServicioArchivo : ServicioEntidadGenericaBase<Archivo, ArchivoInsertar, ArchivoActualizar, ArchivoDespliegue, string>,
         IServicioEntidadAPI, IServicioArchivo
     {
-
-        public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger) : base (context, context.Archivos, logger)
+        private DbContextGestionDocumental localContext;
+        public ServicioArchivo(DbContextGestionDocumental context, ILogger<ServicioArchivo> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base (context, context.Archivos, logger,Reflector, cache)
         {
+            interpreteConsulta = new InterpreteConsultaMySQL();
+            localContext = context;
         }
 
 
@@ -88,12 +93,11 @@ namespace pika.servicios.gestiondocumental.archivos
         {
             var temp = await this.Pagina(consulta);
             RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
-
             return respuesta;
         }
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaDespliegueAPI(Consulta consulta)
-        {
+        {            
             var temp = await this.PaginaDespliegue(consulta);
             RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -129,6 +133,33 @@ namespace pika.servicios.gestiondocumental.archivos
             return respuesta;
         }
 
+
+        public override async Task<(List<Archivo> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+        {
+            await Task.Delay(0);
+
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Archivo));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaArchivos);
+
+            int? total = null;
+            List<Archivo> elementos = localContext.Archivos.FromSqlRaw(query).ToList();
+
+            if (consulta.Contar)
+            {
+                query = query.Split("ORDER")[0];
+                query = $"{query.Replace("*", "count(*)")}";
+                total = localContext.Database.SqlQueryRaw<int>(query).ToArray().First();
+            }
+
+
+            if (elementos != null)
+            {
+                return new (elementos, total);
+            } else
+            {
+                return new(new List<Archivo>(), total); ;
+            }
+        }
 
 
         #region Overrides para la personalziación de la entidad Archivo
