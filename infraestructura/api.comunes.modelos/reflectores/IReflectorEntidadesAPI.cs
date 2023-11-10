@@ -6,5 +6,5 @@ public interface IReflectorEntidadesAPI
 {
 
     Entidad ObtieneEntidad(Type Tipo);
-    Entidad ObtieneEntidadUI(Type dtoInsertar, Type dtoActualizar, Type dtoDespliegue);
+    Entidad ObtieneEntidadUI(Type dtoFull,Type dtoInsertar, Type dtoActualizar, Type dtoDespliegue);
 }

@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using static System.Formats.Asn1.AsnWriter;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace api.comunes.modelos.reflectores;
 
@@ -30,59 +31,26 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
         }
         return entidad;
     }
-    public Entidad ObtieneEntidadUI(Type dtoInsertar,Type dtoActualizar,Type dtoDespliegue)
+    public Entidad ObtieneEntidadUI(Type dtoFull,Type dtoInsertar,Type dtoActualizar,Type dtoDespliegue)
     {
-        Entidad entidad = new ();
+        Entidad entidad = new()
+        {
+            Nombre = dtoFull.Name.ToString(),
+            Id = Guid.NewGuid().ToString()
+        };
 
-        foreach (var propiedad in dtoInsertar.GetProperties())
+        foreach (var propiedad in dtoFull.GetProperties())
         {
-            var propiedadEncontrada = entidad.Propiedades.FirstOrDefault(_ => _.Nombre == propiedad.Name);
-            if (propiedadEncontrada==null)
+            if (dtoInsertar.GetProperties().Any(_=>_.Name==propiedad.Name) || dtoActualizar.GetProperties().Any(_ => _.Name == propiedad.Name) || dtoDespliegue.GetProperties().Any(_ => _.Name == propiedad.Name))
             {
                 var tmp = GetTipoPropiedad(propiedad);
-                tmp.HabilitadoCrear = true;
+                tmp.HabilitadoCrear = dtoInsertar.GetProperties().Any(_ => _.Name == propiedad.Name);
+                tmp.HabilitadoEditar = dtoActualizar.GetProperties().Any(_ => _.Name == propiedad.Name);
+                tmp.HabilitadoDespliegue = dtoDespliegue.GetProperties().Any(_ => _.Name == propiedad.Name);
                 entidad.Propiedades.Add(tmp);
             }
-            else
-            {
-                var index =entidad.Propiedades.FindIndex(_=>_.Nombre==propiedadEncontrada.Nombre);
-                propiedadEncontrada.HabilitadoCrear = true;
-                entidad.Propiedades[index]=propiedadEncontrada;
-            }
-        }
-        foreach (var propiedad in dtoActualizar.GetProperties())
-        {
-            var propiedadEncontrada = entidad.Propiedades.FirstOrDefault(_ => _.Nombre == propiedad.Name);
-            if (propiedadEncontrada == null)
-            {
-                var tmp = GetTipoPropiedad(propiedad);
-                tmp.HabilitadoEditar = true;
-                entidad.Propiedades.Add(tmp);
-            }
-            else
-            {
-                var index = entidad.Propiedades.FindIndex(_ => _.Nombre == propiedadEncontrada.Nombre);
-                propiedadEncontrada.HabilitadoEditar = true;
-                entidad.Propiedades[index] = propiedadEncontrada;
-            }
-        }
-        foreach (var propiedad in dtoDespliegue.GetProperties())
-        {
-            var propiedadEncontrada = entidad.Propiedades.FirstOrDefault(_ => _.Nombre == propiedad.Name);
-            if (propiedadEncontrada == null)
-            {
-                var tmp = GetTipoPropiedad(propiedad);
-                tmp.HabilitadoDespliegue = true;
-                entidad.Propiedades.Add(tmp);
-            }
-            else
-            {
-                var index = entidad.Propiedades.FindIndex(_ => _.Nombre == propiedadEncontrada.Nombre);
-                propiedadEncontrada.HabilitadoDespliegue = true;
-                entidad.Propiedades[index] = propiedadEncontrada;
-            }
-        }
 
+        }
 
             return entidad;
     }
@@ -168,6 +136,5 @@ public class ReflectorEntidadAPI: IReflectorEntidadesAPI
         }
         return configuracion;
     }
-
 }
 

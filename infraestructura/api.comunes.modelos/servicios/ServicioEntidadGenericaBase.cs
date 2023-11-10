@@ -7,6 +7,8 @@ using System.Text.Json;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.abstracciones;
 using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace api.comunes.modelos.servicios;
 
@@ -92,10 +94,18 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     public virtual async Task<Entidad>? Metadatos(string Tipo)
     {
         await Task.Delay(0);
-        // Bucamos primero en cache
-        // Si no esta utiizamos la conuuncion de los DTS para generarlos con reflectorEntidades y si existe lo añadimos al cache
-        // si no exiwte devolvemos null
-        throw new NotImplementedException();
+        Entidad entidad = new();
+        string entidadCache = await _cache.GetStringAsync($"Entidad-{Tipo}");
+        if (!string.IsNullOrEmpty(entidadCache))
+        {
+            entidad = JsonSerializer.Deserialize<Entidad>(entidadCache);
+        }
+        else
+        {
+            entidad = reflectorEntidades.ObtieneEntidadUI(typeof(DTOFull), typeof(DTOInsert), typeof(DTOUpdate), typeof(DTODespliegue));
+            await _cache.SetStringAsync($"Entidad-{Tipo}", JsonSerializer.Serialize(entidad));
+        }
+        return entidad;
     }
 
     public virtual async Task<Respuesta> Actualizar(string id, DTOUpdate data)
