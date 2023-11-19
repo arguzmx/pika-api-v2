@@ -162,24 +162,18 @@ namespace pika.servicios.gestiondocumental.archivos
         }
 
 
-        #region Overrides para la personalziación de la entidad Archivo
+        #region Overrides para la personalización de la entidad Archivo
 
         public override async Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
         {   
             ResultadoValidacion resultado = new ();
-            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Nombre == data.Nombre);
-            bool encontrado2 = await DB.TipoArchivo.AnyAsync(a => a.Id == data.TipoArchivoId);
 
-            if (encontrado || !encontrado2)
+            if (encontrado )
             {
-                resultado.Error = "Nombre".ErrorEntidadPadreNoConfigurada();
-                if(!encontrado2)
-                {
-                    resultado.Error = "id".ErrorEntidadPadreNoConfigurada();
-                }
-
+                resultado.Error = "Nombre".ErrorProcesoDuplicado();
             } else
             {
                 resultado.Valido = true;
@@ -192,14 +186,14 @@ namespace pika.servicios.gestiondocumental.archivos
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Archivo original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id == id);
 
             if(!encontrado)
             {
                
-                resultado.Error = "id".ErrorProcesoDuplicado();
+                resultado.Error = "id".ErrorProcesoNoEncontrado();
 
             } else
             {
@@ -213,7 +207,7 @@ namespace pika.servicios.gestiondocumental.archivos
         public override async Task<ResultadoValidacion> ValidarActualizar(string id, ArchivoActualizar actualizacion, Archivo original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id == id);
 
@@ -224,11 +218,11 @@ namespace pika.servicios.gestiondocumental.archivos
             }
             else
             {
-
-                bool duplicado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
+                // Verifica que no haya un registro con el mismo nombre para el mismo dominio y UO en un resgitrso diferente
+                bool duplicado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id != id 
-                    && a.Nombre.Equals( actualizacion.Nombre));
+                    && a.Nombre.Equals(actualizacion.Nombre));
 
                 if (duplicado)
                 {
@@ -252,20 +246,20 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public override Archivo ADTOFull(ArchivoInsertar data)
         {
-            Archivo archivo = new Archivo()
+            Archivo archivo = new ()
             {
                 Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
                 TipoArchivoId = data.TipoArchivoId,
-                UOrgId = _contextoUsuario.UOrgId,
-                DominioId = _contextoUsuario.DominioId,
+                UOrgId = _contextoUsuario!.UOrgId!,
+                DominioId = _contextoUsuario!.DominioId!,
             };
             return archivo;
         }
 
         public override ArchivoDespliegue ADTODespliegue(Archivo data)
         {
-            ArchivoDespliegue archivo = new ArchivoDespliegue()
+            ArchivoDespliegue archivo = new ()
             {
                 Id = data.Id,
                 Nombre = data.Nombre,

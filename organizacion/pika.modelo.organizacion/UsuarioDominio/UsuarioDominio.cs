@@ -1,45 +1,42 @@
 ﻿using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using api.comunes.modelos.modelos;
 using pika.comun.metadatos.atributos;
-using pika.modelo.organizacion;
 
-namespace pika.modelo.organizacion
 
+namespace pika.modelo.organizacion;
+
+
+/// <summary>
+/// Relaciona un usuario con su dominio, como esta entidad solo almacena solo ids 
+/// unicamente acepta metodos de insercion y elimminaci[on
+/// </summary>
+[Entidad()]
+public class UsuarioDominio
 {
+
     /// <summary>
-    /// Relaciona un usuario con su dominio
+    /// Identificador único de la relacióm
     /// </summary>
-    [Entidad()]
-    public class UsuarioDominio
-    {
+    public string Id { get; set; }
+    // [d]
+    // R [128]
 
-        /// <summary>
-        /// Identificador único de la relacióm
-        /// </summary>
-        public string Id { get; set; }
-        // [d]
-        // R [128]
+    /// <summary>
+    /// Identificador único del usuario, este viene del servicio de identidad
+    /// </summary>
+    public string UsuarioId { get; set; }
+    // [i] [d]
+    // R [128]
 
-        /// <summary>
-        /// Identificador único del usuario, este viene del servicio de identidad
-        /// </summary>
-        public string UsuarioId { get; set; }
-        // [i] [d]
-        // R [128]
+    /// <summary>
+    /// Identificador único del dominio
+    /// </summary>
+    public string DominioId { get; set; }
+    // [i] [d]
+    // R [128]
 
-        /// <summary>
-        /// Identificador único del dominio
-        /// </summary>
-        public string DominioId { get; set; }
-        // [i] [d]
-        // R [128]
+    [JsonIgnore]
+    [XmlIgnore]
+    public Dominio Dominio { get; set; }
 
-        [JsonIgnore]
-        [XmlIgnore]
-        public Dominio Dominios { get; set; }
-
-        // PAra esta entidad el método UPDATE no debe implmentarse
-
-    }
 }

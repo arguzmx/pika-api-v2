@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace pika.modelo.organizacion
+namespace pika.modelo.organizacion;
+
+[ExcludeFromCodeCoverage]
+public class UnidadOrganizacionalActualizar
 {
-    public class UnidadOrganizacionalActualizar
-    {
-        /// <summary>
-        /// Identificador único de la UI
-        /// </summary>
-        public string Id { get; set; }
+    /// <summary>
+    /// Identificador único de la UI
+    /// </summary>
+    public string Id { get; set; }
 
-        /// <summary>
-        /// NOmbre de la unodad organizacional
-        /// </summary>
-        public string Nombre { get; set; }
+    /// <summary>
+    /// NOmbre de la unodad organizacional
+    /// </summary>
+    public string Nombre { get; set; }
 
-        /// <summary>
-        /// Identiicador único del cominio al que se asocia la UO
-        /// </summary>
-        public string DominioId { get; set; }
-    }
+    /// <summary>
+    /// Identificador unico del dominio al que pertenece la unidad
+    /// </summary>
+    public string DominioId { get; set; }
+
 }

@@ -132,7 +132,6 @@ namespace pika.servicios.organizacion.usuariodominio
         {
             ResultadoValidacion resultado = new();
 
-            resultado.Valido = false;
             bool encontrado = await DB.Dominios.AnyAsync(a => a.Id == data.DominioId);
 
             if (!encontrado)

@@ -3,9 +3,11 @@ using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.organizacion;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 /// <summary>
-/// Relaciona un usuario con una unidad organizacional
+/// Relaciona un usuario con una unidad organizacional, como soolo almacenad ids 
+/// requiere implementar unicamente las opciones de insertat y eleiminar
 /// </summary>
 /// 
 [Entidad()]
@@ -35,20 +37,18 @@ public class UsuarioUnidadOrganizacional
 
 
     /// <summary>
-    /// Identificador único del dominio
+    /// Identificador único de la unidad organizaciona, este valor se obtiene del encabezado 
     /// </summary>
     public string UnidadOrganizacionalId { get; set; }
-    // [i] [d]
-    // R [128]
 
-    // PAra esta entidad el método UPDATE no debe implmentarse
 
     [JsonIgnore]
     [XmlIgnore]
     public UnidadOrganizacional UnidadOrganizacional { get; set; }
 
-
     [JsonIgnore]
     [XmlIgnore]
     public Dominio Dominio { get; set; }
 }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+

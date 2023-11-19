@@ -134,10 +134,11 @@ namespace pika.servicios.organizacion.dominio
 
         public override async Task<ResultadoValidacion> ValidarInsertar(DominioInsertar data)
         {
-            ResultadoValidacion resultado = new();
+            ResultadoValidacion resultado = new ();
 
-            resultado.Valido = false;
-            bool encontrado = await DB.Dominios.AnyAsync(a =>  a.Nombre == data.Nombre);
+            // VErifica que el usuario no tengo otro dominio con el mismo nombre en un registro diferente al de actualizacion
+            bool encontrado = await DB.Dominios.AnyAsync(a => a.Nombre == data.Nombre
+            && a.UsuarioId == this._contextoUsuario!.UsuarioId);
 
             if (encontrado)
             {
@@ -157,14 +158,11 @@ namespace pika.servicios.organizacion.dominio
         {
             ResultadoValidacion resultado = new();
             bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.DominioId==original.Id);
-            bool encontrado2 = await DB.UsuarioDominios.AnyAsync(a => a.DominioId==original.Id);
-            bool encontrado3 = await DB.UsuariosUnidadesOrganizacionales.AnyAsync(a=> a.DominioId==original.Id);
-
-            resultado.Valido = false;
-            if ((encontrado || encontrado2) || encontrado3)
+            
+            if (!encontrado)
             {
                 
-                resultado.Error = "Id".Error409();
+                resultado.Error = "Id".ErrorProcesoNoEncontrado();
 
             }
             else
@@ -191,7 +189,9 @@ namespace pika.servicios.organizacion.dominio
             else
             {
 
-                bool duplicado = await DB.Dominios.AnyAsync(a => a.Nombre== actualizacion.Nombre);
+                // VErifica que el usuario no tengo otro dominio con el mismo nombre en un registro diferente al de actualizacion
+                bool duplicado = await DB.Dominios.AnyAsync(a => a.Nombre== actualizacion.Nombre 
+                && a.UsuarioId == this._contextoUsuario!.UsuarioId && a.Id != id);
 
                 if (duplicado)
                 {
@@ -220,7 +220,7 @@ namespace pika.servicios.organizacion.dominio
             {
                 Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
-                Activo = data.Activo,
+                Activo = true,
             };
             return archivo;
         }
@@ -229,7 +229,11 @@ namespace pika.servicios.organizacion.dominio
         {
             DominioDespliegue archivo = new DominioDespliegue()
             {
-                Id = data.Id
+                Id = data.Id,
+                Activo = data.Activo,
+                FechaCreacion = data.FechaCreacion,
+                Nombre = data.Nombre,
+                UsuarioId = data.UsuarioId
             };
             return archivo;
         }
