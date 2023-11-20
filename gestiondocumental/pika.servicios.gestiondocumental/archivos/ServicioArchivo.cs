@@ -170,6 +170,7 @@ namespace pika.servicios.gestiondocumental.archivos
             bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Nombre == data.Nombre);
+            bool encontrado2 = await DB.TipoArchivo.AnyAsync(a => a.Id == data.TipoArchivoId);
 
             if (encontrado )
             {
