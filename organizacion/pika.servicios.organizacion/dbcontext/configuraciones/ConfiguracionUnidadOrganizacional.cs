@@ -1,28 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using pika.modelo.organizacion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-namespace pika.servicios.organizacion.dbcontext.configuraciones
+namespace pika.servicios.organizacion.dbcontext.configuraciones;
+
+[ExcludeFromCodeCoverage]
+public class ConfiguracionUnidadOrganizacional : IEntityTypeConfiguration<UnidadOrganizacional>
 {
-    public class ConfiguracionUnidadOrganizacional : IEntityTypeConfiguration<UnidadOrganizacional>
+    public void Configure(EntityTypeBuilder<UnidadOrganizacional> builder)
     {
-        public void Configure(EntityTypeBuilder<UnidadOrganizacional> builder)
-        {
-  
+        builder.ToTable(DbContextOrganizacion.TABLA_UNIDADES_ORG);
+        builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
+        builder.Property(e => e.Nombre).IsRequired().HasMaxLength(128);
+        builder.Property(e => e.DominioId).IsRequired().HasMaxLength(128);
 
-            builder.ToTable("org$unidadorganizacional");
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.Id).IsRequired(true).HasMaxLength(128);
-            builder.Property(e => e.Nombre).IsRequired(true).HasMaxLength(128);
-            builder.Property(e => e.DominioId).IsRequired(true).HasMaxLength(128);
-         
-            builder.HasOne(x => x.Dominio).WithMany(y => y.UnidadesOrganizacionales).HasForeignKey(z => z.DominioId).OnDelete(DeleteBehavior.Restrict);
-           // builder.HasMany(x => x.UsuariosUnidad).WithOne(y => y.UnidadOrganizacional).HasForeignKey(z => z.Id).OnDelete(DeleteBehavior.Cascade);
-        }
+        // Cuando una OU desaparece sus vinculos con los usuarios tambien de manera automatica con el Cascade
+        builder.HasMany(x => x.UsuariosUnidad).WithOne(y => y.UnidadOrganizacional).HasForeignKey(z => z.UnidadOrganizacionalId).OnDelete(DeleteBehavior.Cascade);     
     }
 }

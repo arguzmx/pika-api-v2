@@ -4,6 +4,7 @@ using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.organizacion;
 using pika.servicios.organizacion.dbcontext;
@@ -21,7 +22,7 @@ namespace pika.servicios.organizacion.dominio
         IServicioEntidadAPI, IServicioDominio
     {
 
-        public ServicioDominio(DbContextOrganizacion context, ILogger<ServicioDominio> logger) : base(context, context.Dominios, logger)
+        public ServicioDominio(DbContextOrganizacion context, ILogger<ServicioDominio> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Dominios, logger, Reflector, cache)
         {
         }
 
@@ -134,10 +135,11 @@ namespace pika.servicios.organizacion.dominio
 
         public override async Task<ResultadoValidacion> ValidarInsertar(DominioInsertar data)
         {
-            ResultadoValidacion resultado = new();
+            ResultadoValidacion resultado = new ();
 
-            resultado.Valido = false;
-            bool encontrado = await DB.Dominios.AnyAsync(a =>  a.Nombre == data.Nombre);
+            // VErifica que el usuario no tengo otro dominio con el mismo nombre en un registro diferente al de actualizacion
+            bool encontrado = await DB.Dominios.AnyAsync(a => a.Nombre == data.Nombre
+            && a.UsuarioId == this._contextoUsuario!.UsuarioId);
 
             if (encontrado)
             {
@@ -157,13 +159,11 @@ namespace pika.servicios.organizacion.dominio
         {
             ResultadoValidacion resultado = new();
             bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.DominioId==original.Id);
-            bool encontrado2 = await DB.UsuarioDominios.AnyAsync(a => a.DominioId==original.Id);
-
-            resultado.Valido = false;
-            if (encontrado || encontrado2)
+            
+            if (!encontrado)
             {
                 
-                resultado.Error = "Id".Error409();
+                resultado.Error = "Id".ErrorProcesoNoEncontrado();
 
             }
             else
@@ -190,7 +190,9 @@ namespace pika.servicios.organizacion.dominio
             else
             {
 
-                bool duplicado = await DB.Dominios.AnyAsync(a => a.Nombre== actualizacion.Nombre);
+                // VErifica que el usuario no tengo otro dominio con el mismo nombre en un registro diferente al de actualizacion
+                bool duplicado = await DB.Dominios.AnyAsync(a => a.Nombre== actualizacion.Nombre 
+                && a.UsuarioId == this._contextoUsuario!.UsuarioId && a.Id != id);
 
                 if (duplicado)
                 {
@@ -219,7 +221,7 @@ namespace pika.servicios.organizacion.dominio
             {
                 Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
-                Activo = data.Activo,
+                Activo = true,
             };
             return archivo;
         }
@@ -229,6 +231,10 @@ namespace pika.servicios.organizacion.dominio
             DominioDespliegue archivo = new DominioDespliegue()
             {
                 Id = data.Id,
+                Activo = data.Activo,
+                FechaCreacion = data.FechaCreacion,
+                Nombre = data.Nombre,
+                UsuarioId = data.UsuarioId
             };
             return archivo;
         }

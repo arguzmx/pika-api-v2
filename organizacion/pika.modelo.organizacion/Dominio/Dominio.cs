@@ -1,19 +1,21 @@
 ﻿using pika.comun.metadatos.atributos;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
-namespace pika.modelo.organizacion
-{
-    /// <summary>
-    /// Un dominio de datos es un contenedor lógico para todos los elementos relaciondso 
-    /// con una instancia de gestión documental
-    /// </summary>
-    /// 
-    [Entidad()]
+namespace pika.modelo.organizacion;
+
+/// <summary>
+/// Un dominio de datos es un contenedor lógico para todos los elementos relaciondso 
+/// con una instancia de gestión documental
+/// </summary>
+/// 
+[Entidad()]
+[ExcludeFromCodeCoverage]
 public class Dominio
 {
     /// <summary>
-    ///  Identificdor únio del volumen
+    ///  Identificdor únio del dominio
     ///  Se obtiene con GUID new
     /// </summary>
     public string Id { get; set; }
@@ -21,7 +23,7 @@ public class Dominio
     // R 128
 
     /// <summary>
-    /// Nombre único del volumen
+    /// Nombre único del dominio
     /// </summary>
     public string Nombre { get; set; }
     // [i] [a]
@@ -34,18 +36,27 @@ public class Dominio
     // [i] [a]
     // R 
 
+    /// <summary>
+    /// Fecha de creacion del dominio, se calcula automaticamente al crear la entidad para insercion
+    /// </summary>
+    public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Identificador unico del usuario dueño del dominio, este nombre se calcula con el ID del usaurio en sesion
+    /// al momento de crear el dominio en la API
+    /// </summary>
+    public string UsuarioId { get; set; }
+
 
     [XmlIgnore]
     [JsonIgnore]
-    public List<UsuarioDominio> UsuarioDominio { get; set; }
+    public List<UsuarioDominio> UsuarioDominio { get; set; } = new List<UsuarioDominio>();
 
     [XmlIgnore]
     [JsonIgnore]
-    public List<UnidadOrganizacional> UnidadesOrganizacionales { get; set; }
+    public List<UnidadOrganizacional> UnidadesOrganizacionales { get; set; } = new List<UnidadOrganizacional>();
 
-        //propiedad de navegacion agregaada para relacionar con UsuarioUnidadOrganizacional
-        [XmlIgnore]
-        [JsonIgnore]
-        public List<UsuarioUnidadOrganizacional> UsuarioUnidadOrganizacionals { get; set; }
-    }
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<UsuarioUnidadOrganizacional> UsuarioUnidadOrganizacionals { get; set; } = new List<UsuarioUnidadOrganizacional>();
 }
