@@ -4,6 +4,7 @@ using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.organizacion;
 using pika.servicios.organizacion.dbcontext;
@@ -18,7 +19,7 @@ public class ServicioUnidadOrganizacional : ServicioEntidadGenericaBase<UnidadOr
 IServicioEntidadAPI, IServicioUnidadOrganizacional
 {
 
-    public ServicioUnidadOrganizacional(DbContextOrganizacion context, ILogger<ServicioUnidadOrganizacional> logger) : base(context, context.UnidadesOrganizacionales, logger)
+    public ServicioUnidadOrganizacional(DbContextOrganizacion context, ILogger<ServicioUnidadOrganizacional> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.UnidadesOrganizacionales, logger, Reflector, cache)
     {
     }
 

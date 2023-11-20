@@ -4,6 +4,7 @@ using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.organizacion;
 using pika.servicios.organizacion.dbcontext;
@@ -21,7 +22,7 @@ namespace pika.servicios.organizacion.dominio
         IServicioEntidadAPI, IServicioDominio
     {
 
-        public ServicioDominio(DbContextOrganizacion context, ILogger<ServicioDominio> logger) : base(context, context.Dominios, logger)
+        public ServicioDominio(DbContextOrganizacion context, ILogger<ServicioDominio> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Dominios, logger, Reflector, cache)
         {
         }
 

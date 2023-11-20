@@ -4,6 +4,7 @@ using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
 using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.organizacion;
 using pika.servicios.organizacion.dbcontext;
@@ -16,7 +17,8 @@ namespace pika.servicios.organizacion.usuariodominio
     public class ServicioUsuarioDominio : ServicioEntidadGenericaBase<UsuarioDominio, UsuarioDominioInsertar, UsuarioDominioActualizar, UsuarioDominioDespliegue, string>,
         IServicioEntidadAPI, IServicioUsuarioDominio
     {
-        public ServicioUsuarioDominio(DbContextOrganizacion context, ILogger<ServicioUsuarioDominio> logger) : base(context, context.UsuarioDominios, logger)
+        public ServicioUsuarioDominio(DbContextOrganizacion context, ILogger<ServicioUsuarioDominio> logger,
+            IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.UsuarioDominios, logger, Reflector, cache )
         {
         }
 
