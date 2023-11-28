@@ -261,6 +261,7 @@ public class Activo
     public string? ContenidoId { get; set; }
     // 128
 
+    /*
     [JsonIgnore]
     [XmlIgnore]
     public Archivo ArchivoActual { get; set; }
@@ -268,7 +269,7 @@ public class Activo
     [JsonIgnore]
     [XmlIgnore]
     public Archivo ArchivoOrigen { get; set; }
-
+    */
 
     [JsonIgnore]
     [XmlIgnore]
