@@ -49,4 +49,11 @@ public class CuadroClasificacion
     [JsonIgnore, XmlIgnore]
     public List<Activo> Activos { get; set; }
 
+
+    /// <summary>
+    /// Series documentales pertenecientes al cuadro de clasificación
+    /// </summary>
+    [JsonIgnore, XmlIgnore]
+    public List<SerieDocumental> Series { get; set; }
+
 }
