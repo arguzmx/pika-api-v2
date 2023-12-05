@@ -51,6 +51,30 @@ public class SerieDocumental
     /// </summary>
     public string? SeriePadreId { get; set; }
     // [i] [a] [d]
+    // R 128
+
+    
+    /// <summary>
+    /// MEses para conclusión en archivo de trámite
+    /// </summary>
+    public int MesesArchivoTramite { get; set; }
+    // [i] [a] [d]
+    // R 
+
+    /// <summary>
+    /// MEses para conclusión en archivo de concentración
+    /// </summary>
+    public int MesesArchivoConcentracion { get; set; }
+    // [i] [a] [d]
+    // R 
+
+
+    /// <summary>
+    /// MEses para conclusión en archivo de histórico
+    /// </summary>
+    public int MesesArchivoHistorico { get; set; }
+    // [i] [a] [d]
+    // R
 
 
     /// <summary>
@@ -71,5 +95,5 @@ public class SerieDocumental
     /// Series docuentales descendientes
     /// </summary>
     public List<SerieDocumental> Subseries { get; set; } = new List<SerieDocumental>();
-
+  
 }
