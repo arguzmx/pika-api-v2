@@ -2,8 +2,8 @@
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
-namespace pika.modelo.gestiondocumental;
-
+namespace pika.modelo.gestiondocumental.SerieDocumental
+{ 
 /// <summary>
 /// REpresenta una seria documental de un cuadro de clasificación
 /// </summary>
@@ -53,7 +53,7 @@ public class SerieDocumental
     // [i] [a] [d]
     // R 128
 
-    
+
     /// <summary>
     /// MEses para conclusión en archivo de trámite
     /// </summary>
@@ -81,7 +81,7 @@ public class SerieDocumental
     /// Cuadro de clasificación al que pertenece la serie
     /// </summary>
     [XmlIgnore, JsonIgnore]
-    public required CuadroClasificacion CuadroClasificacion { get; set; }
+    public  CuadroClasificacion CuadroClasificacion { get; set; }
 
 
     /// <summary>
@@ -95,5 +95,6 @@ public class SerieDocumental
     /// Series docuentales descendientes
     /// </summary>
     public List<SerieDocumental> Subseries { get; set; } = new List<SerieDocumental>();
-  
+
+}
 }
