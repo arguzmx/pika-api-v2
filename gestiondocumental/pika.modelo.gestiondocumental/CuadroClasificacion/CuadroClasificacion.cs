@@ -1,4 +1,5 @@
 ﻿using api.comunes.metadatos.atributos;
+using pika.modelo.gestiondocumental.SerieDocumental;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
@@ -54,6 +55,6 @@ public class CuadroClasificacion
     /// Series documentales pertenecientes al cuadro de clasificación
     /// </summary>
     [JsonIgnore, XmlIgnore]
-    public List<SerieDocumental> Series { get; set; }
+    public List<SerieDocumental.SerieDocumental> Series { get; set; }
 
 }
