@@ -1,4 +1,5 @@
 ﻿using api.comunes.metadatos.atributos;
+using pika.modelo.gestiondocumental.Topologia;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
@@ -61,6 +62,12 @@ namespace pika.modelo.gestiondocumental
         [JsonIgnore]
         [XmlIgnore]
         public TipoArchivo TipoArchivo { get; set; }
+
+
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public List<AlmacenArchivo> Almacenes { get; set; }
 
     }
 }
