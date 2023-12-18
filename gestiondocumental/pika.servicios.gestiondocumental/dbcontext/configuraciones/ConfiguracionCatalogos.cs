@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using api.comunes.modelos.modelos;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.Archivos.Catalogos;
+using pika.modelo.gestiondocumental.SerieDocumental.TraduccionesCatalogos;
 
 namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
+
+/*                       Catalogos              */
 public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCatalogo>
 {
     public void Configure(EntityTypeBuilder<ElementoCatalogo> builder)
@@ -13,7 +16,10 @@ public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCa
         builder.ToTable("gd$catalogos");
         builder.HasDiscriminator<int>("Discriminator")
             .HasValue<ElementoCatalogo>(0)
-            .HasValue<TipoArchivo>(1);
+            .HasValue<TipoArchivo>(1)
+            .HasValue<TipoDisposicionDocumental>(2)
+            .HasValue<TipoValoracionDocumental>(3);
+            
 
         builder.HasKey(e => new { e.Id } );
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
@@ -26,6 +32,7 @@ public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCa
     }
 }
 
+/*                   I18Catalogos               */
 public class ConfiguracionI18NCatalogo : IEntityTypeConfiguration<I18NCatalogo>
 {
     public void Configure(EntityTypeBuilder<I18NCatalogo> builder)
@@ -34,7 +41,9 @@ public class ConfiguracionI18NCatalogo : IEntityTypeConfiguration<I18NCatalogo>
         builder.ToTable("gd$i18ncatalogos");
         builder.HasDiscriminator<int>("Discriminator")
             .HasValue<I18NCatalogo>(0)
-            .HasValue<TraduccionesTipoArchivo>(1); 
+            .HasValue<TraduccionesTipoArchivo>(1)
+            .HasValue<TraduccionesTipoDisposicionDocumental>(2)
+            .HasValue<TraduccionesTipoValoracionDocumental>(3); 
 
         builder.HasKey(e => new { e.Id, e.DominioId, e.UnidadOrganizacionalId, e.Idioma });
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);
