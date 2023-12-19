@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     /// <inheritdoc />
-    public partial class cuadroclasificacion : Migration
+    public partial class AlmacenArchivo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -187,10 +187,79 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "gd$seriedocumental",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CuadroClasificacionId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Clave = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Raiz = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    SeriePadreId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MesesArchivoTramite = table.Column<int>(type: "int", nullable: false),
+                    MesesArchivoConcentracion = table.Column<int>(type: "int", nullable: false),
+                    MesesArchivoHistorico = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gd$seriedocumental", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_gd$seriedocumental_gd$cuadroclasificacion_CuadroClasificacio~",
+                        column: x => x.CuadroClasificacionId,
+                        principalTable: "gd$cuadroclasificacion",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_gd$seriedocumental_gd$seriedocumental_SeriePadreId",
+                        column: x => x.SeriePadreId,
+                        principalTable: "gd$seriedocumental",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "gd$almacenarchivo",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Clave = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ArchivoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Ubicacion = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gd$almacenarchivo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_gd$almacenarchivo_gd$archivo_ArchivoId",
+                        column: x => x.ArchivoId,
+                        principalTable: "gd$archivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_gd$activo_CuadroClasificacionId",
                 table: "gd$activo",
                 column: "CuadroClasificacionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$almacenarchivo_ArchivoId",
+                table: "gd$almacenarchivo",
+                column: "ArchivoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_gd$archivo_TipoArchivoId",
@@ -211,6 +280,16 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 name: "IX_gd$i18ncatalogos_ElementoCatalogoId",
                 table: "gd$i18ncatalogos",
                 column: "ElementoCatalogoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$seriedocumental_CuadroClasificacionId",
+                table: "gd$seriedocumental",
+                column: "CuadroClasificacionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$seriedocumental_SeriePadreId",
+                table: "gd$seriedocumental",
+                column: "SeriePadreId");
         }
 
         /// <inheritdoc />
@@ -220,10 +299,16 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 name: "gd$activo");
 
             migrationBuilder.DropTable(
-                name: "gd$archivo");
+                name: "gd$almacenarchivo");
 
             migrationBuilder.DropTable(
                 name: "gd$i18ncatalogos");
+
+            migrationBuilder.DropTable(
+                name: "gd$seriedocumental");
+
+            migrationBuilder.DropTable(
+                name: "gd$archivo");
 
             migrationBuilder.DropTable(
                 name: "gd$cuadroclasificacion");
