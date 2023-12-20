@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using api.comunes.metadatos.atributos;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
@@ -10,6 +8,7 @@ namespace pika.modelo.gestiondocumental.Topologia
     /// <summary>
     /// DEfine un almacén correspondiente a un archivo
     /// </summary>
+    [Entidad()]
     public class AlmacenArchivo
     {
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
 using pika.modelo.gestiondocumental.SerieDocumental;
+using pika.modelo.gestiondocumental.Topologia;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
 
@@ -14,6 +15,7 @@ public class DbContextGestionDocumental : DbContext
     public const string TablaCuadrosClasificacion = "gd$cuadroclasificacion";
     public const string TablaActivo = "gd$activo";
     public const string TablaSerieDocumental = "gd$seriedocumental";
+    public const string TablaAlmacenArchivo = "gd$almacenarchivo";
 
     public DbContextGestionDocumental(DbContextOptions<DbContextGestionDocumental> options) : base(options)
     {
@@ -30,6 +32,7 @@ public class DbContextGestionDocumental : DbContext
     public DbSet<I18NCatalogo> TraduccionesTipoDisposicionDocumental { get; set; }
     public DbSet<ElementoCatalogo> TipoValoracionDocumental { get; set; }
     public DbSet<I18NCatalogo> TraduccionesTipoValoracionDocumental { get; set; }
+    public DbSet<AlmacenArchivo> AlmacenesArchivos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -39,7 +42,7 @@ public class DbContextGestionDocumental : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionCuadroClasificacion());
         modelBuilder.ApplyConfiguration(new ConfiguracionActivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionSerieDocumental());
-        modelBuilder.ApplyConfiguration(new ConfiguracionSerieDocumental());
+        modelBuilder.ApplyConfiguration(new ConfiguracionAlmacenArchivo());
         base.OnModelCreating(modelBuilder); 
     }
 
