@@ -55,5 +55,9 @@ namespace pika.modelo.gestiondocumental.Topologia
         [XmlIgnore]
         [JsonIgnore]
         public Archivo Archivo { get; set; }
+
+        [XmlIgnore]
+        [JsonIgnore]
+        public List<ZonaAlmacen> Zonas { get; set; }
     }
 }

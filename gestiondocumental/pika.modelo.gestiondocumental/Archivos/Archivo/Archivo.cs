@@ -69,5 +69,9 @@ namespace pika.modelo.gestiondocumental
         [XmlIgnore]
         public List<AlmacenArchivo> Almacenes { get; set; }
 
+
+        [XmlIgnore]
+        [JsonIgnore]
+        public List<ZonaAlmacen> Zonas { get; set; }
     }
 }
