@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     /// <inheritdoc />
-    public partial class AlmacenArchivo : Migration
+    public partial class zonaalmacen : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -251,6 +251,37 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "gd$zonaalmacen",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ArchivoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AlmacenArchivoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gd$zonaalmacen", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_gd$zonaalmacen_gd$almacenarchivo_AlmacenArchivoId",
+                        column: x => x.AlmacenArchivoId,
+                        principalTable: "gd$almacenarchivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_gd$zonaalmacen_gd$archivo_ArchivoId",
+                        column: x => x.ArchivoId,
+                        principalTable: "gd$archivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_gd$activo_CuadroClasificacionId",
                 table: "gd$activo",
@@ -290,6 +321,16 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 name: "IX_gd$seriedocumental_SeriePadreId",
                 table: "gd$seriedocumental",
                 column: "SeriePadreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$zonaalmacen_AlmacenArchivoId",
+                table: "gd$zonaalmacen",
+                column: "AlmacenArchivoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$zonaalmacen_ArchivoId",
+                table: "gd$zonaalmacen",
+                column: "ArchivoId");
         }
 
         /// <inheritdoc />
@@ -299,19 +340,22 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 name: "gd$activo");
 
             migrationBuilder.DropTable(
-                name: "gd$almacenarchivo");
-
-            migrationBuilder.DropTable(
                 name: "gd$i18ncatalogos");
 
             migrationBuilder.DropTable(
                 name: "gd$seriedocumental");
 
             migrationBuilder.DropTable(
-                name: "gd$archivo");
+                name: "gd$zonaalmacen");
 
             migrationBuilder.DropTable(
                 name: "gd$cuadroclasificacion");
+
+            migrationBuilder.DropTable(
+                name: "gd$almacenarchivo");
+
+            migrationBuilder.DropTable(
+                name: "gd$archivo");
 
             migrationBuilder.DropTable(
                 name: "gd$catalogos");

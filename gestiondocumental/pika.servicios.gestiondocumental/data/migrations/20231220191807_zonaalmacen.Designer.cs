@@ -11,8 +11,8 @@ using pika.servicios.gestiondocumental.dbcontext;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     [DbContext(typeof(DbContextGestionDocumental))]
-    [Migration("20231219212002_AlmacenArchivo")]
-    partial class AlmacenArchivo
+    [Migration("20231220191807_zonaalmacen")]
+    partial class zonaalmacen
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -394,6 +394,36 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.ToTable("gd$almacenarchivo", (string)null);
                 });
 
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.ZonaAlmacen", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("AlmacenArchivoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ArchivoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlmacenArchivoId");
+
+                    b.HasIndex("ArchivoId");
+
+                    b.ToTable("gd$zonaalmacen", (string)null);
+                });
+
             modelBuilder.Entity("pika.modelo.gestiondocumental.TipoArchivo", b =>
                 {
                     b.HasBaseType("api.comunes.modelos.modelos.ElementoCatalogo");
@@ -494,6 +524,25 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.Navigation("Archivo");
                 });
 
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.ZonaAlmacen", b =>
+                {
+                    b.HasOne("pika.modelo.gestiondocumental.Topologia.AlmacenArchivo", "Almacen")
+                        .WithMany("Zonas")
+                        .HasForeignKey("AlmacenArchivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("pika.modelo.gestiondocumental.Archivo", "Archivo")
+                        .WithMany("Zonas")
+                        .HasForeignKey("ArchivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Almacen");
+
+                    b.Navigation("Archivo");
+                });
+
             modelBuilder.Entity("api.comunes.modelos.modelos.ElementoCatalogo", b =>
                 {
                     b.Navigation("Traducciones");
@@ -502,6 +551,8 @@ namespace pika.servicios.gestiondocumental.data.migrations
             modelBuilder.Entity("pika.modelo.gestiondocumental.Archivo", b =>
                 {
                     b.Navigation("Almacenes");
+
+                    b.Navigation("Zonas");
                 });
 
             modelBuilder.Entity("pika.modelo.gestiondocumental.CuadroClasificacion", b =>
@@ -514,6 +565,11 @@ namespace pika.servicios.gestiondocumental.data.migrations
             modelBuilder.Entity("pika.modelo.gestiondocumental.SerieDocumental.SerieDocumental", b =>
                 {
                     b.Navigation("Subseries");
+                });
+
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.AlmacenArchivo", b =>
+                {
+                    b.Navigation("Zonas");
                 });
 
             modelBuilder.Entity("pika.modelo.gestiondocumental.TipoArchivo", b =>

@@ -16,6 +16,7 @@ public class DbContextGestionDocumental : DbContext
     public const string TablaActivo = "gd$activo";
     public const string TablaSerieDocumental = "gd$seriedocumental";
     public const string TablaAlmacenArchivo = "gd$almacenarchivo";
+    public const string TablaZonaAlmacen = "gd$zonaalmacen";
 
     public DbContextGestionDocumental(DbContextOptions<DbContextGestionDocumental> options) : base(options)
     {
@@ -33,6 +34,7 @@ public class DbContextGestionDocumental : DbContext
     public DbSet<ElementoCatalogo> TipoValoracionDocumental { get; set; }
     public DbSet<I18NCatalogo> TraduccionesTipoValoracionDocumental { get; set; }
     public DbSet<AlmacenArchivo> AlmacenesArchivos { get; set; }
+    public DbSet<ZonaAlmacen> ZonaAlmacenes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,6 +45,7 @@ public class DbContextGestionDocumental : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionActivo());
         modelBuilder.ApplyConfiguration(new ConfiguracionSerieDocumental());
         modelBuilder.ApplyConfiguration(new ConfiguracionAlmacenArchivo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionZonaAlmacen());
         base.OnModelCreating(modelBuilder); 
     }
 
