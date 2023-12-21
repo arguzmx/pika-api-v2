@@ -13,15 +13,15 @@ using System.Text.Json;
 
 namespace pika.servicios.gestiondocumental.topologia
 {
-
-    [ServicioEntidadAPI(entidad: typeof(AlmacenArchivo))]
-    public class ServicioAlmacenArchivo : ServicioEntidadGenericaBase<AlmacenArchivo, AlmacenArchivoInsertar, AlmacenArchivoActualizar, AlmacenArchivoDespliegue, string>,
-        IServicioEntidadAPI, InterfaceServicioAlmacenArchivo
+    [ServicioEntidadAPI(entidad: typeof(ZonaAlmacen))]
+    public class ServicioZonaAlmacen : ServicioEntidadGenericaBase<ZonaAlmacen, ZonaAlmacenInsertar, ZonaAlmacenActualizar, ZonaAlmacenDespliegue, string>,
+        IServicioEntidadAPI, InterfaceServicioZonaAlmacen
     {
+
 
         private DbContextGestionDocumental localContext;
 
-        public ServicioAlmacenArchivo(DbContextGestionDocumental context, ILogger<ServicioAlmacenArchivo> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.AlmacenesArchivos, logger, Reflector, cache)
+        public ServicioZonaAlmacen(DbContextGestionDocumental context, ILogger<ServicioZonaAlmacen> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.ZonaAlmacenes, logger, Reflector, cache)
         {
             interpreteConsulta = new InterpreteConsultaMySQL();
             localContext = context;
@@ -37,7 +37,7 @@ namespace pika.servicios.gestiondocumental.topologia
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<AlmacenArchivoActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<ZonaAlmacenActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -78,7 +78,7 @@ namespace pika.servicios.gestiondocumental.topologia
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<AlmacenArchivoInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<ZonaAlmacenInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -129,15 +129,15 @@ namespace pika.servicios.gestiondocumental.topologia
         }
 
 
-        public override async Task<(List<AlmacenArchivo> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+        public override async Task<(List<ZonaAlmacen> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
         {
             await Task.Delay(0);
 
-            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(AlmacenArchivo));
-            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaAlmacenArchivo);
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(ZonaAlmacen));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaZonaAlmacen);
 
             int? total = null;
-            List<AlmacenArchivo> elementos = localContext.AlmacenesArchivos.FromSqlRaw(query).ToList();
+            List<ZonaAlmacen> elementos = localContext.ZonaAlmacenes.FromSqlRaw(query).ToList();
 
             if (consulta.Contar)
             {
@@ -153,7 +153,7 @@ namespace pika.servicios.gestiondocumental.topologia
             }
             else
             {
-                return new(new List<AlmacenArchivo>(), total); ;
+                return new(new List<ZonaAlmacen>(), total); ;
             }
         }
 
@@ -164,13 +164,13 @@ namespace pika.servicios.gestiondocumental.topologia
 
 
 
-        #region Overrides para la personalizacion de la entidad almacenarchivo
+        #region Overrides para la personalizacion de la entidad zonaalmacen
 
-        public override async Task<ResultadoValidacion> ValidarInsertar(AlmacenArchivoInsertar insertar)
+        public override async Task<ResultadoValidacion> ValidarInsertar(ZonaAlmacenInsertar insertar)
         {
 
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.AlmacenesArchivos.AnyAsync(a => a.Nombre == insertar.Nombre);
+            bool encontrado = await DB.ZonaAlmacenes.AnyAsync(a => a.Nombre == insertar.Nombre);
 
             if (encontrado)
             {
@@ -183,10 +183,10 @@ namespace pika.servicios.gestiondocumental.topologia
             return resultado;
         }
 
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, AlmacenArchivo original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, ZonaAlmacen original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.AlmacenesArchivos.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.ZonaAlmacenes.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -202,10 +202,10 @@ namespace pika.servicios.gestiondocumental.topologia
             return resultado;
         }
 
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id, AlmacenArchivoActualizar actualizar, AlmacenArchivo original)
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, ZonaAlmacenActualizar actualizar, ZonaAlmacen original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.AlmacenesArchivos.AnyAsync(a =>a.Id == id);
+            bool encontrado = await DB.ZonaAlmacenes.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -220,47 +220,46 @@ namespace pika.servicios.gestiondocumental.topologia
             return resultado;
         }
 
-        public override AlmacenArchivo ADTOFull(AlmacenArchivoActualizar actualizacion, AlmacenArchivo actual)
+        public override ZonaAlmacen ADTOFull(ZonaAlmacenActualizar actualizacion, ZonaAlmacen actual)
         {
             actual.Nombre = actualizacion.Nombre;
-            actual.Clave = actualizacion.Clave;
             actual.ArchivoId = actualizacion.ArchivoId;
-            actual.Ubicacion = actualizacion.Ubicacion;
+            actual.AlmacenArchivoId = actualizacion.AlmacenArchivoId;
             return actual;
         }
 
-        public override AlmacenArchivo ADTOFull(AlmacenArchivoInsertar insertar)
+        public override ZonaAlmacen ADTOFull(ZonaAlmacenInsertar insertar)
         {
-            AlmacenArchivo almacenArchivo = new()
+            ZonaAlmacen zonaAlmacen = new()
             {
                 Id = Guid.NewGuid().ToString(),
                 Nombre = insertar.Nombre,
-                Clave = insertar.Clave,
                 ArchivoId = insertar.ArchivoId,
-                Ubicacion = insertar.Ubicacion
+                AlmacenArchivoId = insertar.AlmacenArchivoId
 
             ,
             };
-            return almacenArchivo;
+            return zonaAlmacen;
         }
 
-        public override AlmacenArchivoDespliegue ADTODespliegue(AlmacenArchivo data)
+        public override ZonaAlmacenDespliegue ADTODespliegue(ZonaAlmacen data)
         {
-            AlmacenArchivoDespliegue almacenarchivo = new()
+            ZonaAlmacenDespliegue zonaAlmacen = new()
             {
                 Id = data.Id,
-                Nombre=data.Nombre,
-                Clave = data.Clave,
-                ArchivoId=data.ArchivoId,
-                Ubicacion=data.Ubicacion
-
+                Nombre= data.Nombre,
+                ArchivoId= data.ArchivoId,
+                AlmacenArchivoId=data.AlmacenArchivoId,
+                
             };
-            return almacenarchivo;
+            return zonaAlmacen;
         }
 
 
 
         #endregion
+
+
 
     }
 }
