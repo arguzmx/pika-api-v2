@@ -73,5 +73,14 @@ namespace pika.modelo.gestiondocumental
         [XmlIgnore]
         [JsonIgnore]
         public List<ZonaAlmacen> Zonas { get; set; }
+
+
+        [XmlIgnore]
+        [JsonIgnore]
+        public List<PosicionAlmacen> Posiciones { get; set; }
+
+        [XmlIgnore]
+        [JsonIgnore]
+        public List<CajaAlmacen> Cajas { get; set; }
     }
 }

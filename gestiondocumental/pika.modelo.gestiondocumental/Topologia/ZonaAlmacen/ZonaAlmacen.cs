@@ -53,5 +53,15 @@ public class ZonaAlmacen
     [XmlIgnore]
     [JsonIgnore]
     public Archivo Archivo { get; set; }
-    
+
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<PosicionAlmacen> Posiciones { get; set; }
+
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<CajaAlmacen> Cajas { get; set; }
+
 }
