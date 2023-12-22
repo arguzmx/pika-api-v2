@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     /// <inheritdoc />
-    public partial class zonaalmacen : Migration
+    public partial class posicionalmacencajaalmacen : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -282,6 +282,106 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "gd$posicionalmacen",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Indice = table.Column<int>(type: "int", nullable: false),
+                    Localizacion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CodigoBarras = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CodigoElectronico = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Ocupacion = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    IncrementoContenedor = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    ArchivoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AlmacenArchivoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ZonaAlmacenId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gd$posicionalmacen", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_gd$posicionalmacen_gd$almacenarchivo_AlmacenArchivoId",
+                        column: x => x.AlmacenArchivoId,
+                        principalTable: "gd$almacenarchivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_gd$posicionalmacen_gd$archivo_ArchivoId",
+                        column: x => x.ArchivoId,
+                        principalTable: "gd$archivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_gd$posicionalmacen_gd$zonaalmacen_ZonaAlmacenId",
+                        column: x => x.ZonaAlmacenId,
+                        principalTable: "gd$zonaalmacen",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "gd$cajaalmacen",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CodigoBarras = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CodigoElectronico = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Ocupacion = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    AlmacenArchivoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ZonaAlmacenId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PosicionAlmacenId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ArchivoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gd$cajaalmacen", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_gd$cajaalmacen_gd$almacenarchivo_AlmacenArchivoId",
+                        column: x => x.AlmacenArchivoId,
+                        principalTable: "gd$almacenarchivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_gd$cajaalmacen_gd$archivo_ArchivoId",
+                        column: x => x.ArchivoId,
+                        principalTable: "gd$archivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_gd$cajaalmacen_gd$posicionalmacen_PosicionAlmacenId",
+                        column: x => x.PosicionAlmacenId,
+                        principalTable: "gd$posicionalmacen",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_gd$cajaalmacen_gd$zonaalmacen_ZonaAlmacenId",
+                        column: x => x.ZonaAlmacenId,
+                        principalTable: "gd$zonaalmacen",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_gd$activo_CuadroClasificacionId",
                 table: "gd$activo",
@@ -298,6 +398,26 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 column: "TipoArchivoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_gd$cajaalmacen_AlmacenArchivoId",
+                table: "gd$cajaalmacen",
+                column: "AlmacenArchivoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$cajaalmacen_ArchivoId",
+                table: "gd$cajaalmacen",
+                column: "ArchivoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$cajaalmacen_PosicionAlmacenId",
+                table: "gd$cajaalmacen",
+                column: "PosicionAlmacenId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$cajaalmacen_ZonaAlmacenId",
+                table: "gd$cajaalmacen",
+                column: "ZonaAlmacenId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_gd$catalogos_CatalogoId",
                 table: "gd$catalogos",
                 column: "CatalogoId");
@@ -311,6 +431,21 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 name: "IX_gd$i18ncatalogos_ElementoCatalogoId",
                 table: "gd$i18ncatalogos",
                 column: "ElementoCatalogoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$posicionalmacen_AlmacenArchivoId",
+                table: "gd$posicionalmacen",
+                column: "AlmacenArchivoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$posicionalmacen_ArchivoId",
+                table: "gd$posicionalmacen",
+                column: "ArchivoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$posicionalmacen_ZonaAlmacenId",
+                table: "gd$posicionalmacen",
+                column: "ZonaAlmacenId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_gd$seriedocumental_CuadroClasificacionId",
@@ -340,16 +475,22 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 name: "gd$activo");
 
             migrationBuilder.DropTable(
+                name: "gd$cajaalmacen");
+
+            migrationBuilder.DropTable(
                 name: "gd$i18ncatalogos");
 
             migrationBuilder.DropTable(
                 name: "gd$seriedocumental");
 
             migrationBuilder.DropTable(
-                name: "gd$zonaalmacen");
+                name: "gd$posicionalmacen");
 
             migrationBuilder.DropTable(
                 name: "gd$cuadroclasificacion");
+
+            migrationBuilder.DropTable(
+                name: "gd$zonaalmacen");
 
             migrationBuilder.DropTable(
                 name: "gd$almacenarchivo");
