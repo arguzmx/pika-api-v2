@@ -18,6 +18,14 @@ namespace pika.servicios.gestiondocumental.topologia
     public interface InterfaceServicioZonaAlmacen : IServicioEntidadGenerica<ZonaAlmacen, ZonaAlmacenInsertar, ZonaAlmacenActualizar, ZonaAlmacenDespliegue, string>
     {
     }
+
+    public interface InterfaceServicioPosicionAlmacen : IServicioEntidadGenerica<PosicionAlmacen, PosicionAlmacenInsertar, PosicionAlmacenActualizar, PosicionAlmacenDespliegue, string>
+    {
+    }
+
+    public interface InterfaceServicioCajaAlmacen : IServicioEntidadGenerica<CajaAlmacen, CajaAlmacenInsertar, CajaAlmacenActualizar, CajaAlmacenDespliegue, string>
+    {
+    }
 }
 
 

@@ -11,8 +11,8 @@ using pika.servicios.gestiondocumental.dbcontext;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     [DbContext(typeof(DbContextGestionDocumental))]
-    [Migration("20231220191807_zonaalmacen")]
-    partial class zonaalmacen
+    [Migration("20231221205209_posicionalmacencajaalmacen")]
+    partial class posicionalmacencajaalmacen
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -394,6 +394,114 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.ToTable("gd$almacenarchivo", (string)null);
                 });
 
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.CajaAlmacen", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("AlmacenArchivoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ArchivoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("CodigoBarras")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CodigoElectronico")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<decimal>("Ocupacion")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("PosicionAlmacenId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ZonaAlmacenId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlmacenArchivoId");
+
+                    b.HasIndex("ArchivoId");
+
+                    b.HasIndex("PosicionAlmacenId");
+
+                    b.HasIndex("ZonaAlmacenId");
+
+                    b.ToTable("gd$cajaalmacen", (string)null);
+                });
+
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.PosicionAlmacen", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("AlmacenArchivoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ArchivoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("CodigoBarras")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CodigoElectronico")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("IncrementoContenedor")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("Indice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Localizacion")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<decimal>("Ocupacion")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ZonaAlmacenId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlmacenArchivoId");
+
+                    b.HasIndex("ArchivoId");
+
+                    b.HasIndex("ZonaAlmacenId");
+
+                    b.ToTable("gd$posicionalmacen", (string)null);
+                });
+
             modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.ZonaAlmacen", b =>
                 {
                     b.Property<string>("Id")
@@ -524,6 +632,68 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.Navigation("Archivo");
                 });
 
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.CajaAlmacen", b =>
+                {
+                    b.HasOne("pika.modelo.gestiondocumental.Topologia.AlmacenArchivo", "Almacen")
+                        .WithMany("Cajas")
+                        .HasForeignKey("AlmacenArchivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("pika.modelo.gestiondocumental.Archivo", "Archivo")
+                        .WithMany("Cajas")
+                        .HasForeignKey("ArchivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("pika.modelo.gestiondocumental.Topologia.PosicionAlmacen", "Posicion")
+                        .WithMany("Cajas")
+                        .HasForeignKey("PosicionAlmacenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("pika.modelo.gestiondocumental.Topologia.ZonaAlmacen", "Zona")
+                        .WithMany("Cajas")
+                        .HasForeignKey("ZonaAlmacenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Almacen");
+
+                    b.Navigation("Archivo");
+
+                    b.Navigation("Posicion");
+
+                    b.Navigation("Zona");
+                });
+
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.PosicionAlmacen", b =>
+                {
+                    b.HasOne("pika.modelo.gestiondocumental.Topologia.AlmacenArchivo", "Almacen")
+                        .WithMany("Posiciones")
+                        .HasForeignKey("AlmacenArchivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("pika.modelo.gestiondocumental.Archivo", "Archivo")
+                        .WithMany("Posiciones")
+                        .HasForeignKey("ArchivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("pika.modelo.gestiondocumental.Topologia.ZonaAlmacen", "Zona")
+                        .WithMany("Posiciones")
+                        .HasForeignKey("ZonaAlmacenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Almacen");
+
+                    b.Navigation("Archivo");
+
+                    b.Navigation("Zona");
+                });
+
             modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.ZonaAlmacen", b =>
                 {
                     b.HasOne("pika.modelo.gestiondocumental.Topologia.AlmacenArchivo", "Almacen")
@@ -552,6 +722,10 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 {
                     b.Navigation("Almacenes");
 
+                    b.Navigation("Cajas");
+
+                    b.Navigation("Posiciones");
+
                     b.Navigation("Zonas");
                 });
 
@@ -569,7 +743,23 @@ namespace pika.servicios.gestiondocumental.data.migrations
 
             modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.AlmacenArchivo", b =>
                 {
+                    b.Navigation("Cajas");
+
+                    b.Navigation("Posiciones");
+
                     b.Navigation("Zonas");
+                });
+
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.PosicionAlmacen", b =>
+                {
+                    b.Navigation("Cajas");
+                });
+
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Topologia.ZonaAlmacen", b =>
+                {
+                    b.Navigation("Cajas");
+
+                    b.Navigation("Posiciones");
                 });
 
             modelBuilder.Entity("pika.modelo.gestiondocumental.TipoArchivo", b =>

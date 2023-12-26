@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using api.comunes.metadatos.atributos;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.gestiondocumental.Topologia;
@@ -6,6 +7,7 @@ namespace pika.modelo.gestiondocumental.Topologia;
 /// <summary>
 /// DEfine una posición física dentro de una  zona del almacen
 /// </summary>
+[Entidad()]
 public class PosicionAlmacen 
 {
 
