@@ -55,6 +55,12 @@ public class CuadroClasificacion
     /// Series documentales pertenecientes al cuadro de clasificación
     /// </summary>
     [JsonIgnore, XmlIgnore]
-    public List<SerieDocumental.SerieDocumental> Series { get; set; }
+    public List<SerieDocumental> Series { get; set; }
+
+    /// <summary>
+    /// Seria padre en el  modelo jerárquico
+    /// </summary>
+    [XmlIgnore, JsonIgnore]
+    public List<Transferencia>? Transferencias { get; set; }
 
 }

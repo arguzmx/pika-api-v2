@@ -82,5 +82,19 @@ namespace pika.modelo.gestiondocumental
         [XmlIgnore]
         [JsonIgnore]
         public List<CajaAlmacen> Cajas { get; set; }
+
+
+        /// <summary>
+        /// Seria padre en el  modelo jerárquico
+        /// </summary>
+        [XmlIgnore, JsonIgnore]
+        public List<Transferencia>? OrigenesTransferencias { get; set; }
+
+
+        /// <summary>
+        /// Seria padre en el  modelo jerárquico
+        /// </summary>
+        [XmlIgnore, JsonIgnore]
+        public List<Transferencia>? DestinosTransferencias { get; set; }
     }
 }

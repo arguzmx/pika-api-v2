@@ -1,5 +1,5 @@
 ﻿
-namespace pika.modelo.gestiondocumental.SerieDocumental
+namespace pika.modelo.gestiondocumental
 {
     public class SerieDocumentalActualizar
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace pika.modelo.gestiondocumental.SerieDocumental
+namespace pika.modelo.gestiondocumental
 {
     public class SerieDocumentalDespliegue
     {
