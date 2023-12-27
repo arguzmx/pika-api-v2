@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
-namespace pika.modelo.gestiondocumental.Topologia;
+namespace pika.modelo.gestiondocumental;
 
 /// <summary>
 /// Define una caja o contenedor para la guarda de los activos del acervo por ejemplo una caja de archivo o un rack

@@ -7,7 +7,7 @@ using api.comunes.modelos.servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using pika.modelo.gestiondocumental.Topologia;
+using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
 using System.Text.Json;
 

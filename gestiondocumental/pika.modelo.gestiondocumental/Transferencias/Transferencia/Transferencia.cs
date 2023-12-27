@@ -1,9 +1,11 @@
-﻿using System.Text.Json.Serialization;
+﻿using api.comunes.metadatos.atributos;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.gestiondocumental;
 
-public class Transferencia 
+[Entidad()]
+public class Transferencia
 {
     /// <summary>
     /// Identificador único interno para la transferencia
@@ -67,7 +69,7 @@ public class Transferencia
     /// </summary>
     public int CantidadActivos { get; set; } = 0;
     // [d] 
-    
+
     /// <summary>
     /// Fechas de creación de la trasnfenrecia, este valor se calcula por el sistema
     /// </summary>
@@ -78,7 +80,7 @@ public class Transferencia
     /// Estado actual de la trasnferencia, este valor se actualzia por el sistema
     /// </summary>
     public string EstadoTransferenciaId { get; set; }
-    // [d] 
+    // [d] [i]
     // R 128
 
     /// <summary>
@@ -100,11 +102,11 @@ public class Transferencia
     [XmlIgnore]
     [JsonIgnore]
     public virtual EstadoTransferencia Estado { get; set; }
-    
+
     [XmlIgnore]
     [JsonIgnore]
     public virtual Archivo ArchivoOrigen { get; set; }
-    
+
     [XmlIgnore]
     [JsonIgnore]
     public virtual Archivo ArchivoDestino { get; set; }

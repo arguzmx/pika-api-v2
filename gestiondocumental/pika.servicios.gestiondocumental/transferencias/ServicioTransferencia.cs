@@ -11,17 +11,17 @@ using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
 using System.Text.Json;
 
-namespace pika.servicios.gestiondocumental.cuadroclasificacion
+namespace pika.servicios.gestiondocumental.transferencias
 {
-    [ServicioEntidadAPI(entidad:typeof(CuadroClasificacion))]
-    public class ServicioCuadroClasificacion : ServicioEntidadGenericaBase<CuadroClasificacion,CuadroClasificacionInsertar,CuadroClasificacionActualizar,CuadroClasificacionDespliegue,string>,
-        IServicioEntidadAPI, IServicioCuadroclasificacion
-
+    [ServicioEntidadAPI(entidad: typeof(Transferencia))]
+    public class ServicioTransferencia : ServicioEntidadGenericaBase<Transferencia, TransferenciaInsertar, TransferenciaActualizar, TransferenciaDespliegue, string>,
+        IServicioEntidadAPI, InterfaceServicioTransferencia
     {
+
 
         private DbContextGestionDocumental localContext;
 
-        public ServicioCuadroClasificacion(DbContextGestionDocumental context, ILogger<ServicioCuadroClasificacion> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.CuadrosClasificacion, logger,Reflector,cache) 
+        public ServicioTransferencia(DbContextGestionDocumental context, ILogger<ServicioTransferencia> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Transferencias, logger, Reflector, cache)
         {
             interpreteConsulta = new InterpreteConsultaMySQL();
             localContext = context;
@@ -37,7 +37,7 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<CuadroClasificacionActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<TransferenciaActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -78,7 +78,7 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<CuadroClasificacionInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<TransferenciaInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -129,15 +129,15 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
         }
 
 
-        public override async Task<(List<CuadroClasificacion> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+        public override async Task<(List<Transferencia> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
         {
             await Task.Delay(0);
 
-            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(CuadroClasificacion));
-            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaCuadrosClasificacion);
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Transferencia));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaTransferencias);
 
             int? total = null;
-            List<CuadroClasificacion> elementos = localContext.CuadrosClasificacion.FromSqlRaw(query).ToList();
+            List<Transferencia> elementos = localContext.Transferencias.FromSqlRaw(query).ToList();
 
             if (consulta.Contar)
             {
@@ -153,7 +153,7 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
             }
             else
             {
-                return new(new List<CuadroClasificacion>(), total); ;
+                return new(new List<Transferencia>(), total); ;
             }
         }
 
@@ -164,15 +164,13 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
 
 
 
-        #region Overrides para la personalizacion de la entidad cuadro clasificacion
+        #region Overrides para la personalizacion de la entidad transferencia
 
-        public override async Task<ResultadoValidacion> ValidarInsertar(CuadroClasificacionInsertar insertar)
+        public override async Task<ResultadoValidacion> ValidarInsertar(TransferenciaInsertar insertar)
         {
-            
+
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.CuadrosClasificacion.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
-                    && a.DominioId == _contextoUsuario.DominioId
-                    && a.Nombre == insertar.Nombre);
+            bool encontrado = await DB.Transferencias.AnyAsync(a => a.Nombre == insertar.Nombre);
 
             if (encontrado)
             {
@@ -185,12 +183,10 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
             return resultado;
         }
 
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, CuadroClasificacion original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Transferencia original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.CuadrosClasificacion.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
-                    && a.DominioId == _contextoUsuario.DominioId
-                    && a.Id == id);
+            bool encontrado = await DB.Transferencias.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -206,12 +202,10 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
             return resultado;
         }
 
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id,CuadroClasificacionActualizar actualizar, CuadroClasificacion original)
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, TransferenciaActualizar actualizar, Transferencia original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.CuadrosClasificacion.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
-                    && a.DominioId == _contextoUsuario.DominioId
-                    && a.Id == id);
+            bool encontrado = await DB.Transferencias.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -220,44 +214,67 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
             }
             else
             {
-                    resultado.Valido = true;
+                resultado.Valido = true;
             }
 
             return resultado;
         }
 
-        public override CuadroClasificacion ADTOFull(CuadroClasificacionActualizar actualizacion, CuadroClasificacion actual)
+        public override Transferencia ADTOFull(TransferenciaActualizar actualizacion, Transferencia actual)
         {
-           actual.Nombre = actualizacion.Nombre;
+            actual.Nombre = actualizacion.Nombre;
+            actual.Folio = actualizacion.Folio;
+            actual.ArchivoOrigenId = actualizacion.ArchivoOrigenId;
+            actual.ArchivoDestinoId = actualizacion.ArchivoDestinoId;
+            actual.CuadroClasificacionId = actualizacion.CuadroClasificacionId;
+            actual.SerieDocumentalId = actualizacion.SerieDocumentalId;
+            actual.RangoDias = actualizacion.RangoDias;
             return actual;
         }
 
-        public override CuadroClasificacion ADTOFull(CuadroClasificacionInsertar insertar)
+        public override Transferencia ADTOFull(TransferenciaInsertar insertar)
         {
-            CuadroClasificacion cuadroClasificacion = new()
+            Transferencia transferencia = new()
             {
                 Id = Guid.NewGuid().ToString(),
-                UOrgId = _contextoUsuario!.UOrgId,
-                DominioId = _contextoUsuario!.DominioId!,
-                Nombre = insertar.Nombre
-                
+                Nombre = insertar.Nombre,
+                Folio = insertar.Folio,
+                ArchivoOrigenId = insertar.ArchivoOrigenId,
+                ArchivoDestinoId = insertar.ArchivoDestinoId,
+                CuadroClasificacionId = insertar.CuadroClasificacionId,
+                SerieDocumentalId = insertar.SerieDocumentalId,
+                EstadoTransferenciaId = insertar.EstadoTransferenciaId,
+                RangoDias = insertar.RangoDias,
+                UsuarioId="UsuarioDePruieba2rrt5"
             ,
             };
-            return cuadroClasificacion;
+            return transferencia;
         }
 
-        public override CuadroClasificacionDespliegue ADTODespliegue(CuadroClasificacion data)
+        public override TransferenciaDespliegue ADTODespliegue(Transferencia data)
         {
-            CuadroClasificacionDespliegue cuadroclasificacion = new()
+            TransferenciaDespliegue transferenciaDespliegue = new()
             {
-               Id = data.Id
+                Id = data.Id,
+                Nombre = data.Nombre,
+                Folio = data.Folio,
+                ArchivoOrigenId = data.ArchivoOrigenId,
+                ArchivoDestinoId= data.ArchivoDestinoId,
+                CuadroClasificacionId = data.CuadroClasificacionId,
+                SerieDocumentalId= data.SerieDocumentalId,
+                RangoDias = data.RangoDias,
+                CantidadActivos= data.CantidadActivos,
+                FechaCreacion= data.FechaCreacion,
+                EstadoTransferenciaId = data.EstadoTransferenciaId,
+                UsuarioId= data.UsuarioId
             };
-            return cuadroclasificacion;
+            return transferenciaDespliegue;
         }
 
-      
+
 
         #endregion
+
 
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace pika.modelo.gestiondocumental.Archivos;
+﻿namespace pika.modelo.gestiondocumental;
 
 /// <summary>
 /// Modelo para la inserción de la entidad archivo

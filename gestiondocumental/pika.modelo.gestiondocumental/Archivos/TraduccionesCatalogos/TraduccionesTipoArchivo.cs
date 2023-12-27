@@ -1,5 +1,5 @@
 ﻿using api.comunes.modelos.modelos;
-namespace pika.modelo.gestiondocumental.Archivos.Catalogos;
+namespace pika.modelo.gestiondocumental;
 
 /// <summary>
 /// Mantiene las traducciones de los tipos de archivo

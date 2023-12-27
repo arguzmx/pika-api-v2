@@ -1,5 +1,4 @@
 ﻿using api.comunes.metadatos.atributos;
-using pika.modelo.gestiondocumental.SerieDocumental;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 

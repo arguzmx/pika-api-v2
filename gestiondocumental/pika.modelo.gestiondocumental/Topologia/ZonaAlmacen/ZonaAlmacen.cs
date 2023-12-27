@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace pika.modelo.gestiondocumental.Topologia;
+namespace pika.modelo.gestiondocumental;
 
 /// <summary>
 /// Zonas de las que se compone un almacén

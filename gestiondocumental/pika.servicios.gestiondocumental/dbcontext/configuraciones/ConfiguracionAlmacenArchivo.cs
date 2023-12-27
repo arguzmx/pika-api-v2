@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using pika.modelo.gestiondocumental.Topologia;
+using pika.modelo.gestiondocumental;
 
 namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
 {

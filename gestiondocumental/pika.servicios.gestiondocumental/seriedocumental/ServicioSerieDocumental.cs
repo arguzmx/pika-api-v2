@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
-using pika.modelo.gestiondocumental.SerieDocumental;
 using pika.servicios.gestiondocumental.dbcontext;
 using System.Text.Json;
 

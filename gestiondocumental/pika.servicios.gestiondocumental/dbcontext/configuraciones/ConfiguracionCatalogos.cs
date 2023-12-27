@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using api.comunes.modelos.modelos;
 using pika.modelo.gestiondocumental;
-using pika.modelo.gestiondocumental.Archivos.Catalogos;
-using pika.modelo.gestiondocumental.SerieDocumental.TraduccionesCatalogos;
 
 namespace pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
@@ -18,7 +16,8 @@ public class ConfiguracionElementoCatalogo : IEntityTypeConfiguration<ElementoCa
             .HasValue<ElementoCatalogo>(0)
             .HasValue<TipoArchivo>(1)
             .HasValue<TipoDisposicionDocumental>(2)
-            .HasValue<TipoValoracionDocumental>(3);
+            .HasValue<TipoValoracionDocumental>(3)
+            .HasValue<EstadoTransferencia>(4);
             
 
         builder.HasKey(e => new { e.Id } );
@@ -43,7 +42,8 @@ public class ConfiguracionI18NCatalogo : IEntityTypeConfiguration<I18NCatalogo>
             .HasValue<I18NCatalogo>(0)
             .HasValue<TraduccionesTipoArchivo>(1)
             .HasValue<TraduccionesTipoDisposicionDocumental>(2)
-            .HasValue<TraduccionesTipoValoracionDocumental>(3); 
+            .HasValue<TraduccionesTipoValoracionDocumental>(3)
+            .HasValue<TraduccionesEstadoTransferencia>(4); 
 
         builder.HasKey(e => new { e.Id, e.DominioId, e.UnidadOrganizacionalId, e.Idioma });
         builder.Property(e => e.Id).IsRequired().HasMaxLength(128);

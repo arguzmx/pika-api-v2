@@ -1,6 +1,6 @@
 ﻿using api.comunes.modelos.reflectores;
 using api.comunes.modelos.servicios;
-using pika.modelo.gestiondocumental.SerieDocumental;
+using pika.modelo.gestiondocumental;
 using System;
 using System.Collections.Generic;
 using System.Linq;

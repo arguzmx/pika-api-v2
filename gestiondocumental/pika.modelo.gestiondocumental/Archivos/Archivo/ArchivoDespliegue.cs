@@ -1,4 +1,4 @@
-﻿namespace pika.modelo.gestiondocumental.Archivos;
+﻿namespace pika.modelo.gestiondocumental;
 
 public class ArchivoDespliegue
 { 
