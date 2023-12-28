@@ -2,6 +2,6 @@
 
 namespace pika.modelo.gestiondocumental;
 
-public class TraduccionesTipoDisposicionDocumental : I18NCatalogo
+public class TraduccionesEstadoTransferencia : I18NCatalogo
 {
 }

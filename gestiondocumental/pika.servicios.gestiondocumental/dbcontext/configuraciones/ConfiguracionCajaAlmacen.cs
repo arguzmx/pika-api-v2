@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using pika.modelo.gestiondocumental.Topologia;
+using pika.modelo.gestiondocumental;
 using System;
 using System.Collections.Generic;
 using System.Linq;

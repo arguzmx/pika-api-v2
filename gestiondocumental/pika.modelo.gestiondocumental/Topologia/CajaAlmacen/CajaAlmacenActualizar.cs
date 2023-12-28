@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace pika.modelo.gestiondocumental;
 
-namespace pika.modelo.gestiondocumental.Topologia
+public class CajaAlmacenActualizar
 {
-    public class CajaAlmacenActualizar
-    {
-        public string Id { get; set; }
-        public string Nombre { get; set; }
-        public string? CodigoBarras { get; set; }
-        public string? CodigoElectronico { get; set; }
-        public decimal Ocupacion { get; set; } = 0;
-    }
+    public string Id { get; set; }
+    public string Nombre { get; set; }
+    public string? CodigoBarras { get; set; }
+    public string? CodigoElectronico { get; set; }
+    public decimal Ocupacion { get; set; } = 0;
 }

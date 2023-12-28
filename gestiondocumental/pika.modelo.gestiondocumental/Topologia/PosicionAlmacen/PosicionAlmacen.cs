@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
-namespace pika.modelo.gestiondocumental.Topologia;
+namespace pika.modelo.gestiondocumental;
 
 /// <summary>
 /// DEfine una posición física dentro de una  zona del almacen

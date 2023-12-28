@@ -1,8 +1,6 @@
 ﻿using api.comunes.modelos.modelos;
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
-using pika.modelo.gestiondocumental.SerieDocumental;
-using pika.modelo.gestiondocumental.Topologia;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
 
@@ -19,6 +17,7 @@ public class DbContextGestionDocumental : DbContext
     public const string TablaZonaAlmacen = "gd$zonaalmacen";
     public const string TablaPosicionAlmacen = "gd$posicionalmacen";
     public const string TablaCajaAlmacen = "gd$cajaalmacen";
+    public const string TablaTransferencias = "gd$transferencias";
 
     public DbContextGestionDocumental(DbContextOptions<DbContextGestionDocumental> options) : base(options)
     {
@@ -39,6 +38,9 @@ public class DbContextGestionDocumental : DbContext
     public DbSet<ZonaAlmacen> ZonaAlmacenes { get; set; }
     public DbSet<PosicionAlmacen> PosicionAlmacens { get; set; }
     public DbSet<CajaAlmacen> CajaAlmacens { get; set; }
+    public DbSet<ElementoCatalogo> EstadoTransferencia { get; set; }
+    public DbSet<I18NCatalogo> TraduccionesEstadoTransferencia { get; set; }
+    public DbSet<Transferencia> Transferencias { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -52,6 +54,7 @@ public class DbContextGestionDocumental : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionZonaAlmacen());
         modelBuilder.ApplyConfiguration(new ConfiguracionPosicionAlmacen());
         modelBuilder.ApplyConfiguration(new ConfiguracionCajaAlmacen());
+        modelBuilder.ApplyConfiguration(new ConfiguracionTransferencia());
         base.OnModelCreating(modelBuilder); 
     }
 
