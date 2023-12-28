@@ -453,6 +453,64 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.ToTable("gd$posicionalmacen", (string)null);
                 });
 
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Prestamo", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ArchivoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<int>("CantidadActivos")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<bool>("Devuelto")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Entregado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("FechaDevolucion")
+                        .IsRequired()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("FechaProgramadaDevolucion")
+                        .HasMaxLength(128)
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Folio")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("UsuarioDestinoId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("UsuarioOrigenId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArchivoId");
+
+                    b.ToTable("gd$prestamo", (string)null);
+                });
+
             modelBuilder.Entity("pika.modelo.gestiondocumental.SerieDocumental", b =>
                 {
                     b.Property<string>("Id")
@@ -624,18 +682,18 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.HasDiscriminator().HasValue(3);
                 });
 
-            modelBuilder.Entity("pika.modelo.gestiondocumental.Archivos.Catalogos.TraduccionesTipoArchivo", b =>
-                {
-                    b.HasBaseType("api.comunes.modelos.modelos.I18NCatalogo");
-
-                    b.HasDiscriminator().HasValue(1);
-                });
-
             modelBuilder.Entity("pika.modelo.gestiondocumental.TraduccionesEstadoTransferencia", b =>
                 {
                     b.HasBaseType("api.comunes.modelos.modelos.I18NCatalogo");
 
                     b.HasDiscriminator().HasValue(4);
+                });
+
+            modelBuilder.Entity("pika.modelo.gestiondocumental.TraduccionesTipoArchivo", b =>
+                {
+                    b.HasBaseType("api.comunes.modelos.modelos.I18NCatalogo");
+
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("pika.modelo.gestiondocumental.TraduccionesTipoDisposicionDocumental", b =>
@@ -754,6 +812,17 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.Navigation("Zona");
                 });
 
+            modelBuilder.Entity("pika.modelo.gestiondocumental.Prestamo", b =>
+                {
+                    b.HasOne("pika.modelo.gestiondocumental.Archivo", "Archivo")
+                        .WithMany("Prestamos")
+                        .HasForeignKey("ArchivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Archivo");
+                });
+
             modelBuilder.Entity("pika.modelo.gestiondocumental.SerieDocumental", b =>
                 {
                     b.HasOne("pika.modelo.gestiondocumental.CuadroClasificacion", "CuadroClasificacion")
@@ -859,6 +928,8 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     b.Navigation("OrigenesTransferencias");
 
                     b.Navigation("Posiciones");
+
+                    b.Navigation("Prestamos");
 
                     b.Navigation("Zonas");
                 });

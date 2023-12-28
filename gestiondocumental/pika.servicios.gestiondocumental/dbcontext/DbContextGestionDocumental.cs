@@ -18,6 +18,7 @@ public class DbContextGestionDocumental : DbContext
     public const string TablaPosicionAlmacen = "gd$posicionalmacen";
     public const string TablaCajaAlmacen = "gd$cajaalmacen";
     public const string TablaTransferencias = "gd$transferencias";
+    public const string TablaPrestamo = "gd$prestamo";
 
     public DbContextGestionDocumental(DbContextOptions<DbContextGestionDocumental> options) : base(options)
     {
@@ -41,6 +42,7 @@ public class DbContextGestionDocumental : DbContext
     public DbSet<ElementoCatalogo> EstadoTransferencia { get; set; }
     public DbSet<I18NCatalogo> TraduccionesEstadoTransferencia { get; set; }
     public DbSet<Transferencia> Transferencias { get; set; }
+    public DbSet<Prestamo> Prestamos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,6 +57,7 @@ public class DbContextGestionDocumental : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionPosicionAlmacen());
         modelBuilder.ApplyConfiguration(new ConfiguracionCajaAlmacen());
         modelBuilder.ApplyConfiguration(new ConfiguracionTransferencia());
+        modelBuilder.ApplyConfiguration(new ConfiguracionPrestamo());
         base.OnModelCreating(modelBuilder); 
     }
 

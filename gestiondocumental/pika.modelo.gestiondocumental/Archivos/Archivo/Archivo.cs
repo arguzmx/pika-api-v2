@@ -95,4 +95,7 @@ public class Archivo
     /// </summary>
     [XmlIgnore, JsonIgnore]
     public List<Transferencia>? DestinosTransferencias { get; set; }
+
+    [XmlIgnore, JsonIgnore]
+    public List<Prestamo>? Prestamos { get; set; }
 }
