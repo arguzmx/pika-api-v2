@@ -37,14 +37,14 @@ namespace pika.modelo.contenido
         public bool Eliminar { get; set; }
 
 
-        [XmlIgnore, JsonIgnore]
-        public List<AsignacionPermiso> Asignaciones { get; set; }
+        //[XmlIgnore, JsonIgnore]
+        //public List<AsignacionPermiso> Asignaciones { get; set; }
 
-        [XmlIgnore, JsonIgnore]
-        public List<Carpeta> Carpetas { get; set; }
+        //[XmlIgnore, JsonIgnore]
+        //public List<Carpeta> Carpetas { get; set; }
 
         
-        [XmlIgnore, JsonIgnore]
-        public List<Contenido> Contenidos { get; set; }
+        //[XmlIgnore, JsonIgnore]
+        //public List<Contenido> Contenidos { get; set; }
     }
 }

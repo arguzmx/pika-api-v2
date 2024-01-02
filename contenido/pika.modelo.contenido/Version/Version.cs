@@ -69,12 +69,12 @@ public class Version
     public List<Anexo> Anexos { get; set; } = new List<Anexo>();
     // Se actualiza vía el CRUD de Anexos
 
-    [XmlIgnore]
-    [JsonIgnore]
-    public Contenido Contenido { get; set; }
+    //[XmlIgnore]
+    //[JsonIgnore]
+    //public Contenido Contenido { get; set; }
 
-    [XmlIgnore]
-    [JsonIgnore]
-    public Volumen Volumen { get; set; }
+    //[XmlIgnore]
+    //[JsonIgnore]
+    //public Volumen Volumen { get; set; }
 
 }

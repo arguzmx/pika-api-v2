@@ -104,4 +104,10 @@ public class Volumen
     // Esta valos se calcula por el sistema
     // R 
 
+
+    /// <summary>
+    /// Tipo de gestor de enntrada salida asociado al volumen
+    /// </summary>
+    public TipoGestorES? TipoGestorES { get; set; }
+
 }

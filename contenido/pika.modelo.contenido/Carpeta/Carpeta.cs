@@ -64,16 +64,16 @@ public class Carpeta
     public string? PermisoId { get; set; }
     // 128 esta propiedad se va a llenar en una operacion especial
 
-    // Propiedades de navegación
+    //// Propiedades de navegación
 
-    [XmlIgnore, JsonIgnore]
-    public Permiso? Permiso { get; set; }
+    //[XmlIgnore, JsonIgnore]
+    //public Permiso? Permiso { get; set; }
 
-    /// <summary>
-    /// Popieadd de navegacion para RepositorioId
-    /// </summary>
-    [XmlIgnore]
-    [JsonIgnore]
-    public Repositorio Repositorio { get; set; }
+    ///// <summary>
+    ///// Popieadd de navegacion para RepositorioId
+    ///// </summary>
+    //[XmlIgnore]
+    //[JsonIgnore]
+    //public Repositorio Repositorio { get; set; }
 
 }

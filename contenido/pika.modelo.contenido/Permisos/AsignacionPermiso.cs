@@ -31,6 +31,6 @@ public class AsignacionPermiso
     public string PermisoId { get; set; }
 
 
-    [XmlIgnore, JsonIgnore]
-    public Permiso Permiso { get; set; }
+    //[XmlIgnore, JsonIgnore]
+    //public Permiso Permiso { get; set; }
 }
