@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Volumen\TraduccionesCatalogos\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\infraestructura\api.comunes.metadatos\api.comunes.metadatos.csproj" />
     <ProjectReference Include="..\..\infraestructura\api.comunes.modelos\api.comunes.modelos.csproj" />
   </ItemGroup>

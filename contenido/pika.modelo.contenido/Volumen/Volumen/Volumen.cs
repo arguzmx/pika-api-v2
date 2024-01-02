@@ -1,17 +1,20 @@
-﻿namespace pika.modelo.contenido;
+﻿using api.comunes.metadatos.atributos;
+
+namespace pika.modelo.contenido;
 
 /// <summary>
 /// Un volumen de contenido es una ruta de almacenamiento de datos
 /// por ejemplo una carpeta en el disco duro 
 /// </summary>
-public class Volumen 
+[Entidad()]
+public class Volumen
 {
-    
+
     /// <summary>
     ///  Identificdor únio del volumen
     ///  Se obtiene con GUID new
     /// </summary>
-    public  string Id { get ; set ; }
+    public string Id { get; set; }
     // [a] [d] 
     // R 128
 
