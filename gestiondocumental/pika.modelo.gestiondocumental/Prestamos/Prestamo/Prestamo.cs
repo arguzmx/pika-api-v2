@@ -1,4 +1,5 @@
 ﻿
+using api.comunes.metadatos.atributos;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -8,6 +9,7 @@ namespace pika.modelo.gestiondocumental;
 /// <summary>
 /// Regisro de control para el préstamo de activos del acervo
 /// </summary>
+ [Entidad()]
 public class Prestamo
 {
 
@@ -27,7 +29,7 @@ public class Prestamo
     /// Número de fplio del préstamo
     /// </summary>
     public string Folio { get; set; }
-
+    // R 100 [i][a][d]
 
     /// <summary>
     /// Identificador único del archivo actual del activo
