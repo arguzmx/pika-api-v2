@@ -113,4 +113,9 @@ public class Volumen
     /// </summary>
     public TipoGestorES? TipoGestorES { get; set; }
 
+
+    /// <summary>
+    /// Repositorios asociados al volumen 
+    /// </summary>
+    public List<Repositorio> Repositorios { get; set; }
 }

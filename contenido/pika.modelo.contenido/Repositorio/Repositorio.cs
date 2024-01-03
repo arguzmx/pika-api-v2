@@ -46,11 +46,16 @@ public class Repositorio
     // R 500
 
 
-    ///// <summary>
-    ///// Propiedad de navegacion para el volumen del repositorio
-    ///// </summary>
-    //[XmlIgnore]
-    //[JsonIgnore]
-    //public Volumen Volumen { get; set; }
+    /// <summary>
+    /// Propiedad de navegacion para el volumen del repositorio
+    /// </summary>
+    [XmlIgnore]
+    [JsonIgnore]
+    public Volumen Volumen { get; set; }
+
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<Carpeta> Carpetas { get; set; }
 
 }
