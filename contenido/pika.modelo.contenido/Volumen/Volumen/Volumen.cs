@@ -118,4 +118,10 @@ public class Volumen
     /// Repositorios asociados al volumen 
     /// </summary>
     public List<Repositorio> Repositorios { get; set; }
+
+    /// <summary>
+    /// Contenidos asociados al volumen
+    /// </summary>
+    public List<Contenido> Contenido { get; set; }
+
 }

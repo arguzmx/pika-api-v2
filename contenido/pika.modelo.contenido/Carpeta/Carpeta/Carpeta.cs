@@ -78,4 +78,9 @@ public class Carpeta
     [JsonIgnore]
     public Repositorio Repositorio { get; set; }
 
+    /// <summary>
+    /// Contenidos asociados a la carpeta
+    /// </summary>
+    public List<Contenido> Contenido { get; set; }
+
 }

@@ -60,4 +60,9 @@ public class Repositorio
     [JsonIgnore]
     public List<Carpeta> Carpetas { get; set; }
 
+
+    /// <summary>
+    /// Contenidos asociados al respositorio
+    /// </summary>
+    public List<Contenido> Contenido { get; set; }
 }

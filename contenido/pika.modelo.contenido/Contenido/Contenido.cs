@@ -97,17 +97,17 @@ public class Contenido
     //[XmlIgnore, JsonIgnore]
     //public Permiso? Permiso { get; set; }
 
-    //[XmlIgnore]
-    //[JsonIgnore]
-    //public Volumen Volumen { get; set; }
+    [XmlIgnore]
+    [JsonIgnore]
+    public Volumen Volumen { get; set; }
 
-    //[XmlIgnore]
-    //[JsonIgnore]
-    //public Repositorio Repositorio { get; set; }
+    [XmlIgnore]
+    [JsonIgnore]
+    public Repositorio Repositorio { get; set; }
 
-    //[XmlIgnore]
-    //[JsonIgnore]
-    //public Carpeta Carpeta { get; set; }
+    [XmlIgnore]
+    [JsonIgnore]
+    public Carpeta Carpeta { get; set; }
 
 
     //[XmlIgnore]
