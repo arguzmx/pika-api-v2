@@ -21,7 +21,6 @@ public class VersionCouchDbContext : CouchContext
     protected override void OnDatabaseCreating(CouchDatabaseBuilder databaseBuilder)
     {
         databaseBuilder.Document<modelo.contenido.Version.Version>().ToDatabase("versiones");
-
     }
 
 
