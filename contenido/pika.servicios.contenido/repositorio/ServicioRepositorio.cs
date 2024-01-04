@@ -11,17 +11,15 @@ using pika.modelo.contenido;
 using pika.servicios.contenido.dbcontext;
 using System.Text.Json;
 
-namespace pika.servicios.contenido.volumen
+namespace pika.servicios.contenido.repositorio
 {
-
-    [ServicioEntidadAPI(entidad: typeof(Volumen))]
-    public class ServicioVolumen : ServicioEntidadGenericaBase<Volumen,VolumenInsertar,VolumenActualizar,VolumenDespliegue,string>,
-        IServicioEntidadAPI, IServicioVolumen
+    [ServicioEntidadAPI(entidad: typeof(Repositorio))]
+    public class ServicioRepositorio : ServicioEntidadGenericaBase<Repositorio, RepositorioInsertar, RepositorioActualizar, RepositorioDespliegue, string>,
+        IServicioEntidadAPI, IServicioRepositorio
     {
-
         private DbContextContenido localContext;
 
-        public ServicioVolumen(DbContextContenido context, ILogger<ServicioVolumen> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Volumenes, logger, Reflector, cache)
+        public ServicioRepositorio(DbContextContenido context, ILogger<ServicioRepositorio> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Repositorios, logger, Reflector, cache)
         {
             interpreteConsulta = new InterpreteConsultaMySQL();
             localContext = context;
@@ -35,9 +33,10 @@ namespace pika.servicios.contenido.volumen
 
         public bool RequiereAutenticacion => true;
 
+
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<VolumenActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<RepositorioActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -78,7 +77,7 @@ namespace pika.servicios.contenido.volumen
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<VolumenInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<RepositorioInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -129,15 +128,15 @@ namespace pika.servicios.contenido.volumen
         }
 
 
-        public override async Task<(List<Volumen> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+        public override async Task<(List<Repositorio> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
         {
             await Task.Delay(0);
 
-            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Volumen));
-            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextContenido.TablaVolumen);
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Repositorio));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextContenido.TablaRepositorio);
 
             int? total = null;
-            List<Volumen> elementos = localContext.Volumenes.FromSqlRaw(query).ToList();
+            List<Repositorio> elementos = localContext.Repositorios.FromSqlRaw(query).ToList();
 
             if (consulta.Contar)
             {
@@ -153,17 +152,17 @@ namespace pika.servicios.contenido.volumen
             }
             else
             {
-                return new(new List<Volumen>(), total); ;
+                return new(new List<Repositorio>(), total); ;
             }
         }
 
 
-        #region Overrides para la personalización de la entidad Volumen
+        #region Overrides para la personalización de la entidad Repositorio
 
-        public override async Task<ResultadoValidacion> ValidarInsertar(VolumenInsertar data)
+        public override async Task<ResultadoValidacion> ValidarInsertar(RepositorioInsertar data)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Volumenes.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
+            bool encontrado = await DB.Repositorios.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Nombre == data.Nombre);
 
@@ -180,10 +179,10 @@ namespace pika.servicios.contenido.volumen
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Volumen original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Repositorio original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Volumenes.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
+            bool encontrado = await DB.Repositorios.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id == id);
 
@@ -202,10 +201,10 @@ namespace pika.servicios.contenido.volumen
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id, VolumenActualizar actualizacion, Volumen original)
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, RepositorioActualizar actualizacion, Repositorio original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Volumenes.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
+            bool encontrado = await DB.Repositorios.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id == id);
 
@@ -217,7 +216,7 @@ namespace pika.servicios.contenido.volumen
             else
             {
                 // Verifica que no haya un registro con el mismo nombre para el mismo dominio y UO en un resgitrso diferente
-                bool duplicado = await DB.Volumenes.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
+                bool duplicado = await DB.Repositorios.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Id != id
                     && a.Nombre.Equals(actualizacion.Nombre));
@@ -237,53 +236,40 @@ namespace pika.servicios.contenido.volumen
         }
 
 
-        public override Volumen ADTOFull(VolumenActualizar actualizacion, Volumen actual)
+        public override Repositorio ADTOFull(RepositorioActualizar actualizacion, Repositorio actual)
         {
+            actual.Id = actualizacion.Id;
             actual.Nombre = actualizacion.Nombre;
-            actual.TipoGestorESId = actualizacion.TipoGestorESId;
-            actual.TamanoMaximo = actualizacion.TamanoMaximo;
-            actual.Activo = actualizacion.Activo;
-            actual.EscrituraHabilitada = actualizacion.EscrituraHabilitada;
+            actual.VolumenId = actualizacion.VolumenId;
             return actual;
         }
 
-        public override Volumen ADTOFull(VolumenInsertar data)
+        public override Repositorio ADTOFull(RepositorioInsertar data)
         {
-            Volumen volumen = new()
+            Repositorio repositorio = new()
             {
                 Id = Guid.NewGuid().ToString(),
                 UOrgId = _contextoUsuario!.UOrgId!,
                 DominioId = _contextoUsuario!.DominioId!,
                 Nombre = data.Nombre,
-                TipoGestorESId = data.TipoGestorESId,
-                TamanoMaximo =data.TamanoMaximo,
-                Activo = data.Activo,
-                EscrituraHabilitada = data.EscrituraHabilitada,
-                ConsecutivoVolumen = 0,
-                CanidadPartes = 0,
-                CanidadElementos = 0,
-                Tamano = 0,
-                ConfiguracionValida = true
+                VolumenId =data.VolumenId
+               
             };
-            return volumen;
+            return repositorio;
         }
 
-        public override VolumenDespliegue ADTODespliegue(Volumen data)
+        public override RepositorioDespliegue ADTODespliegue(Repositorio data)
         {
-            VolumenDespliegue volumenDespliegue = new()
+            RepositorioDespliegue repositorioDespliegue = new()
             {
                 Id = data.Id,
-                Nombre = data.Nombre
+                Nombre = data.Nombre,
+                VolumenId = data.VolumenId
             };
-            return volumenDespliegue;
+            return repositorioDespliegue;
         }
 
         #endregion
-
-
-
-
-
 
     }
 }

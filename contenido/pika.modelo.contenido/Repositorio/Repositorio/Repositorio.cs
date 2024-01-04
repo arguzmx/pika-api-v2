@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using api.comunes.metadatos.atributos;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.contenido;
@@ -6,6 +7,7 @@ namespace pika.modelo.contenido;
 /// <summary>
 /// Representa un repositorio para el almacenamiento y clasificación de contenido
 /// </summary>
+[Entidad()]
 public class Repositorio
 {
     /// <summary>

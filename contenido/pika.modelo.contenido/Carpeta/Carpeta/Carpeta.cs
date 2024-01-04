@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using api.comunes.metadatos.atributos;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.contenido;
@@ -6,6 +7,7 @@ namespace pika.modelo.contenido;
 /// <summary>
 /// Representa una carpeta para el arrglo lógico del conteido
 /// </summary>
+[Entidad()]
 public class Carpeta
 {
     /// <summary>

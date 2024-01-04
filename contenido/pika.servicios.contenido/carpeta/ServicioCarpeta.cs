@@ -9,19 +9,24 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.contenido;
 using pika.servicios.contenido.dbcontext;
+using pika.servicios.contenido.repositorio;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace pika.servicios.contenido.volumen
+namespace pika.servicios.contenido.carpeta
 {
-
-    [ServicioEntidadAPI(entidad: typeof(Volumen))]
-    public class ServicioVolumen : ServicioEntidadGenericaBase<Volumen,VolumenInsertar,VolumenActualizar,VolumenDespliegue,string>,
-        IServicioEntidadAPI, IServicioVolumen
+    [ServicioEntidadAPI(entidad: typeof(Carpeta))]
+    public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInsertar, CarpetaActualizar, CarpetaDespliegue, string>,
+        IServicioEntidadAPI, IServicioCarpeta
     {
 
         private DbContextContenido localContext;
 
-        public ServicioVolumen(DbContextContenido context, ILogger<ServicioVolumen> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Volumenes, logger, Reflector, cache)
+        public ServicioCarpeta(DbContextContenido context, ILogger<ServicioCarpeta> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Carpetas, logger, Reflector, cache)
         {
             interpreteConsulta = new InterpreteConsultaMySQL();
             localContext = context;
@@ -37,7 +42,7 @@ namespace pika.servicios.contenido.volumen
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<VolumenActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<CarpetaActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -78,7 +83,7 @@ namespace pika.servicios.contenido.volumen
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<VolumenInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<CarpetaInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -129,15 +134,15 @@ namespace pika.servicios.contenido.volumen
         }
 
 
-        public override async Task<(List<Volumen> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+        public override async Task<(List<Carpeta> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
         {
             await Task.Delay(0);
 
-            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Volumen));
-            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextContenido.TablaVolumen);
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Carpeta));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextContenido.TablaCarpeta);
 
             int? total = null;
-            List<Volumen> elementos = localContext.Volumenes.FromSqlRaw(query).ToList();
+            List<Carpeta> elementos = localContext.Carpetas.FromSqlRaw(query).ToList();
 
             if (consulta.Contar)
             {
@@ -153,19 +158,17 @@ namespace pika.servicios.contenido.volumen
             }
             else
             {
-                return new(new List<Volumen>(), total); ;
+                return new(new List<Carpeta>(), total); ;
             }
         }
 
 
-        #region Overrides para la personalización de la entidad Volumen
+        #region Overrides para la personalización de la entidad Repositorio
 
-        public override async Task<ResultadoValidacion> ValidarInsertar(VolumenInsertar data)
+        public override async Task<ResultadoValidacion> ValidarInsertar(CarpetaInsertar data)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Volumenes.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
-                    && a.DominioId == _contextoUsuario.DominioId
-                    && a.Nombre == data.Nombre);
+            bool encontrado = await DB.Carpetas.AnyAsync(a => a.Nombre == data.Nombre);
 
             if (encontrado)
             {
@@ -180,12 +183,10 @@ namespace pika.servicios.contenido.volumen
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Volumen original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Carpeta original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Volumenes.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
-                    && a.DominioId == _contextoUsuario.DominioId
-                    && a.Id == id);
+            bool encontrado = await DB.Carpetas.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -202,25 +203,11 @@ namespace pika.servicios.contenido.volumen
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id, VolumenActualizar actualizacion, Volumen original)
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, CarpetaActualizar actualizacion, Carpeta original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Volumenes.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
-                    && a.DominioId == _contextoUsuario.DominioId
-                    && a.Id == id);
-
-            if (!encontrado)
-            {
-                resultado.Error = "id".ErrorProcesoNoEncontrado();
-
-            }
-            else
-            {
-                // Verifica que no haya un registro con el mismo nombre para el mismo dominio y UO en un resgitrso diferente
-                bool duplicado = await DB.Volumenes.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
-                    && a.DominioId == _contextoUsuario.DominioId
-                    && a.Id != id
-                    && a.Nombre.Equals(actualizacion.Nombre));
+            
+                bool duplicado = await DB.Carpetas.AnyAsync(a => a.Id != id && a.Nombre.Equals(actualizacion.Nombre));
 
                 if (duplicado)
                 {
@@ -231,59 +218,50 @@ namespace pika.servicios.contenido.volumen
                 {
                     resultado.Valido = true;
                 }
-            }
+            
 
             return resultado;
         }
 
 
-        public override Volumen ADTOFull(VolumenActualizar actualizacion, Volumen actual)
+        public override Carpeta ADTOFull(CarpetaActualizar actualizacion, Carpeta actual)
         {
             actual.Nombre = actualizacion.Nombre;
-            actual.TipoGestorESId = actualizacion.TipoGestorESId;
-            actual.TamanoMaximo = actualizacion.TamanoMaximo;
-            actual.Activo = actualizacion.Activo;
-            actual.EscrituraHabilitada = actualizacion.EscrituraHabilitada;
+            actual.CarpetaPadreId = actualizacion.CarpetaPadreId;
             return actual;
         }
 
-        public override Volumen ADTOFull(VolumenInsertar data)
+        public override Carpeta ADTOFull(CarpetaInsertar data)
         {
-            Volumen volumen = new()
+            Carpeta carpeta = new()
             {
                 Id = Guid.NewGuid().ToString(),
-                UOrgId = _contextoUsuario!.UOrgId!,
-                DominioId = _contextoUsuario!.DominioId!,
+                RepositorioId = data.RepositorioId,
+                CreadorId = "seobtienedejwt",
+                FechaCreacion = DateTime.Now,
                 Nombre = data.Nombre,
-                TipoGestorESId = data.TipoGestorESId,
-                TamanoMaximo =data.TamanoMaximo,
-                Activo = data.Activo,
-                EscrituraHabilitada = data.EscrituraHabilitada,
-                ConsecutivoVolumen = 0,
-                CanidadPartes = 0,
-                CanidadElementos = 0,
-                Tamano = 0,
-                ConfiguracionValida = true
+                CarpetaPadreId = data.CarpetaPadreId,
+                EsRaiz = true,
+                PermisoId = "OperacionEspecial"
+
             };
-            return volumen;
+            return carpeta;
         }
 
-        public override VolumenDespliegue ADTODespliegue(Volumen data)
+        public override CarpetaDespliegue ADTODespliegue(Carpeta data)
         {
-            VolumenDespliegue volumenDespliegue = new()
+            CarpetaDespliegue carpetaDespliegue = new()
             {
                 Id = data.Id,
-                Nombre = data.Nombre
+                CreadorId = data.CreadorId,
+                FechaCreacion = data.FechaCreacion,
+                Nombre = data.Nombre,
+                CarpetaPadreId = data.CarpetaPadreId
             };
-            return volumenDespliegue;
+            return carpetaDespliegue;
         }
 
         #endregion
-
-
-
-
-
 
     }
 }
