@@ -74,7 +74,7 @@ public class Contenido
     /// o un tipo asociado al visor por ejemplo, expediente, cfdi, entro otros
     /// puede utilizarse también para determinarl el ícono del elemento
     /// </summary>
-    public string? TipoElemento { get; set; }
+    public string TipoElemento { get; set; }
     // [i] [d] 
     // R 128
 
@@ -82,7 +82,7 @@ public class Contenido
     /// Esta Identificador permite asociar el elemento a un sistema externo
     /// como clave de búsqueda
     /// </summary>
-    public string? IdExterno { get; set; }
+    public string IdExterno { get; set; }
     // [i] [a] [d] 
     // R 128
 
