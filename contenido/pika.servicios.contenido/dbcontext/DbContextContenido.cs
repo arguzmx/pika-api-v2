@@ -11,6 +11,7 @@ public class DbContextContenido : DbContext
     public const string TablaVolumen = "cont$volumen";
     public const string TablaRepositorio = "cont$repositorio";
     public const string TablaCarpeta = "cont$carpeta";
+    public const string TablaContenido = "cont$contenido";
 
     public DbContextContenido(DbContextOptions<DbContextContenido> options) : base(options)
     {
@@ -22,6 +23,7 @@ public class DbContextContenido : DbContext
     public DbSet <I18NCatalogo> TraduccionesTipoGestorES { get; set; }
     public DbSet <Repositorio> Repositorios { get; set; }
     public DbSet <Carpeta> Carpetas { get; set; }
+    public DbSet <Contenido> Contenidos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +32,7 @@ public class DbContextContenido : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
         modelBuilder.ApplyConfiguration(new ConfiguracionRepositorio());
         modelBuilder.ApplyConfiguration(new ConfiguracionCarpeta());
+        modelBuilder.ApplyConfiguration(new ConfiguracionContenido());
         base.OnModelCreating(modelBuilder);
     }
 
