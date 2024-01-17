@@ -1,16 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using api.comunes.metadatos.atributos;
+using CouchDB.Driver.Types;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.contenido;
-public class Version
-{
 
-    /// <summary>
-    /// Identificador único de la version
-    /// </summary>
-    public string Id { get; set; }
-    // [a] [d] 
-    // R 128
+[Entidad()]
+public class Version: CouchDocument
+{
 
     /// <summary>
     /// Identificador único del elemento al que pertenece la versión

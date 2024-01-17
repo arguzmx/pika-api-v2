@@ -1,7 +1,9 @@
 using api.comunes;
 using api.comunes.modelos.reflectores;
+using CouchDB.Driver.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using pika.servicios.contenido.dbcontext;
+using pika.servicios.contenido.Version;
 using Serilog;
 
 namespace pika.api.contenido
@@ -11,6 +13,8 @@ namespace pika.api.contenido
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var configuration = builder.Configuration;
+
             IWebHostEnvironment environment = builder.Environment;
 
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -33,6 +37,16 @@ namespace pika.api.contenido
             {
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
+
+
+         /*   builder.Services.AddHttpClient();
+            builder.Services.AddTransient<ICouchServiciosVersion, ServicioVersion>();*/
+
+            builder.Services.AddCouchContext<VersionCouchDbContext>(builder => builder
+        .EnsureDatabaseExists()
+        .UseEndpoint(configuration.GetValue<string>("CouchDB:endpoint"))
+        .UseBasicAuthentication(username: configuration.GetValue<string>("CouchDB:username"),
+        password: configuration.GetValue<string>("CouchDB:password")));
 
             builder.Services.AddControllers();
 
