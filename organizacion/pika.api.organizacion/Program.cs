@@ -1,4 +1,5 @@
 using api.comunes;
+using api.comunes.modelos.reflectores;
 using Microsoft.EntityFrameworkCore;
 using pika.servicios.organizacion.dbcontext;
 using Serilog;
@@ -39,6 +40,7 @@ namespace pika.api.organizacion
 
 
             builder.Services.AddTransient<IConfiguracionAPIEntidades, ConfiguracionAPIEntidades>();
+            builder.Services.AddTransient<IReflectorEntidadesAPI, ReflectorEntidadAPI>();
             builder.Services.AddDistributedMemoryCache();
 
             // Añadir la extensión para los servicios de API genérica

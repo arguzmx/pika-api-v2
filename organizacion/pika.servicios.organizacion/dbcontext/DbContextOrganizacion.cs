@@ -16,6 +16,7 @@ namespace pika.servicios.organizacion.dbcontext
         public const string TABLA_UNIDADES_ORG = "org$unidadorg";
         public const string TABLA_USUARIO_DOMINIO = "org$usuariodominio";
         public const string TABLA_USUARIO_UNIDADES_ORG = "org$usuariounidadorg";
+        public const string TABLA_PUESTO = "org$puesto";
 
         public DbContextOrganizacion(DbContextOptions<DbContextOrganizacion> options) : base(options) 
         {
@@ -30,6 +31,7 @@ namespace pika.servicios.organizacion.dbcontext
 
         public DbSet<UsuarioUnidadOrganizacional> UsuariosUnidadesOrganizacionales { get; set; }
 
+        public DbSet<Puesto> Puestos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +39,7 @@ namespace pika.servicios.organizacion.dbcontext
             modelBuilder.ApplyConfiguration(new ConfiguracionUnidadOrganizacional());
             modelBuilder.ApplyConfiguration(new ConfiguracionUsuarioDominio());
             modelBuilder.ApplyConfiguration(new ConfiguracionUsuarioUnidadOrganizacional());
+            modelBuilder.ApplyConfiguration(new ConfiguracionPuesto());
 
             base.OnModelCreating(modelBuilder);
         }

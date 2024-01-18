@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\infraestructura\api.comunes.metadatos\api.comunes.metadatos.csproj" />
     <ProjectReference Include="..\..\infraestructura\api.comunes.modelos\api.comunes.modelos.csproj" />
+    <ProjectReference Include="..\..\infraestructura\api.comunes\api.comunes.csproj" />
     <ProjectReference Include="..\..\pika.comun.metadatos\pika.comun.metadatos.csproj" />
   </ItemGroup>
 

@@ -5,6 +5,7 @@ namespace pika.modelo.organizacion;
 /// <summary>
 /// Describe un puesto dentro de la organización
 /// </summary>
+
 public class Puesto
 {
     /// <summary>
