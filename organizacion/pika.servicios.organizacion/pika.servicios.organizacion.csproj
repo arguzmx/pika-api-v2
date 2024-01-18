@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\infraestructura\api.comunes.metadatos\api.comunes.metadatos.csproj" />
     <ProjectReference Include="..\pika.modelo.organizacion\pika.modelo.organizacion.csproj" />
   </ItemGroup>
 
