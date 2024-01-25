@@ -6,12 +6,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pika.servicios.organizacion.data.migrations
 {
     /// <inheritdoc />
-    public partial class puesto : Migration
+    public partial class redsocial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "org$catalogos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Idioma = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Texto = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DominioId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UnidadOrganizacionalId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CatalogoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Discriminator = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_org$catalogos", x => x.Id);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -51,6 +75,64 @@ namespace pika.servicios.organizacion.data.migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_org$puesto", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "org$i18ncatalogos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Idioma = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DominioId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UnidadOrganizacionalId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Texto = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CatalogoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Discriminator = table.Column<int>(type: "int", nullable: false),
+                    ElementoCatalogoId = table.Column<string>(type: "varchar(128)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_org$i18ncatalogos", x => new { x.Id, x.DominioId, x.UnidadOrganizacionalId, x.Idioma });
+                    table.ForeignKey(
+                        name: "FK_org$i18ncatalogos_org$catalogos_ElementoCatalogoId",
+                        column: x => x.ElementoCatalogoId,
+                        principalTable: "org$catalogos",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "org$redsocial",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Url = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TipoRedSocialId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DominioId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UOrgId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_org$redsocial", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_org$redsocial_org$catalogos_TipoRedSocialId",
+                        column: x => x.TipoRedSocialId,
+                        principalTable: "org$catalogos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -132,6 +214,26 @@ namespace pika.servicios.organizacion.data.migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
+                name: "IX_org$catalogos_CatalogoId",
+                table: "org$catalogos",
+                column: "CatalogoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_org$i18ncatalogos_CatalogoId_Idioma",
+                table: "org$i18ncatalogos",
+                columns: new[] { "CatalogoId", "Idioma" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_org$i18ncatalogos_ElementoCatalogoId",
+                table: "org$i18ncatalogos",
+                column: "ElementoCatalogoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_org$redsocial_TipoRedSocialId",
+                table: "org$redsocial",
+                column: "TipoRedSocialId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_org$unidadorg_DominioId",
                 table: "org$unidadorg",
                 column: "DominioId");
@@ -156,13 +258,22 @@ namespace pika.servicios.organizacion.data.migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "org$i18ncatalogos");
+
+            migrationBuilder.DropTable(
                 name: "org$puesto");
+
+            migrationBuilder.DropTable(
+                name: "org$redsocial");
 
             migrationBuilder.DropTable(
                 name: "org$usuariodominio");
 
             migrationBuilder.DropTable(
                 name: "org$usuariounidadorg");
+
+            migrationBuilder.DropTable(
+                name: "org$catalogos");
 
             migrationBuilder.DropTable(
                 name: "org$unidadorg");
