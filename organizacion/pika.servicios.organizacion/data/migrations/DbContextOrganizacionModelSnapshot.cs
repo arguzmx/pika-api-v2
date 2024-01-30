@@ -80,6 +80,42 @@ namespace pika.servicios.organizacion.data.migrations
                     b.ToTable("org$direccionpostal", (string)null);
                 });
 
+            modelBuilder.Entity("pika.modelo.organizacion.Contacto.Telefono", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("DominioId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Horario")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("UOrgId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("org$telefono", (string)null);
+                });
+
             modelBuilder.Entity("pika.modelo.organizacion.Dominio", b =>
                 {
                     b.Property<string>("Id")
