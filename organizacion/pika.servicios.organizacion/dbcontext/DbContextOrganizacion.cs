@@ -20,8 +20,7 @@ namespace pika.servicios.organizacion.dbcontext
         public const string TABLA_PUESTO = "org$puesto";
         public const string TABLA_DIRECCIONPOSTAL = "org$direccionpostal";
         public const string TABLA_TELEFONO = "org$telefono";
-
-        
+        public const string TABLA_REDSOCIAL = "org$redsocial";
 
         public DbContextOrganizacion(DbContextOptions<DbContextOrganizacion> options) : base(options) 
         {
@@ -35,8 +34,13 @@ namespace pika.servicios.organizacion.dbcontext
         public DbSet<Puesto> Puestos { get; set; }
         public DbSet<DireccionPostal> DireccionesPostales { get; set; }
         public DbSet<Telefono> Telefonos { get; set; }
+        public DbSet<RedSocial> RedesSociales { get; set; }
+        public DbSet<ElementoCatalogo> TipoRedSocial { get; set; }
+        public DbSet<I18NCatalogo> TraduccionesTipoRedSocial { get; set; }
 
-        
+
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +51,11 @@ namespace pika.servicios.organizacion.dbcontext
             modelBuilder.ApplyConfiguration(new ConfiguracionPuesto());
             modelBuilder.ApplyConfiguration(new ConfiguracionDireccionPostal());
             modelBuilder.ApplyConfiguration(new ConfiguracionTelefono());
+
+            modelBuilder.ApplyConfiguration(new ConfiguracionRedSocial());
+            modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
+            modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
+
 
             base.OnModelCreating(modelBuilder);
         }
