@@ -1,6 +1,7 @@
 ﻿using api.comunes.modelos.modelos;
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.organizacion;
+using pika.modelo.organizacion.Contacto;
 using pika.servicios.organizacion.dbcontext.configuraciones;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace pika.servicios.organizacion.dbcontext
         public const string TABLA_USUARIO_DOMINIO = "org$usuariodominio";
         public const string TABLA_USUARIO_UNIDADES_ORG = "org$usuariounidadorg";
         public const string TABLA_PUESTO = "org$puesto";
+        public const string TABLA_DIRECCIONPOSTAL = "org$direccionpostal";
 
         public DbContextOrganizacion(DbContextOptions<DbContextOrganizacion> options) : base(options) 
         {
@@ -24,14 +26,11 @@ namespace pika.servicios.organizacion.dbcontext
         }
 
         public DbSet<Dominio> Dominios { get; set; }
-
         public DbSet<UnidadOrganizacional> UnidadesOrganizacionales { get; set; }
-
         public DbSet<UsuarioDominio> UsuarioDominios { get; set; }
-
         public DbSet<UsuarioUnidadOrganizacional> UsuariosUnidadesOrganizacionales { get; set; }
-
         public DbSet<Puesto> Puestos { get; set; }
+        public DbSet<DireccionPostal> DireccionesPostales { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +39,7 @@ namespace pika.servicios.organizacion.dbcontext
             modelBuilder.ApplyConfiguration(new ConfiguracionUsuarioDominio());
             modelBuilder.ApplyConfiguration(new ConfiguracionUsuarioUnidadOrganizacional());
             modelBuilder.ApplyConfiguration(new ConfiguracionPuesto());
+            modelBuilder.ApplyConfiguration(new ConfiguracionDireccionPostal());
 
             base.OnModelCreating(modelBuilder);
         }
