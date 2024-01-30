@@ -22,6 +22,8 @@ namespace pika.servicios.organizacion.dbcontext
 
         public const string TABLA_TELEFONO = "org$telefono";
 
+        public const string TABLA_TELEFONO = "org$telefono";
+
         public DbContextOrganizacion(DbContextOptions<DbContextOrganizacion> options) : base(options) 
         {
             
@@ -36,6 +38,8 @@ namespace pika.servicios.organizacion.dbcontext
 
         public DbSet<Telefono> Telefonos { get; set; }
 
+        public DbSet<Telefono> Telefonos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ConfiguracionDominio());
@@ -44,6 +48,8 @@ namespace pika.servicios.organizacion.dbcontext
             modelBuilder.ApplyConfiguration(new ConfiguracionUsuarioUnidadOrganizacional());
             modelBuilder.ApplyConfiguration(new ConfiguracionPuesto());
             modelBuilder.ApplyConfiguration(new ConfiguracionDireccionPostal());
+
+            modelBuilder.ApplyConfiguration(new ConfiguracionTelefono());
 
             modelBuilder.ApplyConfiguration(new ConfiguracionTelefono());
 
