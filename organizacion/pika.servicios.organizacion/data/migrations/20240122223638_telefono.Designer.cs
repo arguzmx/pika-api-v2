@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pika.servicios.organizacion.dbcontext;
 
@@ -10,89 +11,43 @@ using pika.servicios.organizacion.dbcontext;
 namespace pika.servicios.organizacion.data.migrations
 {
     [DbContext(typeof(DbContextOrganizacion))]
-    partial class DbContextOrganizacionModelSnapshot : ModelSnapshot
+    [Migration("20240122223638_telefono")]
+    partial class telefono
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-<<<<<<< HEAD
-            modelBuilder.Entity("pika.modelo.organizacion.Contacto.DireccionPostal", b =>
-=======
             modelBuilder.Entity("pika.modelo.organizacion.Contacto.Telefono", b =>
->>>>>>> 6859570 (43ApiGenericaTelefono)
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-<<<<<<< HEAD
-                    b.Property<string>("CP")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("Calle")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("Ciudad")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-=======
->>>>>>> 6859570 (43ApiGenericaTelefono)
                     b.Property<string>("DominioId")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-<<<<<<< HEAD
-                    b.Property<string>("Estado")
-=======
                     b.Property<string>("Extension")
->>>>>>> 6859570 (43ApiGenericaTelefono)
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-<<<<<<< HEAD
-                    b.Property<string>("NoExterior")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("NoInterior")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Pais")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Referencia")
-=======
                     b.Property<string>("Horario")
->>>>>>> 6859570 (43ApiGenericaTelefono)
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-<<<<<<< HEAD
-=======
                     b.Property<string>("Numero")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
->>>>>>> 6859570 (43ApiGenericaTelefono)
                     b.Property<string>("UOrgId")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -100,11 +55,7 @@ namespace pika.servicios.organizacion.data.migrations
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
-                    b.ToTable("org$direccionpostal", (string)null);
-=======
                     b.ToTable("org$telefono", (string)null);
->>>>>>> 6859570 (43ApiGenericaTelefono)
                 });
 
             modelBuilder.Entity("pika.modelo.organizacion.Dominio", b =>
