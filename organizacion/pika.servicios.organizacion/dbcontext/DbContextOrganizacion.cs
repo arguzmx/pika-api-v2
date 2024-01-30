@@ -51,7 +51,6 @@ namespace pika.servicios.organizacion.dbcontext
             modelBuilder.ApplyConfiguration(new ConfiguracionPuesto());
             modelBuilder.ApplyConfiguration(new ConfiguracionDireccionPostal());
             modelBuilder.ApplyConfiguration(new ConfiguracionTelefono());
-
             modelBuilder.ApplyConfiguration(new ConfiguracionRedSocial());
             modelBuilder.ApplyConfiguration(new ConfiguracionI18NCatalogo());
             modelBuilder.ApplyConfiguration(new ConfiguracionElementoCatalogo());
