@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     /// <inheritdoc />
-    public partial class prestamo : Migration
+    public partial class PruebaDeGestionDocumental1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -280,6 +280,57 @@ namespace pika.servicios.gestiondocumental.data.migrations
                     table.ForeignKey(
                         name: "FK_gd$prestamo_gd$archivo_ArchivoId",
                         column: x => x.ArchivoId,
+                        principalTable: "gd$archivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "gd$unidadadministrativa",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Responsable = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Cargo = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Telefono = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Domicilio = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UbicacionFisica = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ArchivoTramiteId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ArchivoConcentracionId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ArchivoHistoricoId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_gd$unidadadministrativa", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_gd$unidadadministrativa_gd$archivo_ArchivoConcentracionId",
+                        column: x => x.ArchivoConcentracionId,
+                        principalTable: "gd$archivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_gd$unidadadministrativa_gd$archivo_ArchivoHistoricoId",
+                        column: x => x.ArchivoHistoricoId,
+                        principalTable: "gd$archivo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_gd$unidadadministrativa_gd$archivo_ArchivoTramiteId",
+                        column: x => x.ArchivoTramiteId,
                         principalTable: "gd$archivo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -585,6 +636,21 @@ namespace pika.servicios.gestiondocumental.data.migrations
                 column: "SerieDocumentalId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_gd$unidadadministrativa_ArchivoConcentracionId",
+                table: "gd$unidadadministrativa",
+                column: "ArchivoConcentracionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$unidadadministrativa_ArchivoHistoricoId",
+                table: "gd$unidadadministrativa",
+                column: "ArchivoHistoricoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_gd$unidadadministrativa_ArchivoTramiteId",
+                table: "gd$unidadadministrativa",
+                column: "ArchivoTramiteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_gd$zonaalmacen_AlmacenArchivoId",
                 table: "gd$zonaalmacen",
                 column: "AlmacenArchivoId");
@@ -612,6 +678,9 @@ namespace pika.servicios.gestiondocumental.data.migrations
 
             migrationBuilder.DropTable(
                 name: "gd$transferencias");
+
+            migrationBuilder.DropTable(
+                name: "gd$unidadadministrativa");
 
             migrationBuilder.DropTable(
                 name: "gd$posicionalmacen");

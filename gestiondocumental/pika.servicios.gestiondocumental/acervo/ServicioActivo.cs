@@ -9,36 +9,34 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
 using pika.servicios.gestiondocumental.dbcontext;
+using pika.servicios.gestiondocumental.seriedocumental;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace pika.servicios.gestiondocumental.prestamos
+namespace pika.servicios.gestiondocumental.acervo
 {
-
-    [ServicioEntidadAPI(entidad: typeof(Prestamo))]
-    public class ServicioPrestamo : ServicioEntidadGenericaBase<Prestamo, PrestamoInsertar, PrestamoActualizar, PrestamoDespliegue, string>,
-        IServicioEntidadAPI, IServicioPrestamo
+    [ServicioEntidadAPI(entidad: typeof(Activo))]
+    public class ServicioActivo : ServicioEntidadGenericaBase<Activo, ActivoInsertar, ActivoActualizar, ActivoDespliegue, string>,
+        IServicioEntidadAPI, IServicioActivo
     {
-
-
         private DbContextGestionDocumental localContext;
-        public ServicioPrestamo(DbContextGestionDocumental context, ILogger<ServicioPrestamo> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Prestamos, logger, Reflector, cache)
+        public ServicioActivo(DbContextGestionDocumental context, ILogger<ServicioActivo> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Activos, logger, Reflector, cache)
         {
             interpreteConsulta = new InterpreteConsultaMySQL();
             localContext = context;
         }
 
-
-        /// <summary>
-        /// Acceso al repositorio de gestipon documental local
-        /// </summary>
         private DbContextGestionDocumental DB { get { return (DbContextGestionDocumental)_db; } }
-
 
         public bool RequiereAutenticacion => true;
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<PrestamoActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<ActivoActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -79,7 +77,7 @@ namespace pika.servicios.gestiondocumental.prestamos
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<PrestamoInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<ActivoInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -130,15 +128,15 @@ namespace pika.servicios.gestiondocumental.prestamos
         }
 
 
-        public override async Task<(List<Prestamo> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+        public override async Task<(List<Activo> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
         {
             await Task.Delay(0);
 
-            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Prestamo));
-            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaPrestamo);
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Activo));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaActivo);
 
             int? total = null;
-            List<Prestamo> elementos = localContext.Prestamos.FromSqlRaw(query).ToList();
+            List<Activo> elementos = localContext.Activos.FromSqlRaw(query).ToList();
 
             if (consulta.Contar)
             {
@@ -154,20 +152,16 @@ namespace pika.servicios.gestiondocumental.prestamos
             }
             else
             {
-                return new(new List<Prestamo>(), total); ;
+                return new(new List<Activo>(), total); ;
             }
         }
 
+        #region Overrides para la personalización de la entidad SerieDocumental
 
-        #region Overrides para la personalización de la entidad Archivo
-
-        public override async Task<ResultadoValidacion> ValidarInsertar(PrestamoInsertar data)
+        public override async Task<ResultadoValidacion> ValidarInsertar(ActivoInsertar data)
         {
             ResultadoValidacion resultado = new();
-
-
-            bool encontrado = false;
-
+            bool encontrado = await DB.Activos.AnyAsync(a => a.Nombre == data.Nombre);
 
             if (encontrado)
             {
@@ -182,10 +176,10 @@ namespace pika.servicios.gestiondocumental.prestamos
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Prestamo original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Activo original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Prestamos.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.Activos.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -202,71 +196,115 @@ namespace pika.servicios.gestiondocumental.prestamos
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id, PrestamoActualizar actualizacion, Prestamo original)
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, ActivoActualizar actualizacion, Activo original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Prestamos.AnyAsync(a => a.Id == id); 
+            bool encontrado = await DB.Activos.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
                 resultado.Error = "id".ErrorProcesoNoEncontrado();
+
             }
             else
             {
+                // Verifica que no haya un registro con el mismo nombre para el mismo dominio y UO en un resgitrso diferente
+                bool duplicado = await DB.Activos.AnyAsync(a => a.Nombre.Equals(actualizacion.Nombre));
+
+                if (duplicado)
+                {
+                    resultado.Error = "Nombre".ErrorProcesoDuplicado();
+
+                }
+                else
+                {
                     resultado.Valido = true;
+                }
             }
 
             return resultado;
         }
 
 
-        public override Prestamo ADTOFull(PrestamoActualizar actualizacion, Prestamo actual)
+
+
+        public override Activo ADTOFull(ActivoActualizar actualizacion, Activo actual)
         {
-            actual.ArchivoId = actualizacion.ArchivoId;
-            actual.UsuarioDestinoId = actualizacion.UsuarioDestinoId;
-            actual.FechaDevolucion = actualizacion.FechaDevolucion;
-            actual.Descripcion = actualizacion.Descripcion;
+            actual.Nombre = actualizacion.Nombre;
+            actual.CuadroClasificacionId = actualizacion.CuadroClasificacionId;
+            actual.SerieDocumentalId = actualizacion.SerieDocumentalId;
+            actual.ArchivoOrigenId = actualizacion.ArchivoOrigenId;
+            actual.ArchivoActualId = actualizacion.ArchivoActualId;
+          
+            actual.UnidadAdministrativaId = actualizacion.UnidadAdministrativaId;
             return actual;
         }
 
-        public override Prestamo ADTOFull(PrestamoInsertar data)
+        public override Activo ADTOFull(ActivoInsertar data)
         {
-            Prestamo prestamo = new()
+            Activo activo = new Activo()
             {
                 Id = Guid.NewGuid().ToString(),
-                Folio= data.Folio,
-                UsuarioDestinoId = data.UsuarioDestinoId,
-                FechaProgramadaDevolucion = data.FechaProgramadaDevolucion,
-                Descripcion = data.Descripcion,
-                ArchivoId = "0fbf841e-ac47-4d03-89b6-36c106e7ee8e",
-                FechaDevolucion =  DateTime.Now,
-                UsuarioOrigenId="UsuarioOrigen321",
-
+                CuadroClasificacionId = data.CuadroClasificacionId,
+                SerieDocumentalId = data.SerieDocumentalId,
+                ArchivoOrigenId = data.ArchivoOrigenId,
+                ArchivoActualId = data.ArchivoActualId,
+                UnidadAdministrativaId = data.UnidadAdministrativaId,
+                Nombre = data.Nombre,
+                IdentificadorInterno = data.IdentificadorInterno,
+                FechaApertura = data.FechaApertura,
+                FechaCierre = data.FechaCierre,
+                Asunto = data.Asunto,
+                CodigoOptico = data.CodigoOptico,
+                CodigoElectronico = data.CodigoElectronico,
+                EsElectronico = data.EsElectronico,
+                UbicacionCaja = data.UbicacionCaja,
+                UbicacionRack = data.UbicacionRack,
+                DominioId = _contextoUsuario.DominioId,
+                TipoArchivoActualId = "tipo",
+                UnidadOrganizacionalId = _contextoUsuario.UOrgId,
+                UsuarioId = _contextoUsuario.UsuarioId,
             };
-            return prestamo;
+            return activo;
         }
 
-        public override PrestamoDespliegue ADTODespliegue(Prestamo data)
+        public override ActivoDespliegue ADTODespliegue(Activo data)
         {
-            PrestamoDespliegue prestamoDespliegue = new()
+            ActivoDespliegue activoDespliegue = new ActivoDespliegue()
             {
                 Id = data.Id,
-                ArchivoId = data.ArchivoId,
-                UsuarioOrigenId = data.UsuarioOrigenId,
-                UsuarioDestinoId = data.UsuarioDestinoId,
-                FechaProgramadaDevolucion = data.FechaProgramadaDevolucion,
-                FechaDevolucion = data.FechaDevolucion,
-                Descripcion = data.Descripcion,
-                CantidadActivos = data.CantidadActivos,
-                Entregado = data.Entregado,
-                Devuelto = data.Devuelto
-                
+                CuadroClasificacionId = data.CuadroClasificacionId,
+                SerieDocumentalId = data.SerieDocumentalId,
+                ArchivoOrigenId = data.ArchivoOrigenId,
+                ArchivoActualId = data.ArchivoActualId,
+                TipoArchivoActualId = data.TipoArchivoActualId,
+                UnidadAdministrativaId = data.UnidadAdministrativaId,
+                Nombre = data.Nombre,
+                IdentificadorInterno = data.IdentificadorInterno,
+                FechaApertura = data.FechaApertura,
+                FechaCierre = data.FechaCierre,
+                Asunto = data.Asunto,
+                CodigoOptico = data.CodigoOptico,
+                CodigoElectronico = data.CodigoElectronico,
+                EsElectronico = data.EsElectronico,
+                Reservado = data.Reservado,
+                Confidencial = data.Confidencial,
+                UbicacionCaja = data.UbicacionCaja,
+                UbicacionRack = data.UbicacionRack,
+                EnPrestamo = data.EnPrestamo,
+                EnTransferencia = data.EnTransferencia,
+                Ampliado = data.Ampliado,
+                FechaRetencionAT = data.FechaRetencionAT,
+                FechaRetencionAC = data.FechaRetencionAC,
+                AlmacenArchivoId = data.AlmacenArchivoId,
+                ZonaAlmacenId = data.ZonaAlmacenId,
+                ContenedorAlmacenId = data.ContenedorAlmacenId,
+                FechaCreacion = data.FechaCreacion,
+                UsuarioId = data.UsuarioId
             };
-            return prestamoDespliegue;
+            return activoDespliegue;
         }
 
         #endregion
-
-
     }
 }

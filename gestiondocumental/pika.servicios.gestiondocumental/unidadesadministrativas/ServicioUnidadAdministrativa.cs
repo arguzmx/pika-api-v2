@@ -8,37 +8,36 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.gestiondocumental;
+using pika.modelo.gestiondocumental.UnidadesAdministrativas;
 using pika.servicios.gestiondocumental.dbcontext;
+using pika.servicios.gestiondocumental.seriedocumental;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace pika.servicios.gestiondocumental.prestamos
+namespace pika.servicios.gestiondocumental.unidadesadministrativas
 {
-
-    [ServicioEntidadAPI(entidad: typeof(Prestamo))]
-    public class ServicioPrestamo : ServicioEntidadGenericaBase<Prestamo, PrestamoInsertar, PrestamoActualizar, PrestamoDespliegue, string>,
-        IServicioEntidadAPI, IServicioPrestamo
+    [ServicioEntidadAPI(entidad: typeof(UnidadAdministrativa))]
+    public class ServicioUnidadAdministrativa : ServicioEntidadGenericaBase<UnidadAdministrativa, UnidadAdministrativaInsertar, UnidadAdministrativaActualizar, UnidadAdministrativaDespliegue, string>,
+        IServicioEntidadAPI, IServicioUnidadAdministrativa
     {
-
-
         private DbContextGestionDocumental localContext;
-        public ServicioPrestamo(DbContextGestionDocumental context, ILogger<ServicioPrestamo> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Prestamos, logger, Reflector, cache)
+        public ServicioUnidadAdministrativa(DbContextGestionDocumental context, ILogger<ServicioUnidadAdministrativa> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.UnidadesAdministrativas, logger, Reflector, cache)
         {
             interpreteConsulta = new InterpreteConsultaMySQL();
             localContext = context;
         }
 
-
-        /// <summary>
-        /// Acceso al repositorio de gestipon documental local
-        /// </summary>
         private DbContextGestionDocumental DB { get { return (DbContextGestionDocumental)_db; } }
-
 
         public bool RequiereAutenticacion => true;
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<PrestamoActualizar>(JsonAPIDefaults());
+            var update = data.Deserialize<UnidadAdministrativaActualizar>(JsonAPIDefaults());
             return await this.Actualizar((string)id, update);
         }
 
@@ -79,7 +78,7 @@ namespace pika.servicios.gestiondocumental.prestamos
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<PrestamoInsertar>(JsonAPIDefaults());
+            var add = data.Deserialize<UnidadAdministrativaInsertar>(JsonAPIDefaults());
             var temp = await this.Insertar(add);
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
@@ -130,15 +129,15 @@ namespace pika.servicios.gestiondocumental.prestamos
         }
 
 
-        public override async Task<(List<Prestamo> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+        public override async Task<(List<UnidadAdministrativa> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
         {
             await Task.Delay(0);
 
-            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Prestamo));
-            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaPrestamo);
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(UnidadAdministrativa));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextGestionDocumental.TablaUnidadAdministrativa);
 
             int? total = null;
-            List<Prestamo> elementos = localContext.Prestamos.FromSqlRaw(query).ToList();
+            List<UnidadAdministrativa> elementos = localContext.UnidadesAdministrativas.FromSqlRaw(query).ToList();
 
             if (consulta.Contar)
             {
@@ -154,20 +153,16 @@ namespace pika.servicios.gestiondocumental.prestamos
             }
             else
             {
-                return new(new List<Prestamo>(), total); ;
+                return new(new List<UnidadAdministrativa>(), total); ;
             }
         }
 
+        #region Overrides para la personalización de la entidad UnidadAdministrativa
 
-        #region Overrides para la personalización de la entidad Archivo
-
-        public override async Task<ResultadoValidacion> ValidarInsertar(PrestamoInsertar data)
+        public override async Task<ResultadoValidacion> ValidarInsertar(UnidadAdministrativaInsertar data)
         {
             ResultadoValidacion resultado = new();
-
-
-            bool encontrado = false;
-
+            bool encontrado = await DB.UnidadesAdministrativas.AnyAsync(a => a.Nombre == data.Nombre);
 
             if (encontrado)
             {
@@ -182,10 +177,10 @@ namespace pika.servicios.gestiondocumental.prestamos
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Prestamo original)
+        public override async Task<ResultadoValidacion> ValidarEliminacion(string id, UnidadAdministrativa original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Prestamos.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.UnidadesAdministrativas.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -202,71 +197,94 @@ namespace pika.servicios.gestiondocumental.prestamos
         }
 
 
-        public override async Task<ResultadoValidacion> ValidarActualizar(string id, PrestamoActualizar actualizacion, Prestamo original)
+        public override async Task<ResultadoValidacion> ValidarActualizar(string id, UnidadAdministrativaActualizar actualizacion, UnidadAdministrativa original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Prestamos.AnyAsync(a => a.Id == id); 
+            bool encontrado = await DB.UnidadesAdministrativas.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
                 resultado.Error = "id".ErrorProcesoNoEncontrado();
+
             }
             else
             {
+                // Verifica que no haya un registro con el mismo nombre para el mismo dominio y UO en un resgitrso diferente
+                bool duplicado = await DB.UnidadesAdministrativas.AnyAsync(a => a.Nombre.Equals(actualizacion.Nombre));
+
+                if (duplicado)
+                {
+                    resultado.Error = "Nombre".ErrorProcesoDuplicado();
+
+                }
+                else
+                {
                     resultado.Valido = true;
+                }
             }
 
             return resultado;
         }
 
 
-        public override Prestamo ADTOFull(PrestamoActualizar actualizacion, Prestamo actual)
+
+
+        public override UnidadAdministrativa ADTOFull(UnidadAdministrativaActualizar actualizacion, UnidadAdministrativa actual)
         {
-            actual.ArchivoId = actualizacion.ArchivoId;
-            actual.UsuarioDestinoId = actualizacion.UsuarioDestinoId;
-            actual.FechaDevolucion = actualizacion.FechaDevolucion;
-            actual.Descripcion = actualizacion.Descripcion;
+            actual.Nombre = actualizacion.Nombre;
+            actual.Responsable = actualizacion.Responsable;
+            actual.Cargo = actualizacion.Cargo;
+            actual.Telefono = actualizacion.Telefono;
+            actual.Email = actualizacion.Email;
+            actual.Domicilio = actualizacion.Domicilio;
+            actual.UbicacionFisica = actualizacion.UbicacionFisica;
+            actual.ArchivoTramiteId = actualizacion.ArchivoTramiteId;
+            actual.ArchivoConcentracionId = actualizacion.ArchivoConcentracionId;
+            actual.ArchivoHistoricoId = actualizacion.ArchivoConcentracionId;
             return actual;
         }
 
-        public override Prestamo ADTOFull(PrestamoInsertar data)
+
+        public override UnidadAdministrativa ADTOFull(UnidadAdministrativaInsertar data)
         {
-            Prestamo prestamo = new()
+
+            UnidadAdministrativa unidadAdministrativa = new()
             {
                 Id = Guid.NewGuid().ToString(),
-                Folio= data.Folio,
-                UsuarioDestinoId = data.UsuarioDestinoId,
-                FechaProgramadaDevolucion = data.FechaProgramadaDevolucion,
-                Descripcion = data.Descripcion,
-                ArchivoId = "0fbf841e-ac47-4d03-89b6-36c106e7ee8e",
-                FechaDevolucion =  DateTime.Now,
-                UsuarioOrigenId="UsuarioOrigen321",
+                Nombre = data.Nombre,
+                Responsable = data.Responsable,
+                Cargo = data.Cargo,
+                Telefono = data.Telefono,
+                Email = data.Email,
+                Domicilio = data.Domicilio,
+                UbicacionFisica = data.UbicacionFisica,
+                ArchivoTramiteId = data.ArchivoTramiteId,
+                ArchivoConcentracionId = data.ArchivoConcentracionId,
+                ArchivoHistoricoId = data.ArchivoHistoricoId
 
             };
-            return prestamo;
+            return unidadAdministrativa;
         }
 
-        public override PrestamoDespliegue ADTODespliegue(Prestamo data)
+
+        public override UnidadAdministrativaDespliegue ADTODespliegue(UnidadAdministrativa data)
         {
-            PrestamoDespliegue prestamoDespliegue = new()
+            UnidadAdministrativaDespliegue unidadAdministrativaDespliegue = new()
             {
-                Id = data.Id,
-                ArchivoId = data.ArchivoId,
-                UsuarioOrigenId = data.UsuarioOrigenId,
-                UsuarioDestinoId = data.UsuarioDestinoId,
-                FechaProgramadaDevolucion = data.FechaProgramadaDevolucion,
-                FechaDevolucion = data.FechaDevolucion,
-                Descripcion = data.Descripcion,
-                CantidadActivos = data.CantidadActivos,
-                Entregado = data.Entregado,
-                Devuelto = data.Devuelto
-                
+                Nombre = data.Nombre,
+                Responsable = data.Responsable,
+                Cargo = data.Cargo,
+                Telefono = data.Telefono,
+                Email = data.Email,
+                Domicilio = data.Domicilio,
+                UbicacionFisica = data.UbicacionFisica,
+                ArchivoTramiteId = data.ArchivoTramiteId,
+                ArchivoConcentracionId = data.ArchivoConcentracionId,
+                ArchivoHistoricoId = data.ArchivoHistoricoId
             };
-            return prestamoDespliegue;
+            return unidadAdministrativaDespliegue;
         }
 
         #endregion
-
-
     }
 }

@@ -14,9 +14,9 @@ namespace pika.servicios.organizacion.dbcontext
     public class DbContextOrganizacion : DbContext
     {
         public const string TABLA_DOMINIO = "org$dominio";
-        public const string TABLA_UNIDADES_ORG = "org$unidadorg";
+        public const string TABLA_UNIDADES_ORG = "org$unidadorganizacional";
         public const string TABLA_USUARIO_DOMINIO = "org$usuariodominio";
-        public const string TABLA_USUARIO_UNIDADES_ORG = "org$usuariounidadorg";
+        public const string TABLA_USUARIO_UNIDADES_ORG = "org$usuariounidadorganizacional";
         public const string TABLA_PUESTO = "org$puesto";
         public const string TABLA_DIRECCIONPOSTAL = "org$direccionpostal";
         public const string TABLA_TELEFONO = "org$telefono";
