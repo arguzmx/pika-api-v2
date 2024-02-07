@@ -51,7 +51,7 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
     /// <returns></returns>
     [HttpGet("/api/{entidad}/metadatos")]
     [SwaggerOperation("Obtiene los Metadatos de una entidad del tipo especificado por el ruteo")]
-    [SwaggerResponse(statusCode: 204, description: "La entidad ha sido actualizada")]
+    [SwaggerResponse(statusCode: 200, type: typeof(Entidad),  description: "Metadatos de la entidad")]
     [SwaggerResponse(statusCode: 404, description: "Entidad no localizada o inexistente")]
     public async Task<IActionResult> DefinicionEntidad(string entidad)
     {
