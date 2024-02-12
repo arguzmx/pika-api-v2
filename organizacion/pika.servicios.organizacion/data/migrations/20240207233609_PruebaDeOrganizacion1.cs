@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pika.servicios.organizacion.data.migrations
 {
     /// <inheritdoc />
-    public partial class RedSocial : Migration
+    public partial class PruebaDeOrganizacion1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -193,7 +193,7 @@ namespace pika.servicios.organizacion.data.migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "org$unidadorg",
+                name: "org$unidadorganizacional",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
@@ -205,9 +205,9 @@ namespace pika.servicios.organizacion.data.migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_org$unidadorg", x => x.Id);
+                    table.PrimaryKey("PK_org$unidadorganizacional", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_org$unidadorg_org$dominio_DominioId",
+                        name: "FK_org$unidadorganizacional_org$dominio_DominioId",
                         column: x => x.DominioId,
                         principalTable: "org$dominio",
                         principalColumn: "Id",
@@ -239,7 +239,7 @@ namespace pika.servicios.organizacion.data.migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "org$usuariounidadorg",
+                name: "org$usuariounidadorganizacional",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
@@ -253,17 +253,17 @@ namespace pika.servicios.organizacion.data.migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_org$usuariounidadorg", x => x.Id);
+                    table.PrimaryKey("PK_org$usuariounidadorganizacional", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_org$usuariounidadorg_org$dominio_DominioId",
+                        name: "FK_org$usuariounidadorganizacional_org$dominio_DominioId",
                         column: x => x.DominioId,
                         principalTable: "org$dominio",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_org$usuariounidadorg_org$unidadorg_UnidadOrganizacionalId",
+                        name: "FK_org$usuariounidadorganizacional_org$unidadorganizacional_Uni~",
                         column: x => x.UnidadOrganizacionalId,
-                        principalTable: "org$unidadorg",
+                        principalTable: "org$unidadorganizacional",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -290,8 +290,8 @@ namespace pika.servicios.organizacion.data.migrations
                 column: "TipoRedSocialId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_org$unidadorg_DominioId",
-                table: "org$unidadorg",
+                name: "IX_org$unidadorganizacional_DominioId",
+                table: "org$unidadorganizacional",
                 column: "DominioId");
 
             migrationBuilder.CreateIndex(
@@ -300,13 +300,13 @@ namespace pika.servicios.organizacion.data.migrations
                 column: "DominioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_org$usuariounidadorg_DominioId",
-                table: "org$usuariounidadorg",
+                name: "IX_org$usuariounidadorganizacional_DominioId",
+                table: "org$usuariounidadorganizacional",
                 column: "DominioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_org$usuariounidadorg_UnidadOrganizacionalId",
-                table: "org$usuariounidadorg",
+                name: "IX_org$usuariounidadorganizacional_UnidadOrganizacionalId",
+                table: "org$usuariounidadorganizacional",
                 column: "UnidadOrganizacionalId");
         }
 
@@ -332,13 +332,13 @@ namespace pika.servicios.organizacion.data.migrations
                 name: "org$usuariodominio");
 
             migrationBuilder.DropTable(
-                name: "org$usuariounidadorg");
+                name: "org$usuariounidadorganizacional");
 
             migrationBuilder.DropTable(
                 name: "org$catalogos");
 
             migrationBuilder.DropTable(
-                name: "org$unidadorg");
+                name: "org$unidadorganizacional");
 
             migrationBuilder.DropTable(
                 name: "org$dominio");

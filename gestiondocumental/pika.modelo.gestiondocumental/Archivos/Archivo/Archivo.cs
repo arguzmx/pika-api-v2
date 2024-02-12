@@ -1,4 +1,5 @@
 ﻿using api.comunes.metadatos.atributos;
+using pika.modelo.gestiondocumental.UnidadesAdministrativas;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
@@ -82,6 +83,20 @@ public class Archivo
     [JsonIgnore]
     public List<CajaAlmacen> Cajas { get; set; }
 
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<UnidadAdministrativa> UnidadAdministrativasTramite { get; set; }
+
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<UnidadAdministrativa> UnidadAdministrativasConcentracion { get; set; }
+
+
+    [XmlIgnore]
+    [JsonIgnore]
+    public List<UnidadAdministrativa> UnidadAdministrativasHistorico { get; set; }
 
     /// <summary>
     /// Seria padre en el  modelo jerárquico

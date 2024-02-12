@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="acervo\" />
     <Folder Include="Activo\" />
     <Folder Include="data\" />
     <Folder Include="data\migrations\" />

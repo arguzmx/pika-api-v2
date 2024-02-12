@@ -1,6 +1,7 @@
 ﻿using api.comunes.modelos.modelos;
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.gestiondocumental;
+using pika.modelo.gestiondocumental.UnidadesAdministrativas;
 using pika.servicios.gestiondocumental.dbcontext.configuraciones;
 
 
@@ -19,6 +20,7 @@ public class DbContextGestionDocumental : DbContext
     public const string TablaCajaAlmacen = "gd$cajaalmacen";
     public const string TablaTransferencias = "gd$transferencias";
     public const string TablaPrestamo = "gd$prestamo";
+    public const string TablaUnidadAdministrativa = "gd$unidadadministrativa";
 
     public DbContextGestionDocumental(DbContextOptions<DbContextGestionDocumental> options) : base(options)
     {
@@ -43,6 +45,7 @@ public class DbContextGestionDocumental : DbContext
     public DbSet<I18NCatalogo> TraduccionesEstadoTransferencia { get; set; }
     public DbSet<Transferencia> Transferencias { get; set; }
     public DbSet<Prestamo> Prestamos { get; set; }
+    public DbSet<UnidadAdministrativa> UnidadesAdministrativas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -58,6 +61,7 @@ public class DbContextGestionDocumental : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionCajaAlmacen());
         modelBuilder.ApplyConfiguration(new ConfiguracionTransferencia());
         modelBuilder.ApplyConfiguration(new ConfiguracionPrestamo());
+        modelBuilder.ApplyConfiguration(new ConfiguracionUnidadAdministrativa());
         base.OnModelCreating(modelBuilder); 
     }
 

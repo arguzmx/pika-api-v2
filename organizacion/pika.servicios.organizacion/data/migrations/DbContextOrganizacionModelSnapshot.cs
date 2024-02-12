@@ -318,7 +318,7 @@ namespace pika.servicios.organizacion.data.migrations
 
                     b.HasIndex("DominioId");
 
-                    b.ToTable("org$unidadorg", (string)null);
+                    b.ToTable("org$unidadorganizacional", (string)null);
                 });
 
             modelBuilder.Entity("pika.modelo.organizacion.UsuarioDominio", b =>
@@ -370,7 +370,7 @@ namespace pika.servicios.organizacion.data.migrations
 
                     b.HasIndex("UnidadOrganizacionalId");
 
-                    b.ToTable("org$usuariounidadorg", (string)null);
+                    b.ToTable("org$usuariounidadorganizacional", (string)null);
                 });
 
             modelBuilder.Entity("pika.modelo.organizacion.Contacto.TipoRedSocial", b =>
