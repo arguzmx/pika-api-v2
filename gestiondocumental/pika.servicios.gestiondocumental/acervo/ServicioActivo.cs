@@ -235,8 +235,17 @@ namespace pika.servicios.gestiondocumental.acervo
             actual.SerieDocumentalId = actualizacion.SerieDocumentalId;
             actual.ArchivoOrigenId = actualizacion.ArchivoOrigenId;
             actual.ArchivoActualId = actualizacion.ArchivoActualId;
-          
             actual.UnidadAdministrativaId = actualizacion.UnidadAdministrativaId;
+            actual.Nombre = actualizacion.Nombre;
+            actual.IdentificadorInterno = actualizacion.IdentificadorInterno;
+            actual.FechaApertura = actualizacion.FechaApertura;
+            actual.FechaCierre = actualizacion.FechaCierre;
+            actual.Asunto = actualizacion.Asunto;
+            actual.CodigoOptico = actualizacion.CodigoOptico;
+            actual.CodigoElectronico = actualizacion.CodigoElectronico;
+            actual.EsElectronico = actualizacion.EsElectronico;
+            actual.UbicacionCaja = actualizacion.UbicacionCaja;
+            actual.UbicacionRack = actualizacion.UbicacionRack;
             return actual;
         }
 

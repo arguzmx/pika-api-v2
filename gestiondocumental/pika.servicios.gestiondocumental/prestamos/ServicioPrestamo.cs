@@ -238,9 +238,9 @@ namespace pika.servicios.gestiondocumental.prestamos
                 UsuarioDestinoId = data.UsuarioDestinoId,
                 FechaProgramadaDevolucion = data.FechaProgramadaDevolucion,
                 Descripcion = data.Descripcion,
-                ArchivoId = "0fbf841e-ac47-4d03-89b6-36c106e7ee8e",
+                ArchivoId = data.ArchivoId,
                 FechaDevolucion =  DateTime.Now,
-                UsuarioOrigenId="UsuarioOrigen321",
+                UsuarioOrigenId=data.UsuarioOrigenId,
 
             };
             return prestamo;

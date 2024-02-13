@@ -11,8 +11,8 @@ using pika.servicios.gestiondocumental.dbcontext;
 namespace pika.servicios.gestiondocumental.data.migrations
 {
     [DbContext(typeof(DbContextGestionDocumental))]
-    [Migration("20240207233346_PruebaDeGestionDocumental1")]
-    partial class PruebaDeGestionDocumental1
+    [Migration("20240212192636_PruebaLiberacion1")]
+    partial class PruebaLiberacion1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
