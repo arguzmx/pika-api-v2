@@ -10,4 +10,6 @@ public class DominioInsertar
     /// </summary>
     public string Nombre { get; set; }
 
+    public bool Activo { get; set; }
+
 }

@@ -258,12 +258,7 @@ namespace pika.servicios.contenido.volumen
                 TipoGestorESId = data.TipoGestorESId,
                 TamanoMaximo =data.TamanoMaximo,
                 Activo = data.Activo,
-                EscrituraHabilitada = data.EscrituraHabilitada,
-                ConsecutivoVolumen = 0,
-                CanidadPartes = 0,
-                CanidadElementos = 0,
-                Tamano = 0,
-                ConfiguracionValida = true
+                EscrituraHabilitada = data.EscrituraHabilitada
             };
             return volumen;
         }

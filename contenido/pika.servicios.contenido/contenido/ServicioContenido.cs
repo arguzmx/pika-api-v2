@@ -243,8 +243,6 @@ namespace pika.servicios.contenido.contenido
                 RepositorioId = data.RepositorioId,
                 CreadorId = "seobtienedejwt",
                 FechaCreacion = DateTime.Now,
-                ConteoAnexos = 2,
-                TamanoBytes= 120130140150160170,
                 VolumenId = data.VolumenId,
                 CarpetaId = data.CarpetaId,
                 TipoElemento = data.TipoElemento,
