@@ -11,8 +11,8 @@ using pika.servicios.contenido.dbcontext;
 namespace pika.servicios.contenido.data.migrations
 {
     [DbContext(typeof(DbContextContenido))]
-    [Migration("20240207233140_PruebaDeContenido1")]
-    partial class PruebaDeContenido1
+    [Migration("20240212231736_PruebaLiberacionContenido1")]
+    partial class PruebaLiberacionContenido1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

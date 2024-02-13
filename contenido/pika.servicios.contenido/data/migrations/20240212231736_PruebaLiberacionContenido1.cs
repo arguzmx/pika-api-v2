@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pika.servicios.contenido.data.migrations
 {
     /// <inheritdoc />
-    public partial class PruebaDeContenido1 : Migration
+    public partial class PruebaLiberacionContenido1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
