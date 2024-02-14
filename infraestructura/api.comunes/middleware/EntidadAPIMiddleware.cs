@@ -62,6 +62,11 @@ public class EntidadAPIMiddleware
     /// <returns></returns>
     private async Task ProcesaCatalogoGenerico(HttpContext context)
     {
+        if (context.GetRouteData().Values["entidad"] == null)
+        {
+            return;
+        }
+
         string entidad = context.GetRouteData().Values["entidad"].ToString() ?? "";
         var servicios = _configuracionAPI.ObtienesServiciosICatalogoEntidadAPI();
         var servicio = servicios.FirstOrDefault(x => x.NombreRuteo.Equals(entidad, StringComparison.InvariantCultureIgnoreCase));
@@ -144,6 +149,11 @@ public class EntidadAPIMiddleware
     /// <returns></returns>
     private async Task ProcesaEntidadGenerica(HttpContext context)
     {
+        if(context.GetRouteData().Values["entidad"] == null)
+        {
+            return;
+        }
+
         string entidad = context.GetRouteData().Values["entidad"].ToString() ?? "";
         var servicios = _configuracionAPI.ObtienesServiciosIEntidadAPI();
         var servicio = servicios.FirstOrDefault(x => x.NombreRuteo.Equals(entidad, StringComparison.InvariantCultureIgnoreCase));

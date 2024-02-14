@@ -7,7 +7,6 @@ using System.Text.Json;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.abstracciones;
 using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace api.comunes.modelos.servicios;

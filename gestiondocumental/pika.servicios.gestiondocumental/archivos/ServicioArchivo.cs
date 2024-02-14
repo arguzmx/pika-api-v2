@@ -164,7 +164,10 @@ namespace pika.servicios.gestiondocumental.archivos
         #region Overrides para la personalización de la entidad Archivo
 
         public override async Task<ResultadoValidacion> ValidarInsertar(ArchivoInsertar data)
-        {   
+        {
+            // Reglas 
+            // El nombre del archivo debe ser único combindaco con el valor de UOrgId y DominioId
+
             ResultadoValidacion resultado = new ();
             bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
@@ -185,6 +188,10 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Archivo original)
         {
+
+            // Reglas 
+            // Verificar las propieades de navegación y validaa que para cada una de las entidades asociadas no exista un registro con el Id de archivo enviado
+
             ResultadoValidacion resultado = new();
             bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
@@ -206,6 +213,10 @@ namespace pika.servicios.gestiondocumental.archivos
 
         public override async Task<ResultadoValidacion> ValidarActualizar(string id, ArchivoActualizar actualizacion, Archivo original)
         {
+            // Reglas 
+            // Verificar que no existe un archivo con el mismo Nombre, UOrgId y DominioId con un Id diferente al recibido
+
+
             ResultadoValidacion resultado = new();
             bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
