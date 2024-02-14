@@ -221,7 +221,7 @@ namespace pika.servicios.organizacion.dominio
             {
                 Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
-                Activo = true,
+                Activo = data.Activo,
             };
             return archivo;
         }

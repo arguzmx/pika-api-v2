@@ -266,7 +266,6 @@ namespace pika.servicios.gestiondocumental.acervo
                 Asunto = data.Asunto,
                 CodigoOptico = data.CodigoOptico,
                 CodigoElectronico = data.CodigoElectronico,
-                EsElectronico = data.EsElectronico,
                 UbicacionCaja = data.UbicacionCaja,
                 UbicacionRack = data.UbicacionRack,
                 DominioId = _contextoUsuario.DominioId,

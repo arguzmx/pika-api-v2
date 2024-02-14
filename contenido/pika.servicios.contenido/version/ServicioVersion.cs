@@ -282,8 +282,6 @@ IServicioEntidadAPI, IServicioVersion
                 Activa = data.Activa,
                 FechaCreacion = DateTime.Now,
                 CreadorId = "IdProvicio2222",
-                ConteoPartes = 4,
-                TamanoBytes = 400000000000000,
                 VolumenId = data.VolumenId
             };
 
