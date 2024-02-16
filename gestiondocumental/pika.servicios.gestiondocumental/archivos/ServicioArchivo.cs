@@ -199,12 +199,27 @@ namespace pika.servicios.gestiondocumental.archivos
 
             if(!encontrado)
             {
-               
                 resultado.Error = "id".ErrorProcesoNoEncontrado();
 
             } else
             {
-                resultado.Valido = true;
+                bool encontrado1m = await DB.AlmacenesArchivos.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontrado2m = await DB.ZonaAlmacenes.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontrado3m = await DB.PosicionAlmacens.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontrado4m = await DB.CajaAlmacens.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontrado5m = await DB.UnidadesAdministrativas.AnyAsync(a => a.ArchivoConcentracionId.Equals(id) || a.ArchivoHistoricoId.Equals(id )|| a.ArchivoTramiteId.Equals(id));
+                bool encontrado6m = await DB.Transferencias.AnyAsync(a => a.ArchivoDestinoId.Equals(id) || a.ArchivoOrigenId.Equals(id));//
+                bool encontrado7m = await DB.Prestamos.AnyAsync(a => a.ArchivoId.Equals(id));
+
+
+                if (encontrado1m||encontrado2m || encontrado6m||encontrado7m || encontrado3m||encontrado4m || encontrado5m)
+                {
+                    resultado.Error = "Id en uso verifique que este no se encuentre en AlmacenArchivo,ZonaAlmecen,PosicionAlmacen,CajaAlmacen,UnidadesAdministraticas,Transferencia O Prestamos".Error409();
+                }
+                else
+                {
+                    resultado.Valido = true;
+                }
             }
 
             return resultado;

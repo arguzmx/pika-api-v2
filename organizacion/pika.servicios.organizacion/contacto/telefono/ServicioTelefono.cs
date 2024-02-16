@@ -177,7 +177,7 @@ namespace pika.servicios.organizacion.contacto.telefono
             ResultadoValidacion resultado = new();
 
             // VErifica que el usuario no tengo otro dominio con el mismo nombre en un registro diferente al de actualizacion
-            bool encontrado = await DB.Telefonos.AnyAsync(a => _contextoUsuario.DominioId != _contextoUsuario.DominioId);
+            bool encontrado = await DB.Telefonos.AnyAsync(a => _contextoUsuario.DominioId != _contextoUsuario.DominioId && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (encontrado)
             {
@@ -196,7 +196,7 @@ namespace pika.servicios.organizacion.contacto.telefono
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Telefono original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Telefonos.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.Telefonos.AnyAsync(a => a.Id == id && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (!encontrado)
             {
@@ -217,7 +217,7 @@ namespace pika.servicios.organizacion.contacto.telefono
         public override async Task<ResultadoValidacion> ValidarActualizar(string id, TelefonoActualizar actualizacion, Telefono original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Telefonos.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.Telefonos.AnyAsync(a => a.Id == id && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             resultado.Valido = false;
             if (!encontrado)

@@ -165,7 +165,7 @@ namespace pika.servicios.organizacion.puesto
         public override async Task<ResultadoValidacion> ValidarInsertar(PuestoInsertar data)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Puestos.AnyAsync(a => a.Nombre == data.Nombre);
+            bool encontrado = await DB.Puestos.AnyAsync(a => a.Nombre == data.Nombre && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (encontrado)
             {
@@ -183,7 +183,7 @@ namespace pika.servicios.organizacion.puesto
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Puesto original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Puestos.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.Puestos.AnyAsync(a => a.Id == id && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (!encontrado)
             {
@@ -204,7 +204,7 @@ namespace pika.servicios.organizacion.puesto
         {
             ResultadoValidacion resultado = new();
 
-            bool duplicado = await DB.Puestos.AnyAsync(a => a.Id != id && a.Nombre.Equals(actualizacion.Nombre));
+            bool duplicado = await DB.Puestos.AnyAsync(a => a.Id != id && a.Nombre.Equals(actualizacion.Nombre) && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (duplicado)
             {
