@@ -167,7 +167,7 @@ namespace pika.servicios.organizacion.contacto.direccionpostal
         public override async Task<ResultadoValidacion> ValidarInsertar(DireccionPostalInsertar data)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.DireccionesPostales.AnyAsync(a => a.CP == data.CP && a.NoExterior == data.NoExterior && a.NoInterior == data.NoInterior);
+            bool encontrado = await DB.DireccionesPostales.AnyAsync(a => a.CP == data.CP && a.NoExterior == data.NoExterior && a.NoInterior == data.NoInterior  && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (encontrado)
             {
@@ -185,7 +185,7 @@ namespace pika.servicios.organizacion.contacto.direccionpostal
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, DireccionPostal original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.DireccionesPostales.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.DireccionesPostales.AnyAsync(a => a.Id == id && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (!encontrado)
             {
@@ -206,7 +206,7 @@ namespace pika.servicios.organizacion.contacto.direccionpostal
         {
             ResultadoValidacion resultado = new();
 
-            bool duplicado = await DB.DireccionesPostales.AnyAsync(a => a.Id != id);
+            bool duplicado = await DB.DireccionesPostales.AnyAsync(a => a.Id != id && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (!duplicado)
             {

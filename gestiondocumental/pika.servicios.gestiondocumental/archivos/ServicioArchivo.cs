@@ -199,12 +199,27 @@ namespace pika.servicios.gestiondocumental.archivos
 
             if(!encontrado)
             {
-               
                 resultado.Error = "id".ErrorProcesoNoEncontrado();
 
             } else
             {
-                resultado.Valido = true;
+                bool encontradoAlmacenArchivo = await DB.AlmacenesArchivos.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoZonaAlmacenes = await DB.ZonaAlmacenes.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoPosicionAlmanenes = await DB.PosicionAlmacens.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoCajaAlmacenes = await DB.CajaAlmacens.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoUnidadesAdministrativas = await DB.UnidadesAdministrativas.AnyAsync(a => a.ArchivoConcentracionId.Equals(id) || a.ArchivoHistoricoId.Equals(id )|| a.ArchivoTramiteId.Equals(id));
+                bool encontradoTransferencias = await DB.Transferencias.AnyAsync(a => a.ArchivoDestinoId.Equals(id) || a.ArchivoOrigenId.Equals(id));//
+                bool encontradoPrestamos = await DB.Prestamos.AnyAsync(a => a.ArchivoId.Equals(id));
+
+
+                if (encontradoAlmacenArchivo||encontradoZonaAlmacenes || encontradoTransferencias||encontradoPrestamos || encontradoPosicionAlmanenes||encontradoCajaAlmacenes || encontradoUnidadesAdministrativas)
+                {
+                    resultado.Error = "Id en uso verifique que este no se encuentre en AlmacenArchivo,ZonaAlmecen,PosicionAlmacen,CajaAlmacen,UnidadesAdministraticas,Transferencia O Prestamos".Error409();
+                }
+                else
+                {
+                    resultado.Valido = true;
+                }
             }
 
             return resultado;

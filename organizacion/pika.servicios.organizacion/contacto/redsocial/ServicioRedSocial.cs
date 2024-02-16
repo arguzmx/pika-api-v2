@@ -172,7 +172,7 @@ namespace pika.servicios.organizacion.contacto.redsocial
         public override async Task<ResultadoValidacion> ValidarInsertar(RedSocialInsertar data)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.RedesSociales.AnyAsync(a => a.Url == data.Url);
+            bool encontrado = await DB.RedesSociales.AnyAsync(a => a.Url == data.Url && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (encontrado)
             {
@@ -190,7 +190,7 @@ namespace pika.servicios.organizacion.contacto.redsocial
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, RedSocial original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.RedesSociales.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.RedesSociales.AnyAsync(a => a.Id == id && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (!encontrado)
             {
@@ -211,7 +211,7 @@ namespace pika.servicios.organizacion.contacto.redsocial
         {
             ResultadoValidacion resultado = new();
 
-            bool duplicado = await DB.RedesSociales.AnyAsync(a => a.Id != id && a.Url == actualizacion.Url);
+            bool duplicado = await DB.RedesSociales.AnyAsync(a => a.Id != id && a.Url == actualizacion.Url && a.UOrgId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (duplicado)
             {

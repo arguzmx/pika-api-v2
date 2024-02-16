@@ -161,7 +161,7 @@ namespace pika.servicios.gestiondocumental.acervo
         public override async Task<ResultadoValidacion> ValidarInsertar(ActivoInsertar data)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Activos.AnyAsync(a => a.Nombre == data.Nombre);
+            bool encontrado = await DB.Activos.AnyAsync(a => a.Nombre == data.Nombre &&  a.UnidadOrganizacionalId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (encontrado)
             {
@@ -179,7 +179,7 @@ namespace pika.servicios.gestiondocumental.acervo
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Activo original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Activos.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.Activos.AnyAsync(a => a.Id == id && a.UnidadOrganizacionalId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (!encontrado)
             {
@@ -199,7 +199,7 @@ namespace pika.servicios.gestiondocumental.acervo
         public override async Task<ResultadoValidacion> ValidarActualizar(string id, ActivoActualizar actualizacion, Activo original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Activos.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.Activos.AnyAsync(a => a.Id == id && a.UnidadOrganizacionalId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
             if (!encontrado)
             {
@@ -209,7 +209,7 @@ namespace pika.servicios.gestiondocumental.acervo
             else
             {
                 // Verifica que no haya un registro con el mismo nombre para el mismo dominio y UO en un resgitrso diferente
-                bool duplicado = await DB.Activos.AnyAsync(a => a.Nombre.Equals(actualizacion.Nombre));
+                bool duplicado = await DB.Activos.AnyAsync(a => a.Nombre.Equals(actualizacion.Nombre) && a.UnidadOrganizacionalId == _contextoUsuario!.UOrgId && a.DominioId == _contextoUsuario.DominioId);
 
                 if (duplicado)
                 {
