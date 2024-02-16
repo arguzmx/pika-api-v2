@@ -203,16 +203,16 @@ namespace pika.servicios.gestiondocumental.archivos
 
             } else
             {
-                bool encontrado1m = await DB.AlmacenesArchivos.AnyAsync(a => a.ArchivoId.Equals(id));
-                bool encontrado2m = await DB.ZonaAlmacenes.AnyAsync(a => a.ArchivoId.Equals(id));
-                bool encontrado3m = await DB.PosicionAlmacens.AnyAsync(a => a.ArchivoId.Equals(id));
-                bool encontrado4m = await DB.CajaAlmacens.AnyAsync(a => a.ArchivoId.Equals(id));
-                bool encontrado5m = await DB.UnidadesAdministrativas.AnyAsync(a => a.ArchivoConcentracionId.Equals(id) || a.ArchivoHistoricoId.Equals(id )|| a.ArchivoTramiteId.Equals(id));
-                bool encontrado6m = await DB.Transferencias.AnyAsync(a => a.ArchivoDestinoId.Equals(id) || a.ArchivoOrigenId.Equals(id));//
-                bool encontrado7m = await DB.Prestamos.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoAlmacenArchivo = await DB.AlmacenesArchivos.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoZonaAlmacenes = await DB.ZonaAlmacenes.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoPosicionAlmanenes = await DB.PosicionAlmacens.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoCajaAlmacenes = await DB.CajaAlmacens.AnyAsync(a => a.ArchivoId.Equals(id));
+                bool encontradoUnidadesAdministrativas = await DB.UnidadesAdministrativas.AnyAsync(a => a.ArchivoConcentracionId.Equals(id) || a.ArchivoHistoricoId.Equals(id )|| a.ArchivoTramiteId.Equals(id));
+                bool encontradoTransferencias = await DB.Transferencias.AnyAsync(a => a.ArchivoDestinoId.Equals(id) || a.ArchivoOrigenId.Equals(id));//
+                bool encontradoPrestamos = await DB.Prestamos.AnyAsync(a => a.ArchivoId.Equals(id));
 
 
-                if (encontrado1m||encontrado2m || encontrado6m||encontrado7m || encontrado3m||encontrado4m || encontrado5m)
+                if (encontradoAlmacenArchivo||encontradoZonaAlmacenes || encontradoTransferencias||encontradoPrestamos || encontradoPosicionAlmanenes||encontradoCajaAlmacenes || encontradoUnidadesAdministrativas)
                 {
                     resultado.Error = "Id en uso verifique que este no se encuentre en AlmacenArchivo,ZonaAlmecen,PosicionAlmacen,CajaAlmacen,UnidadesAdministraticas,Transferencia O Prestamos".Error409();
                 }
