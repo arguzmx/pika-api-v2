@@ -159,7 +159,15 @@ IServicioEntidadAPI, IServicioUnidadOrganizacional
       
         else
         {
-            resultado.Valido = true;
+            bool EncontradoUsuarioUnidadOrganizacional = await DB.UsuariosUnidadesOrganizacionales.AnyAsync(a => a.UnidadOrganizacionalId==id);
+            if(EncontradoUsuarioUnidadOrganizacional)
+            {
+                resultado.Error = "Id en uso verifique que este no se encuentre en UsuarioUnidadOrganizacional".Error409();
+            }
+            else
+            {
+                resultado.Valido = true;
+            }
         }
 
         return resultado;

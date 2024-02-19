@@ -200,7 +200,17 @@ namespace pika.servicios.gestiondocumental.cuadroclasificacion
             }
             else
             {
-                resultado.Valido = true;
+                bool EncontradoActivo = await DB.Activos.AnyAsync(a => a.CuadroClasificacionId == id);
+                bool EncontradoSerieDocumental = await DB.SerieDocumentales.AnyAsync(a => a.CuadroClasificacionId == id);
+                bool EncontradoTransferencia = await DB.Transferencias.AnyAsync(a => a.CuadroClasificacionId == id);
+                if (EncontradoActivo || EncontradoSerieDocumental || EncontradoTransferencia)
+                {
+                    resultado.Error = "Id en uso verifique que este no se encuentre en Activos,SerieDocumental O Transferencia".Error409();
+                }
+                else
+                {
+                    resultado.Valido = true;
+                }               
             }
 
             return resultado;

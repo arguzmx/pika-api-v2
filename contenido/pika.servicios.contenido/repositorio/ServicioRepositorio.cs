@@ -194,7 +194,16 @@ namespace pika.servicios.contenido.repositorio
             }
             else
             {
-                resultado.Valido = true;
+                bool EncontradoCarpeta = await DB.Carpetas.AnyAsync(a => a.RepositorioId == id);
+                bool EncontradoContenido = await DB.Contenidos.AnyAsync(a => a.RepositorioId == id);
+                if (EncontradoCarpeta || EncontradoContenido)
+                {
+                    resultado.Error = "Id en uso verifique que este no se encuentre en Carpeto O Contenido".Error409();
+                }
+                else
+                {
+                    resultado.Valido = true;
+                }
             }
 
             return resultado;

@@ -196,7 +196,15 @@ namespace pika.servicios.contenido.carpeta
             }
             else
             {
-                resultado.Valido = true;
+                bool EncontradoContenido = await DB.Contenidos.AnyAsync(a => a.CarpetaId == id);
+                if (EncontradoContenido)
+                {
+                    resultado.Error = "Id en uso verifique que este no este en Contenido".Error409();
+                }
+                else
+                {
+                    resultado.Valido = true;
+                }
             }
 
             return resultado;
