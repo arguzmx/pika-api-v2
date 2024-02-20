@@ -16,6 +16,9 @@ public class Prestamo
     /// <summary>
     /// Identificador único del présstamo
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -34,6 +37,8 @@ public class Prestamo
     /// <summary>
     /// Identificador único del archivo actual del activo
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Archivo", true)]
     public string ArchivoId { get; set; }
     // [a] [d] 
     // R 128

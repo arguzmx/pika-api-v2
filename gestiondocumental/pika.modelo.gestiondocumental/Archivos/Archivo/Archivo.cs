@@ -50,7 +50,8 @@ public class Archivo
     /// <summary>
     /// Tipo de archivo del catálogo
     /// </summary>
-    [UsoCatalogo(idCatalogo: nameof(TipoArchivo))]
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("TipoArchivo", true)]
     public string TipoArchivoId { get; set; }
     // [i] [a]
     // R 128

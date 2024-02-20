@@ -17,6 +17,9 @@ public class UsuarioDominio
     /// <summary>
     /// Identificador único de la relacióm
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [d]
     // R [128]
@@ -31,6 +34,7 @@ public class UsuarioDominio
     /// <summary>
     /// Identificador único del dominio
     /// </summary>
+    [Protegido]
     public string DominioId { get; set; }
     // [i] [d]
     // R [128]

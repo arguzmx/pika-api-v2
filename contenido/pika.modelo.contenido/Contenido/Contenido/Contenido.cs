@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using api.comunes.metadatos.atributos;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace pika.modelo.contenido;
@@ -8,6 +9,9 @@ public class Contenido
     /// <summary>
     /// Indetificador único del elemento de contenido
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -15,6 +19,9 @@ public class Contenido
     /// <summary>
     /// Nombre común dado al elemento de contenido
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [I ][a] [d] 
     // R 500
@@ -22,6 +29,8 @@ public class Contenido
     /// <summary>
     /// Identificador del punto de montaje asociado a la carpeta
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Repositorio", true)]
     public string RepositorioId { get; set; }
     // [i] 
     // R 128
@@ -58,6 +67,8 @@ public class Contenido
     /// <summary>
     /// IDentificador único del volumen al que se añadió el contenido
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Volumen", true)]
     public string VolumenId { get; set; }
     // [i] [d] 
     // R 128
@@ -65,6 +76,8 @@ public class Contenido
     /// <summary>
     /// Identificador de la carpeta donde se creó el contenido
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Carpeta", true)]
     public string CarpetaId { get; set; }
     // [i] [d] 
     // R 128

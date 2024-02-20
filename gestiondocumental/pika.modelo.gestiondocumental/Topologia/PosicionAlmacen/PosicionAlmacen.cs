@@ -15,6 +15,9 @@ public class PosicionAlmacen
     /// <summary>
     /// Identificador único de la posición
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get ; set ; }
     // [a] [d] 
     // R 128
@@ -22,6 +25,9 @@ public class PosicionAlmacen
     /// <summary>
     /// Nombre único de la posición de almacén
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a] [d] 
     // R 500
@@ -71,6 +77,8 @@ public class PosicionAlmacen
     /// <summary>
     /// Identificaodr único del archivo al qu pertenece la posición
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Archivo", true)]
     public string ArchivoId { get; set; }
     // [i] [d] 
     // R 128
@@ -78,6 +86,8 @@ public class PosicionAlmacen
     /// <summary>
     /// Identificador unico del almacen al que pertenece la posición
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("AlmacenArchivo", true)]
     public string AlmacenArchivoId { get; set; }
     // [i] [d] 
     // R 128
@@ -85,6 +95,8 @@ public class PosicionAlmacen
     /// <summary>
     /// Identificador unico de la zona a la que pertenece la posición
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("ZonaAlmacen", true)]
     public string ZonaAlmacenId { get; set; }
     // [i] [d] 
     // R 128

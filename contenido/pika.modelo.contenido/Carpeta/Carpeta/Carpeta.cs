@@ -14,6 +14,9 @@ public class Carpeta
     ///  Identificdor únio del volumen
     ///  Se obtiene con GUID new
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -21,6 +24,8 @@ public class Carpeta
     /// <summary>
     /// Identificador del punto de montaje asociado a la carpeta
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Repositorio", true)]
     public string RepositorioId { get; set; }
     // [i] 
     // R 128
@@ -43,6 +48,9 @@ public class Carpeta
     /// <summary>
     /// Nombre para la carpeta 
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a] [d]
     // R 512

@@ -17,6 +17,9 @@ public class UsuarioUnidadOrganizacional
     /// <summary>
     /// Identificador único de la relacióm
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [d]
     // R [128]
@@ -31,6 +34,7 @@ public class UsuarioUnidadOrganizacional
     /// <summary>
     /// Identificador único del dominio
     /// </summary>
+    [Protegido]
     public string DominioId { get; set; }
     // [i] [d]
     // R [128]
@@ -39,6 +43,8 @@ public class UsuarioUnidadOrganizacional
     /// <summary>
     /// Identificador único de la unidad organizaciona, este valor se obtiene del encabezado 
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("UnidadOrganizacional", true)]
     public string UnidadOrganizacionalId { get; set; }
 
 

@@ -18,6 +18,9 @@ public class Dominio
     ///  Identificdor únio del dominio
     ///  Se obtiene con GUID new
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -25,6 +28,9 @@ public class Dominio
     /// <summary>
     /// Nombre único del dominio
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a]
     // R 500
@@ -45,6 +51,8 @@ public class Dominio
     /// Identificador unico del usuario dueño del dominio, este nombre se calcula con el ID del usaurio en sesion
     /// al momento de crear el dominio en la API
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Usuario", true)]
     public string UsuarioId { get; set; }
 
 

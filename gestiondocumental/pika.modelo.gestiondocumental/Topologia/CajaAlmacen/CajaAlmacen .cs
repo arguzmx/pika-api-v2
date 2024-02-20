@@ -13,6 +13,9 @@ public class CajaAlmacen
     /// <summary>
     /// IDentificador único de la caja
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -21,6 +24,9 @@ public class CajaAlmacen
     /// <summary>
     /// Nomnbre del contenedor para refeencia humana puede ser el mismo que la clave
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a] [d] 
     // R 500
@@ -47,6 +53,8 @@ public class CajaAlmacen
     /// <summary>
     /// Identificador unico del almacen en el que se ubica el contenedor
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("AlmacenArchivo", true)]
     public string AlmacenArchivoId { get; set; }
     // [i] [d] 
     // R 128
@@ -55,6 +63,8 @@ public class CajaAlmacen
     /// Identificador unico de la zona en el que se ubica el contenedor
     /// La zona del contenedor es opcional
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("ZonaAlmacen", true)]
     public string ZonaAlmacenId { get; set; }
     // [i] [d] 
     // R 128
@@ -63,6 +73,8 @@ public class CajaAlmacen
     /// Identificador unico de la posición en la que se ubica el contenedor
     /// EL contenedor puede no estar asociado a una posición puede esta solamente en una zona por ejemplo FUMIGACION
     /// </summary>
+    /// [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("PosicionAlmacen", true)]
     public string PosicionAlmacenId { get; set; }
     // [i] [d] 
     // R 128
@@ -70,6 +82,8 @@ public class CajaAlmacen
     /// <summary>
     /// Identificaodr único del archivo en el que se ubica el contenedor
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Archivo", true)]
     public string ArchivoId { get; set; }
     // [i] [d] 
     // R 128

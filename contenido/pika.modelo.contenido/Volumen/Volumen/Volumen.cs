@@ -14,6 +14,9 @@ public class Volumen
     ///  Identificdor únio del volumen
     ///  Se obtiene con GUID new
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -21,6 +24,7 @@ public class Volumen
     /// <summary>
     /// Dominio al que pertenece el archivo
     /// </summary>
+    [Protegido]
     public string DominioId { get; set; }
     // Este valor simpre viene del contexto
     // R 128
@@ -28,6 +32,7 @@ public class Volumen
     /// <summary>
     /// Unidad organizacional a la que pertenece el archivo
     /// </summary>
+    [Protegido]
     public string UOrgId { get; set; }
     //  Este valor simpre viene del contexto
     // R 128
@@ -35,6 +40,9 @@ public class Volumen
     /// <summary>
     /// Nombre único del volumen
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a] [d] 
     // R 500
@@ -42,6 +50,8 @@ public class Volumen
     /// <summary>
     /// Identificador único del  tipo de gestor, es necesario para la configuración
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("TipoGestorEs", true)]
     public string TipoGestorESId { get; set; }
     // [i] [a] 
     // R 128
