@@ -158,7 +158,7 @@ namespace pika.servicios.organizacion.dominio
         public override async Task<ResultadoValidacion> ValidarEliminacion(string id, Dominio original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.UnidadesOrganizacionales.AnyAsync(a => a.DominioId==original.Id);
+            bool encontrado = await DB.Dominios.AnyAsync(a => a.Id==id);
             
             if (!encontrado)
             {
@@ -168,7 +168,16 @@ namespace pika.servicios.organizacion.dominio
             }
             else
             {
-                resultado.Valido = true;
+                bool EncontradoUsuarioDominio = await DB.UsuarioDominios.AnyAsync(a => a.DominioId == id);
+                bool EncontradoUnidadOrganizacional = await DB.UnidadesOrganizacionales.AnyAsync(a => a.DominioId == id);
+                bool EncontradoUsuarioUnidadOrganizacional = await DB.UsuariosUnidadesOrganizacionales.AnyAsync(a => a.DominioId == id);
+
+                if (EncontradoUsuarioDominio || EncontradoUnidadOrganizacional || EncontradoUsuarioUnidadOrganizacional)
+                {
+                    resultado.Error = "Id en uso verifique que este no se encuentre en UsuarioDominio,UnidadOrganizacional O UsuarioUnidadOrganizacional".Error409();
+                }
+                else
+                { resultado.Valido = true; }
             }
 
             return resultado;
@@ -222,6 +231,7 @@ namespace pika.servicios.organizacion.dominio
                 Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
                 Activo = data.Activo,
+                UsuarioId = _contextoUsuario.UsuarioId
             };
             return archivo;
         }

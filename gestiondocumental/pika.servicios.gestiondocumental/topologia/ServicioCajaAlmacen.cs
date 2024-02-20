@@ -170,7 +170,7 @@ namespace pika.servicios.gestiondocumental.topologia
         {
 
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.PosicionAlmacens.AnyAsync(a => a.Nombre == insertar.Nombre);
+            bool encontrado = await DB.CajaAlmacens.AnyAsync(a => a.Nombre == insertar.Nombre);
 
             if (encontrado)
             {

@@ -195,7 +195,16 @@ namespace pika.servicios.contenido.volumen
             }
             else
             {
-                resultado.Valido = true;
+                bool EncontradoRepositorio = await DB.Repositorios.AnyAsync(a => a.VolumenId == id);
+                bool EncontradoContenido = await DB.Contenidos.AnyAsync(a => a.VolumenId == id);
+                if(EncontradoRepositorio || EncontradoContenido)
+                {
+                    resultado.Error = "Id en uso verifique que este no se encuentre en Repositorio O Contenido".Error409();
+                }
+                else
+                {
+                    resultado.Valido = true;
+                }
             }
 
             return resultado;

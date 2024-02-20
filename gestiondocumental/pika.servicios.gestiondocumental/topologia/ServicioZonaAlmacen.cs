@@ -196,7 +196,16 @@ namespace pika.servicios.gestiondocumental.topologia
             }
             else
             {
-                resultado.Valido = true;
+                bool EncontradoPosicionAlmacen = await DB.PosicionAlmacens.AnyAsync(a => a.ZonaAlmacenId == id);
+                bool EncontradoCajaAlmacen = await DB.CajaAlmacens.AnyAsync(a => a.ZonaAlmacenId == id);
+                if(EncontradoPosicionAlmacen || EncontradoCajaAlmacen)
+                    {
+                    resultado.Error = "Id en uso verifique que este no se encuentre en PosicionAlmacen O CajaAlmacen".Error409();
+                }
+                else
+                {
+                    resultado.Valido = true;
+                }
             }
 
             return resultado;

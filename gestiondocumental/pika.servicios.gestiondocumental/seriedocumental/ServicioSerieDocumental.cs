@@ -183,7 +183,16 @@ namespace pika.servicios.gestiondocumental.seriedocumental
             }
             else
             {
-                resultado.Valido = true;
+                bool EncontradoTransferencias = await DB.Transferencias.AnyAsync(a => a.SerieDocumentalId == id);
+                bool EncontradoSerieDocumental = await DB.SerieDocumentales.AnyAsync(a => a.SeriePadreId == id);
+                if (EncontradoSerieDocumental||EncontradoTransferencias)
+                {
+                    resultado.Error = "Id en uso verifique que este no se encuentra en Transferencias O SerieDocumental".Error409();
+                }
+                else
+                {
+                    resultado.Valido = true;
+                }
             }
 
             return resultado;
