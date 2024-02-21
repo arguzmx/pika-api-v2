@@ -16,6 +16,9 @@ public class Activo
     /// <summary>
     /// Identificador único del activo, se genera al insertar
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -24,6 +27,8 @@ public class Activo
     /// Identificador único del cuadro de clasificación, 
     /// Este se llena del lado del servidor
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("CuadroClasificacion", true)]
     public string CuadroClasificacionId { get; set; }
     // [i] [a] [d]
     // R 128
@@ -68,6 +73,9 @@ public class Activo
     /// <summary>
     /// Nombre de la entrada de inventario por ejemplo el número de expediente
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a] [d]
     // R 500
@@ -231,12 +239,14 @@ public class Activo
     /// <summary>
     /// Identificador único de la unidad organizacional a la que pertenece el activo
     /// </summary>
+    [Protegido]
     public string UnidadOrganizacionalId { get; set; }
     // R 128
 
     /// <summary>
     /// Identificador único del dominio al que pertenece el activo
     /// </summary>
+    [Protegido]
     public string DominioId { get; set; }
     // R 128
 

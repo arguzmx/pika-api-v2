@@ -1,4 +1,6 @@
-﻿namespace pika.modelo.contenido;
+﻿using api.comunes.metadatos.atributos;
+
+namespace pika.modelo.contenido;
 
 /// <summary>
 /// Deine un archivo anexo asociado a un aversión de contenido
@@ -9,6 +11,9 @@ public class Anexo
     /// <summary>
     /// Identificador único del anexo
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get ; set ; }
 
     /// <summary>

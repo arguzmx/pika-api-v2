@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using api.comunes.metadatos.atributos;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
@@ -13,6 +14,9 @@ public class SerieDocumental
     /// <summary>
     /// Identificador único de la serie
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -20,6 +24,8 @@ public class SerieDocumental
     /// <summary>
     /// Identificador punico del cuadro de clasificación al que pertenece la serie
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("CuadroClasificacion", true)]
     public string CuadroClasificacionId { get; set; }
     // [i] [d]
     // R 128
@@ -35,6 +41,9 @@ public class SerieDocumental
     /// <summary>
     /// Nombre de la serie documental
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a] [d]
     // R 500
@@ -49,6 +58,8 @@ public class SerieDocumental
     /// <summary>
     /// Identificador de la seria padre
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("SeriePadre", true)]
     public string? SeriePadreId { get; set; }
     // [i] [a] [d]
     // R 128

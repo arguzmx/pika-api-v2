@@ -10,6 +10,9 @@ public class Transferencia
     /// <summary>
     /// Identificador único interno para la transferencia
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
     // [a] [d] 
     // R 128
@@ -18,6 +21,9 @@ public class Transferencia
     /// <summary>
     /// Nombre asociado a la transferencia
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a] [d] 
     // R 500
@@ -32,6 +38,8 @@ public class Transferencia
     /// <summary>
     /// Identificador único del árchivo origen
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("ArchivoOrigen", true)]
     public string ArchivoOrigenId { get; set; }
     // [i] [a] [d] 
     // R 128
@@ -39,6 +47,8 @@ public class Transferencia
     /// <summary>
     /// Identificador único del árchivo destino
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("ArchivoDestino", true)]
     public string ArchivoDestinoId { get; set; }
     // [i] [a] [d] 
     // R 128
@@ -46,6 +56,8 @@ public class Transferencia
     /// <summary>
     /// Identificador del cuadro de clasificación asociado a la transferencia
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("CuadroClasificacion", true)]
     public string? CuadroClasificacionId { get; set; }
     // [i] [a] [d] 
     // 128
@@ -53,6 +65,8 @@ public class Transferencia
     /// <summary>
     /// Identificador único de la serie documental para la transferencia
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("SerieDocumental", true)]
     public string? SerieDocumentalId { get; set; }
     // [i] [a] [d] 
     // 128
@@ -79,6 +93,8 @@ public class Transferencia
     /// <summary>
     /// Estado actual de la trasnferencia, este valor se actualzia por el sistema
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("EstadoTransferencia", true)]
     public string EstadoTransferenciaId { get; set; }
     // [d] [i]
     // R 128

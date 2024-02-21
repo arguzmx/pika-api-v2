@@ -15,10 +15,13 @@ namespace pika.modelo.gestiondocumental;
  [Entidad()]
 public class ZonaAlmacen
 {
-    
+
     /// <summary>
     /// Identificador único de la zona
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set ; }
     // [a] [d] 
     // R 128
@@ -27,6 +30,9 @@ public class ZonaAlmacen
     /// <summary>
     /// Nombre único de la zona
     /// </summary>
+    [Nombre]
+    [Formulario(indice: 1, ancho: 100)]
+    [Tabla(indice: 1)]
     public string Nombre { get; set; }
     // [i] [a] [d] 
     // R 500
@@ -34,6 +40,8 @@ public class ZonaAlmacen
     /// <summary>
     /// Identificaodr único del archivo al que pertenece la zona
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("Archivo", true)]
     public string ArchivoId { get; set; }
     // [i] [a] [d]
     // R 128
@@ -41,6 +49,8 @@ public class ZonaAlmacen
     /// <summary>
     /// Identificador unico del almacen al que pertenece la zona
     /// </summary>
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("AlmacenArchivo", true)]
     public string AlmacenArchivoId { get; set; }
     // [i] [a] [d]
     // R 128

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using api.comunes.metadatos.atributos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,9 @@ public class AsignacionPermiso
     /// <summary>
     /// Identificador único de la asignación del permiso
     /// </summary>
+    [Id]
+    [Formulario(indice: 1, visible: false)]
+    [Tabla(indice: 0, visible: false)]
     public string Id { get; set; }
 
     /// <summary>

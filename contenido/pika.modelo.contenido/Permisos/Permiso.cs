@@ -1,4 +1,5 @@
-﻿using pika.modelo.contenido.Permisos;
+﻿using api.comunes.metadatos.atributos;
+using pika.modelo.contenido.Permisos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace pika.modelo.contenido
         /// <summary>
         /// Identificador único del permiso
         /// </summary>
+        [Id]
+        [Formulario(indice: 1, visible: false)]
+        [Tabla(indice: 0, visible: false)]
         public string Id { get; set; }
 
         /// <summary>

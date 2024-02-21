@@ -32,7 +32,9 @@ public class RedSocial
     /// <summary>
     /// Tipo de archivo del catálogo
     /// </summary>
-    [UsoCatalogo(idCatalogo: nameof(TipoRedSocial))]
+    //[UsoCatalogo(idCatalogo: nameof(TipoRedSocial))]
+    [Tabla(indice: 0, visible: true)]
+    [UsoCatalogoAttribute("TipoRedSocial", true)]
     public string TipoRedSocialId { get; set; }
     // [i] [a]
     // R 128
