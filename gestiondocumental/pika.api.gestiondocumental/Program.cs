@@ -8,6 +8,19 @@ namespace pika.api.gestiondocumental
 {
     public class Program
     {
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<DbContextGestionDocumental>())
+                {
+                    context.Database.Migrate();
+                }
+            }
+        }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +60,8 @@ namespace pika.api.gestiondocumental
             builder.Services.AddServiciosEntidadAPI();
 
             var app = builder.Build();
+
+            UpdateDatabase(app);
 
             // Añadir la extensión para los servicios de API genérica
             app.UseEntidadAPI();

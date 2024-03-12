@@ -8,8 +8,23 @@ using Serilog;
 
 namespace pika.api.contenido
 {
+
+
     public class Program
     {
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<DbContextContenido>())
+                {
+                    context.Database.Migrate();
+                }
+            }
+        }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -43,10 +58,10 @@ namespace pika.api.contenido
             builder.Services.AddTransient<ICouchServiciosVersion, ServicioVersion>();*/
 
             builder.Services.AddCouchContext<VersionCouchDbContext>(builder => builder
-        .EnsureDatabaseExists()
-        .UseEndpoint(configuration.GetValue<string>("CouchDB:endpoint"))
-        .UseBasicAuthentication(username: configuration.GetValue<string>("CouchDB:username"),
-        password: configuration.GetValue<string>("CouchDB:password")));
+                .EnsureDatabaseExists()
+                .UseEndpoint(configuration.GetValue<string>("CouchDB:endpoint"))
+                .UseBasicAuthentication(username: configuration.GetValue<string>("CouchDB:username"),
+                password: configuration.GetValue<string>("CouchDB:password")));
 
             builder.Services.AddControllers();
 
@@ -63,6 +78,8 @@ namespace pika.api.contenido
             builder.Services.AddServiciosEntidadAPI();
 
             var app = builder.Build();
+
+            UpdateDatabase(app);
 
             // Añadir la extensión para los servicios de API genérica
             app.UseEntidadAPI();

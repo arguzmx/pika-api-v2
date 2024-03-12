@@ -22,6 +22,7 @@ public class DbContextGestionDocumental : DbContext
     public const string TablaPrestamo = "gd$prestamo";
     public const string TablaUnidadAdministrativa = "gd$unidadadministrativa";
 
+
     public DbContextGestionDocumental(DbContextOptions<DbContextGestionDocumental> options) : base(options)
     {
 

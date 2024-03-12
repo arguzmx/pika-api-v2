@@ -1,7 +1,6 @@
 ﻿using pika.api.identity.models;
 using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
-using Microsoft.AspNetCore.Components.Forms;
 using OpenIddict.EntityFrameworkCore.Models;
 
 namespace pika.api.identity;
@@ -25,6 +24,7 @@ public class Worker : IHostedService
 
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
         var clienteInterproceso = await manager.FindByClientIdAsync("pika-interservicio");
+        var clienteUsuarioContrasena = await manager.FindByClientIdAsync("pika-usuario-contrasena");
         var secretoInterproceso = _configuration.GetValue<string>("secretos:cliente-interproceso");
 
         if (clienteInterproceso == null)
@@ -39,14 +39,31 @@ public class Worker : IHostedService
                     Permissions.Endpoints.Token,
                     Permissions.GrantTypes.ClientCredentials
                 }
-            });
+            }, cancellationToken);
         } else
         {
-            var x = clienteInterproceso.GetType().Name;
-
             var def  = (OpenIddictEntityFrameworkCoreApplication)clienteInterproceso;
             def.ClientSecret = secretoInterproceso;
-            await manager.UpdateAsync(def);
+            await manager.UpdateAsync(def, cancellationToken);
+        }
+
+        if (clienteUsuarioContrasena == null)
+        {
+            await manager.CreateAsync(new OpenIddictApplicationDescriptor
+            {
+                ClientId = "pika-usuario-contrasena",
+                DisplayName = "Servicio usuarios PIKA",
+                Permissions =
+                {
+                    Permissions.Endpoints.Token,
+                    Permissions.GrantTypes.Password
+                }
+            }, cancellationToken);
+        }
+        else
+        {
+            var def = (OpenIddictEntityFrameworkCoreApplication)clienteUsuarioContrasena;
+            await manager.UpdateAsync(def, cancellationToken);
         }
     }
 

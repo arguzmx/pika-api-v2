@@ -1,10 +1,6 @@
 using pika.api.identity.models;
 using Microsoft.AspNetCore.Identity;
-using System.Configuration;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
 
