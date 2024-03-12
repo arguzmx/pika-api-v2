@@ -1,8 +1,11 @@
 using api.comunes;
 using api.comunes.modelos.reflectores;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using pika.servicios.gestiondocumental.dbcontext;
 using Serilog;
+using System.Text;
 
 namespace pika.api.gestiondocumental
 {
@@ -58,6 +61,25 @@ namespace pika.api.gestiondocumental
 
             // Añadir la extensión para los servicios de API genérica
             builder.Services.AddServiciosEntidadAPI();
+
+
+            //builder.Services.AddAuthentication(opt => {
+            //    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //.AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = "https://localhost:5001",
+            //        ValidAudience = "https://localhost:5001",
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@830"))
+            //    };
+            //});
 
             var app = builder.Build();
 
