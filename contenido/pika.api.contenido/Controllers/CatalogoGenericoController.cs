@@ -1,10 +1,12 @@
 ﻿using api.comunes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace pika.api.contenido.Controllers
 {
 
     [ApiController]
+    [Authorize]
     public class CatalogoGenericoController : ControladorCatalogoGenerico
     {
         private ILogger<CatalogoGenericoController> _logger;

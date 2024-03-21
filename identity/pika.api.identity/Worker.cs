@@ -57,7 +57,7 @@ public class Worker : IHostedService
                 {
                     Permissions.Endpoints.Token,
                     Permissions.GrantTypes.Password
-                }
+                },
             }, cancellationToken);
         }
         else

@@ -52,7 +52,7 @@ public abstract class ControladorCatalogoGenerico : ControladorBaseGenerico
     private async Task<string?> IdiomaCatalogo(string? idioma)
     {
 
-        string? i = idioma ?? Idioma();
+        string? i = idioma ?? Idioma;
         
         if(!string.IsNullOrEmpty(i))
         {

@@ -110,27 +110,10 @@ public class EntidadAPIMiddleware
 
         try
         {
-#pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
-            var service = (IServicioCatalogoAPI)Activator.CreateInstance(tt, paramArray);
-#pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
+            var service = (IServicioCatalogoAPI)Activator.CreateInstance(tt, paramArray)!;
             if (service != null)
             {
                 var contexto = context.ObtieneContextoUsuario();
-#if !DEBUG
-                if (service.RequiereAutenticacion)
-                {
-                    if (string.IsNullOrEmpty(contexto.UsuarioId))
-                    {
-                        await ReturnMiddlewareError(context, new ErrorMiddlewareGenerico()
-                        {
-                            Entidad = entidad,
-                            Error = ErrorMiddlewareGenerico.ERROR_SIN_AUTENTICACION_BEARER,
-                            HttpCode = 401
-                        });
-                    }
-                }
-#endif
-
                 service.EstableceContextoUsuarioAPI(contexto);
                 context.Request.HttpContext.Items.Add(GenericCatalogAPIServiceKey, service);
             }
@@ -198,27 +181,10 @@ public class EntidadAPIMiddleware
 
         try
         {
-#pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
-            var service = (IServicioEntidadAPI)Activator.CreateInstance(tt, paramArray);
-#pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
+            var service = (IServicioEntidadAPI)Activator.CreateInstance(tt, paramArray)!;
             if (service != null)
             {
                 var contexto =  context.ObtieneContextoUsuario();
-
-#if !DEBUG
-                if (service.RequiereAutenticacion)
-                {
-                    if (string.IsNullOrEmpty(contexto.UsuarioId))
-                    {
-                        await ReturnMiddlewareError(context, new ErrorMiddlewareGenerico()
-                        {
-                            Entidad = entidad,
-                            Error = ErrorMiddlewareGenerico.ERROR_SIN_AUTENTICACION_BEARER,
-                            HttpCode = 401
-                        });
-                    }
-                }
-#endif
                 service.EstableceContextoUsuarioAPI(contexto);
                 context.Request.HttpContext.Items.Add(GenericAPIServiceKey, service);
             }

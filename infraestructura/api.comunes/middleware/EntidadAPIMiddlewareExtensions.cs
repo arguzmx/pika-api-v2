@@ -52,15 +52,15 @@ public static class EntidadAPIMiddlewareExtensions
     /// <returns></returns>
     public static ContextoUsuario ObtieneContextoUsuario(this HttpContext context)
     {
-        var demo = AtributosSeguridadJWT(context);
+        var autenticacion = AtributosSeguridadJWT(context);
         ContextoUsuario contextoUsuario = new()
         {
             DominioId = context.Request.Headers?[DOMINIOHEADER],
             Idioma = context.Request.Headers?[IDIOMAHEADER],
             UOrgId = context.Request.Headers?[UORGHEADER],
-            UsuarioId = "UsuarioId",
-            Clains = demo.claims,
-            TokenAutenticacion = demo.token
+            UsuarioId = autenticacion.usuarioId,
+            Clains = autenticacion.claims,
+            TokenAutenticacion = autenticacion.token
         };
         return contextoUsuario;
     }
@@ -77,13 +77,16 @@ public static class EntidadAPIMiddlewareExtensions
         string? usuarioId = null;
         List<Claim>? claims = null;
 
-        string? authHeader = context.Request.Headers?[UORGHEADER];
+        string? authHeader = context.Request.Headers?[JWTAHEADER];
         if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer"))
         {
             token = authHeader.Split(" ")[1];
             var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
             claims = jwt.Claims.ToList();
-            usuarioId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            usuarioId = claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            if(string.IsNullOrEmpty(usuarioId)) {
+                usuarioId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            }
         }
 
         return (token, usuarioId, claims);
