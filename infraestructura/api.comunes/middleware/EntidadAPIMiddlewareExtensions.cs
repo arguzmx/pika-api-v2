@@ -52,6 +52,19 @@ public static class EntidadAPIMiddlewareExtensions
     /// <returns></returns>
     public static ContextoUsuario ObtieneContextoUsuario(this HttpContext context)
     {
+
+#if DEBUG
+        return new ContextoUsuario()
+        {
+            DominioId = context.Request.Headers?[DOMINIOHEADER],
+            Idioma = context.Request.Headers?[IDIOMAHEADER],
+            UOrgId = context.Request.Headers?[UORGHEADER],
+            UsuarioId = Guid.Empty.ToString(),
+            Clains = new List<Claim>(),
+            TokenAutenticacion = "token"
+        };
+#endif
+
         var autenticacion = AtributosSeguridadJWT(context);
         ContextoUsuario contextoUsuario = new()
         {
