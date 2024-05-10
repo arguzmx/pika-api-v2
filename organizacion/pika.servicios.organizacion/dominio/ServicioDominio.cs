@@ -1,4 +1,5 @@
 ﻿using api.comunes.metadatos;
+using api.comunes.modelos.interpretes;
 using api.comunes.modelos.modelos;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
@@ -21,9 +22,13 @@ namespace pika.servicios.organizacion.dominio
     public class ServicioDominio : ServicioEntidadGenericaBase<Dominio, DominioInsertar, DominioActualizar, DominioDespliegue, string>,
         IServicioEntidadAPI, IServicioDominio
     {
-
-        public ServicioDominio(DbContextOrganizacion context, ILogger<ServicioDominio> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.Dominios, logger, Reflector, cache)
+        private DbContextOrganizacion localContext;
+        public ServicioDominio(DbContextOrganizacion context, ILogger<ServicioDominio> logger,
+            IReflectorEntidadesAPI Reflector, IDistributedCache cache) 
+            : base(context, context.Dominios, logger, Reflector, cache)
         {
+            interpreteConsulta = new InterpreteConsultaMySQL();
+            localContext = context;
         }
 
 
@@ -77,10 +82,10 @@ namespace pika.servicios.organizacion.dominio
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            var add = data.Deserialize<DominioInsertar>(JsonAPIDefaults());
-            var temp = await this.Insertar(add);
-            RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
-            return respuesta;
+                var add = data.Deserialize<DominioInsertar>(JsonAPIDefaults());
+                var temp = await this.Insertar(add);
+                RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
+                return respuesta;
         }
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaAPI(Consulta consulta)
@@ -248,7 +253,32 @@ namespace pika.servicios.organizacion.dominio
             };
             return archivo;
         }
+        public override async Task<(List<Dominio> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+        {
+            await Task.Delay(0);
 
+            Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(Dominio));
+            string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextOrganizacion.TABLA_DOMINIO);
+
+            int? total = null;
+            List<Dominio> elementos = localContext.Dominios.FromSqlRaw(query).ToList();
+
+            if (consulta.Contar)
+            {
+                query = await this.PorContar(query);
+                total = localContext.Database.SqlQueryRaw<int>(query).ToArray().First();
+            }
+
+
+            if (elementos != null)
+            {
+                return new(elementos, total);
+            }
+            else
+            {
+                return new(new List<Dominio>(), total); ;
+            }
+        }
         #endregion
 
     }

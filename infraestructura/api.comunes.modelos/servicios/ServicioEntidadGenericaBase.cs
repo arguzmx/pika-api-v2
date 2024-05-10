@@ -8,6 +8,7 @@ using api.comunes.modelos.reflectores;
 using api.comunes.modelos.abstracciones;
 using Microsoft.Extensions.Caching.Distributed;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace api.comunes.modelos.servicios;
 
@@ -487,6 +488,17 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     public virtual Entidad EntidadDespliegue()
     {
         throw new NotImplementedException();
+    }
+
+    public virtual async Task<string> PorContar(string query)
+    {
+        if (query.Contains("ORDER"))
+        {
+            query = query.Split("ORDER")[0];
+            query = $"{query.Replace("*", "count(*)")}";
+        }
+        
+        return query;
     }
 }
 
