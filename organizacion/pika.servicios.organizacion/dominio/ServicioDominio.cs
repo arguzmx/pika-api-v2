@@ -82,20 +82,10 @@ namespace pika.servicios.organizacion.dominio
 
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
-            try
-            {
                 var add = data.Deserialize<DominioInsertar>(JsonAPIDefaults());
                 var temp = await this.Insertar(add);
                 RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
                 return respuesta;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-            
-            
         }
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaAPI(Consulta consulta)
@@ -275,8 +265,7 @@ namespace pika.servicios.organizacion.dominio
 
             if (consulta.Contar)
             {
-                query = query.Split("ORDER")[0];
-                query = $"{query.Replace("*", "count(*)")}";
+                query = await this.PorContar(query);
                 total = localContext.Database.SqlQueryRaw<int>(query).ToArray().First();
             }
 
