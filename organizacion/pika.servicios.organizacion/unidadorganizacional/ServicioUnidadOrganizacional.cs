@@ -1,4 +1,5 @@
 ﻿using api.comunes.metadatos;
+using api.comunes.modelos.interpretes;
 using api.comunes.modelos.modelos;
 using api.comunes.modelos.reflectores;
 using api.comunes.modelos.respuestas;
@@ -18,9 +19,14 @@ namespace pika.servicios.organizacion.unidadorganizacional;
 public class ServicioUnidadOrganizacional : ServicioEntidadGenericaBase<UnidadOrganizacional, UnidadOrganizacionalInsertar, UnidadOrganizacionalActualizar, UnidadOrganizacionalDespliegue, string>,
 IServicioEntidadAPI, IServicioUnidadOrganizacional
 {
-
-    public ServicioUnidadOrganizacional(DbContextOrganizacion context, ILogger<ServicioUnidadOrganizacional> logger, IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.UnidadesOrganizacionales, logger, Reflector, cache)
+    private DbContextOrganizacion localContext;
+    public ServicioUnidadOrganizacional(DbContextOrganizacion context, 
+        ILogger<ServicioUnidadOrganizacional> logger, IReflectorEntidadesAPI Reflector,
+        IDistributedCache cache) : base(context, context.UnidadesOrganizacionales,
+            logger, Reflector, cache)
     {
+        interpreteConsulta = new InterpreteConsultaMySQL();
+        localContext = context;
     }
 
 
@@ -227,7 +233,32 @@ IServicioEntidadAPI, IServicioUnidadOrganizacional
         };
         return archivo;
     }
+    public override async Task<(List<UnidadOrganizacional> Elementos, int? Total)> ObtienePaginaElementos(Consulta consulta)
+    {
+        await Task.Delay(0);
 
+        Entidad entidad = reflectorEntidades.ObtieneEntidad(typeof(UnidadOrganizacional));
+        string query = interpreteConsulta.CrearConsulta(consulta, entidad, DbContextOrganizacion.TABLA_UNIDADES_ORG);
+
+        int? total = null;
+        List<UnidadOrganizacional> elementos = localContext.UnidadesOrganizacionales.FromSqlRaw(query).ToList();
+
+        if (consulta.Contar)
+        {
+            query = await this.PorContar(query);
+            total = localContext.Database.SqlQueryRaw<int>(query).ToArray().First();
+        }
+
+
+        if (elementos != null)
+        {
+            return new(elementos, total);
+        }
+        else
+        {
+            return new(new List<UnidadOrganizacional>(), total); ;
+        }
+    }
     #endregion
 }
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
