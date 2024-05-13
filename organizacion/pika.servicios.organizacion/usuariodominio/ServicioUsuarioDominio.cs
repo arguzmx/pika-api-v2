@@ -20,6 +20,7 @@ namespace pika.servicios.organizacion.usuariodominio
         public ServicioUsuarioDominio(DbContextOrganizacion context, ILogger<ServicioUsuarioDominio> logger,
             IReflectorEntidadesAPI Reflector, IDistributedCache cache) : base(context, context.UsuarioDominios, logger, Reflector, cache )
         {
+
         }
 
 
@@ -33,8 +34,10 @@ namespace pika.servicios.organizacion.usuariodominio
 
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
-            var update = data.Deserialize<UsuarioDominioActualizar>(JsonAPIDefaults());
-            return await this.Actualizar((string)id, update);
+            //un usuario de dominio no se puede actualizar,
+            //solo se crea o se elimina la relación de hecho el
+            //método de actualización en el crud debe devolver NotImplementedException
+            throw new NotImplementedException(); 
         }
 
         public async Task<Respuesta> EliminarAPI(object id)
@@ -82,17 +85,18 @@ namespace pika.servicios.organizacion.usuariodominio
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaAPI(Consulta consulta)
         {
-            var temp = await this.Pagina(consulta);
-            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
-
-            return respuesta;
+            //un usuario de dominio no se puede actualizar,
+            //solo se crea o se elimina la relación de hecho el
+            //método de actualización en el crud debe devolver NotImplementedException
+            throw new NotImplementedException(); 
         }
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaDespliegueAPI(Consulta consulta)
         {
-            var temp = await this.PaginaDespliegue(consulta);
-            RespuestaPayload<PaginaGenerica<object>> respuesta = JsonSerializer.Deserialize<RespuestaPayload<PaginaGenerica<object>>>(JsonSerializer.Serialize(temp));
-            return respuesta;
+            //un usuario de dominio no se puede actualizar,
+            //solo se crea o se elimina la relación de hecho el
+            //método de actualización en el crud debe devolver NotImplementedException
+            throw new NotImplementedException();
         }
 
         public async Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijoAPI(Consulta consulta, string tipoPadre, string id)
