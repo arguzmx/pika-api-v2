@@ -23,7 +23,7 @@ public class RedSocial
     /// URL o identificador de la red
     /// </summary>
     [Nombre]
-    [Formulario(indice: 1, ancho: 100)]
+    [Formulario(indice: 1, ancho: 500)]
     [Tabla(indice: 1)]
     public string Url { get; set; }
     // [i] [a] [d] 
