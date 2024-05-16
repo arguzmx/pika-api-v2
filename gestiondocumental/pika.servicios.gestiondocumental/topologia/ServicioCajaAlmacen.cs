@@ -205,12 +205,11 @@ namespace pika.servicios.gestiondocumental.topologia
         public override async Task<ResultadoValidacion> ValidarActualizar(string id, CajaAlmacenActualizar actualizar, CajaAlmacen original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.CajaAlmacens.AnyAsync(a => a.Id == id);
+            bool encontrado = await DB.CajaAlmacens.AnyAsync(a => a.Nombre == actualizar.Nombre);
 
-            if (!encontrado)
+            if (encontrado)
             {
-                resultado.Error = "id".ErrorProcesoNoEncontrado();
-
+                resultado.Error = "Nombre".ErrorProcesoDuplicado();
             }
             else
             {
