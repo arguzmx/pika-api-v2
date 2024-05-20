@@ -169,7 +169,7 @@ namespace pika.servicios.gestiondocumental.archivos
             // El nombre del archivo debe ser único combindaco con el valor de UOrgId y DominioId
 
             ResultadoValidacion resultado = new ();
-            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario!.UOrgId
+            bool encontrado = await DB.Archivos.AnyAsync(a => a.UOrgId == _contextoUsuario.UOrgId
                     && a.DominioId == _contextoUsuario.DominioId
                     && a.Nombre == data.Nombre);
             bool encontrado2 = await DB.TipoArchivo.AnyAsync(a => a.Id == data.TipoArchivoId);
