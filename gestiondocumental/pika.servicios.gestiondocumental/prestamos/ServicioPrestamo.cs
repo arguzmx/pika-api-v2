@@ -164,14 +164,11 @@ namespace pika.servicios.gestiondocumental.prestamos
         public override async Task<ResultadoValidacion> ValidarInsertar(PrestamoInsertar data)
         {
             ResultadoValidacion resultado = new();
-
-
-            bool encontrado = false;
-
+            bool encontrado = await DB.Prestamos.AnyAsync(a => a.Folio == data.Folio && a.ArchivoId == data.ArchivoId);
 
             if (encontrado)
             {
-                resultado.Error = "Nombre".ErrorProcesoDuplicado();
+                resultado.Error = "Folio".ErrorProcesoDuplicado();
             }
             else
             {
@@ -205,7 +202,7 @@ namespace pika.servicios.gestiondocumental.prestamos
         public override async Task<ResultadoValidacion> ValidarActualizar(string id, PrestamoActualizar actualizacion, Prestamo original)
         {
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Prestamos.AnyAsync(a => a.Id == id); 
+            bool encontrado = await DB.Prestamos.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -213,7 +210,15 @@ namespace pika.servicios.gestiondocumental.prestamos
             }
             else
             {
+                encontrado = await DB.Prestamos.AnyAsync(a => a.Folio == actualizacion.Folio && a.ArchivoId == actualizacion.ArchivoId);
+                if (encontrado)
+                {
+                    resultado.Error = "Folio".ErrorProcesoDuplicado();
+                }
+                else
+                {
                     resultado.Valido = true;
+                }
             }
 
             return resultado;
