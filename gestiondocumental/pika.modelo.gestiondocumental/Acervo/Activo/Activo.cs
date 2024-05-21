@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 using api.comunes.metadatos.atributos;
+using pika.modelo.gestiondocumental.UnidadesAdministrativas;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -271,7 +272,16 @@ public class Activo
     public string? ContenidoId { get; set; }
     // 128
 
-    /*
+
+    [JsonIgnore]
+    [XmlIgnore]
+    public UnidadAdministrativa UnidadAdministrativa { get; set; }
+
+    [JsonIgnore]
+    [XmlIgnore]
+    public TipoArchivo TipoArchivoActual { get; set; }
+
+
     [JsonIgnore]
     [XmlIgnore]
     public Archivo ArchivoActual { get; set; }
@@ -279,7 +289,11 @@ public class Activo
     [JsonIgnore]
     [XmlIgnore]
     public Archivo ArchivoOrigen { get; set; }
-    */
+
+
+    [JsonIgnore]
+    [XmlIgnore]
+    public SerieDocumental SerieDocumental { get; set; }
 
     [JsonIgnore]
     [XmlIgnore]
