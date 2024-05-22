@@ -114,4 +114,12 @@ public class Archivo
 
     [XmlIgnore, JsonIgnore]
     public List<Prestamo>? Prestamos { get; set; }
+
+    [JsonIgnore]
+    [XmlIgnore]
+    public Activo ActivoActual { get; set; }
+    
+    [JsonIgnore]
+    [XmlIgnore]
+    public Activo ActivoOrigen { get; set; }
 }

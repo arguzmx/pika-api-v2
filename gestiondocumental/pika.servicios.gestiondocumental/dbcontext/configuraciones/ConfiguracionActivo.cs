@@ -45,8 +45,10 @@ namespace pika.servicios.gestiondocumental.dbcontext.configuraciones
             builder.Property(e => e.DiasTransferir);
             builder.Property(e => e.TieneContenido).IsRequired();
             builder.Property(e => e.ContenidoId).HasMaxLength(128);
-            //builder.HasOne(x => x.ArchivoActual).falta que archivo tenga propiedad de navegacion a activo
-            //builder.HasOne(x => x.ArchivoOrigen).falta que archivo tenga propiedad de navegacion a activo
+            builder.HasOne(x => x.ArchivoActual).WithOne(y => y.ActivoActual);
+            builder.HasOne(x => x.ArchivoOrigen).WithOne(y=>y.ActivoOrigen);
+            //falta que archivo tenga propiedad de navegacion a activo
+            ////falta que archivo tenga propiedad de navegacion a activo
             builder.HasOne(x => x.CuadroClasificacion).WithMany(y => y.Activos).HasForeignKey(z => z.CuadroClasificacionId).OnDelete(DeleteBehavior.Cascade);
         }
     }
