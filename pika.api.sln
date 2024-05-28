@@ -49,7 +49,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.comunes.metadatos", "in
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mysql.comunes", "infraestructura\mysql.comunes\mysql.comunes.csproj", "{709EF50B-E4D2-4D35-B585-6C20819AE4FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.configuracion", "infraestructura\api.configuracion\api.configuracion.csproj", "{E19641AE-7F60-4F98-B804-41DEF5BFDE39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.configuracion", "infraestructura\api.configuracion\api.configuracion.csproj", "{E19641AE-7F60-4F98-B804-41DEF5BFDE39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seguridad", "seguridad", "{933C619B-649D-41D3-BF21-0259AB62FD33}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "seguridad.api", "seguridad\pika.seguridad.api\seguridad.api.csproj", "{A8968CAA-C8C6-4FF5-AE37-5BE82CF0A172}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +129,10 @@ Global
 		{E19641AE-7F60-4F98-B804-41DEF5BFDE39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E19641AE-7F60-4F98-B804-41DEF5BFDE39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E19641AE-7F60-4F98-B804-41DEF5BFDE39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8968CAA-C8C6-4FF5-AE37-5BE82CF0A172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8968CAA-C8C6-4FF5-AE37-5BE82CF0A172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8968CAA-C8C6-4FF5-AE37-5BE82CF0A172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8968CAA-C8C6-4FF5-AE37-5BE82CF0A172}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,6 +158,8 @@ Global
 		{2FC6AE10-2A9C-4AAF-B536-E2098A4A3904} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
 		{709EF50B-E4D2-4D35-B585-6C20819AE4FA} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
 		{E19641AE-7F60-4F98-B804-41DEF5BFDE39} = {29434CF5-2D46-442D-AB3D-94E426F0A66B}
+		{933C619B-649D-41D3-BF21-0259AB62FD33} = {5D5E98E8-08B8-42E3-A0CC-C7D17B34024A}
+		{A8968CAA-C8C6-4FF5-AE37-5BE82CF0A172} = {933C619B-649D-41D3-BF21-0259AB62FD33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5708F7F9-1C1E-462C-9F2C-661078716A4D}
