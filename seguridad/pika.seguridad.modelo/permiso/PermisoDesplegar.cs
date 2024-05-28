@@ -1,12 +1,6 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System.Text.Json.Serialization;
+﻿namespace pika.seguridad.modelo.permiso;
 
-namespace pika.seguridad.modelo;
-
-/// <summary>
-/// Define un periso aplicable 
-/// </summary>
-public class Permiso
+public class PermisoDesplegar
 {
     /// <summary>
     /// Identificador único del permido
@@ -24,15 +18,10 @@ public class Permiso
     public Guid AplicacionId { get; set; }
 
     /// <summary>
-    /// Determina el ámbito de apliación del permiso
-    /// </summary>
-    public AmbitoPermiso Ambito { get; set; }
-
-
-    /// <summary>
     /// Nombre del permiso para la UI, esto será calcolado en base al idioa
     /// </summary>
     public required string Nombre { get; set; }
+
 
     /// <summary>
     /// Descripción del permiso para la UI, esto será calcolado en base al idioa
@@ -41,15 +30,7 @@ public class Permiso
 
 
     /// <summary>
-    /// Aplciació a la que perenece el módulo
+    /// Determina el ámbito de apliación del permiso
     /// </summary>
-    [JsonIgnore]
-    public Aplicacion Aplicacion { get; set; }
-
-    /// <summary>
-    /// Módulo al que perenece el permiso
-    /// </summary>
-    [JsonIgnore]
-    public Modulo Modulo { get; set; }
-
+    public AmbitoPermiso Ambito { get; set; }
 }
