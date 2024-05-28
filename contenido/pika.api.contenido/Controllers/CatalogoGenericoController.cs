@@ -6,7 +6,7 @@ namespace pika.api.contenido.Controllers
 {
 
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class CatalogoGenericoController : ControladorCatalogoGenerico
     {
         private ILogger<CatalogoGenericoController> _logger;

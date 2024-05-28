@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace pika.api.contenido.Controllers
 {
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class EntidadGenericaController : ControladorEntidadGenerico
     {
         private ILogger<EntidadGenericaController> _logger;
