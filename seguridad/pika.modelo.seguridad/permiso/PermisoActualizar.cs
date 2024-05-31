@@ -8,7 +8,7 @@ public class PermisoActualizar
     /// <summary>
     /// Identificador único del permido
     /// </summary>
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// Nombre del permiso para la UI, esto será calcolado en base al idioa

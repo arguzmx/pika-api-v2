@@ -18,7 +18,7 @@ public class Modulo
     [Id]
     [Formulario(visible: false)]
     [Tabla(indice: 0, visible: false)]
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// Identificador único de la aplicación a la que pertenece el módulo
@@ -26,7 +26,7 @@ public class Modulo
     [Id]
     [Formulario(visible: false)]
     [Tabla(indice:1, visible: false)]
-    public Guid AplicacionId { get; set; }
+    public string AplicacionId { get; set; }
 
     /// <summary>
     /// Nombre del módulo para la UI, esto será calcolado en base al idioa

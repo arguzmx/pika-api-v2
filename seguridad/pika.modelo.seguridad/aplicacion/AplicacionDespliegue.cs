@@ -11,7 +11,7 @@ public class AplicacionDespliegue
     /// <summary>
     /// ID único de la aplicaión
     /// </summary>
-    public required Guid Id { get; set; }
+    public required string Id { get; set; }
 
     /// <summary>
     /// Nombre del módulo para la UI

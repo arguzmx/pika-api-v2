@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace pika.servicios.seguridad.data.migrations
+namespace pika.servicios.seguridad.pika.servicios.seguridad.data.migration
 {
     /// <inheritdoc />
-    public partial class creaciondelosModelosdeSeguridad : Migration
+    public partial class creacionModuloSeguridad : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +17,8 @@ namespace pika.servicios.seguridad.data.migrations
                 name: "seg$aplicacion",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(128)", maxLength: 128, nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descripcion = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
@@ -34,8 +34,10 @@ namespace pika.servicios.seguridad.data.migrations
                 name: "seg$modulo",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(128)", maxLength: 128, nullable: false, collation: "ascii_general_ci"),
-                    AplicacionId = table.Column<Guid>(type: "char(128)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AplicacionId = table.Column<string>(type: "varchar(128)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descripcion = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
@@ -57,9 +59,12 @@ namespace pika.servicios.seguridad.data.migrations
                 name: "seg$permiso",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(128)", maxLength: 128, nullable: false, collation: "ascii_general_ci"),
-                    ModuloId = table.Column<Guid>(type: "char(128)", nullable: false, collation: "ascii_general_ci"),
-                    AplicacionId = table.Column<Guid>(type: "char(128)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ModuloId = table.Column<string>(type: "varchar(128)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AplicacionId = table.Column<string>(type: "varchar(128)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descripcion = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
@@ -88,9 +93,12 @@ namespace pika.servicios.seguridad.data.migrations
                 name: "seg$rol",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(128)", maxLength: 128, nullable: false, collation: "ascii_general_ci"),
-                    ModuloId = table.Column<Guid>(type: "char(128)", nullable: false, collation: "ascii_general_ci"),
-                    AplicacionId = table.Column<Guid>(type: "char(128)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ModuloId = table.Column<string>(type: "varchar(128)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AplicacionId = table.Column<string>(type: "varchar(128)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Nombre = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descripcion = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)

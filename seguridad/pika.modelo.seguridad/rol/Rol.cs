@@ -17,21 +17,21 @@ public class Rol
     [Id]
     [Formulario(indice: 1, visible: false)]
     [Tabla(indice: 0, visible: false)]
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// Identificador único del módulo al que pertenece el rol 
     /// </summary>
     [Formulario(visible: false)]
     [Tabla(indice: 1, visible: false)]
-    public Guid ModuloId { get; set; }
+    public string ModuloId { get; set; }
 
     /// <summary>
     /// Identificador único de la aplicación del módulo con el rol 
     /// </summary>
     [Formulario(visible: false)]
     [Tabla(indice: 2, visible: false)]
-    public Guid AplicacionId { get; set; }
+    public string AplicacionId { get; set; }
 
     /// <summary>
     /// Nombre del rol para la UI, esto será calcolado en base al idioma o bien al crear roles personalizados

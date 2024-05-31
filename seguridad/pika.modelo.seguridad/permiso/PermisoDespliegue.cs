@@ -5,17 +5,17 @@ public class PermisoDespliegue
     /// <summary>
     /// Identificador único del permido
     /// </summary>
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// Identificador único del módulo al que pertenece el permiso
     /// </summary>
-    public Guid ModuloId { get; set; }
+    public string ModuloId { get; set; }
 
     /// <summary>
     /// Identificador único de la aplicación del módulo con el permiso
     /// </summary>
-    public Guid AplicacionId { get; set; }
+    public string AplicacionId { get; set; }
 
     /// <summary>
     /// Nombre del permiso para la UI, esto será calcolado en base al idioa

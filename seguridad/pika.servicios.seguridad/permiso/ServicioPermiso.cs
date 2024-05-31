@@ -19,6 +19,8 @@ using api.comunes.modelos.modelos;
 
 namespace pika.servicios.seguridad.permiso
 {
+    [ServicioEntidadAPI(entidad: typeof(Permiso))]
+
     public class ServicioPermiso : ServicioEntidadGenericaBase<Permiso, PermisoInsertar, PermisoActualizar, PermisoDespliegue, string>,
     IServicioEntidadAPI, IServicioPermiso
     {
@@ -188,7 +190,7 @@ namespace pika.servicios.seguridad.permiso
         {
 
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Permisos.AnyAsync(a => a.Id == new Guid(id));
+            bool encontrado = await DB.Permisos.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -209,7 +211,7 @@ namespace pika.servicios.seguridad.permiso
         {
             ResultadoValidacion resultado = new();
 
-            bool duplicado = await DB.Permisos.AnyAsync(a => a.Id != new Guid(id) && a.Nombre.Equals(actualizacion.Nombre));
+            bool duplicado = await DB.Permisos.AnyAsync(a => a.Id != id && a.Nombre.Equals(actualizacion.Nombre));
 
             if (duplicado)
             {
@@ -236,7 +238,8 @@ namespace pika.servicios.seguridad.permiso
         {
             Permiso Permiso = new()
             {
-                Id = Guid.NewGuid(),
+
+                Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
                 Descripcion = data.Descripcion,
 

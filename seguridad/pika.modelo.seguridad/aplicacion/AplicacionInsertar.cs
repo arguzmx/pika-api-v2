@@ -8,10 +8,6 @@ namespace pika.modelo.seguridad;
 [ExcludeFromCodeCoverage]
 public class AplicacionInsertar
 {
-    /// <summary>
-    /// ID único de la aplicaión
-    /// </summary>
-    public required Guid Id { get; set; }
 
     /// <summary>
     /// Nombre del módulo para la UI

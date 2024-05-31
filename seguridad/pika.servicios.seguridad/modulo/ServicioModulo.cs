@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 
 namespace pika.servicios.seguridad.modulo
 {
+    [ServicioEntidadAPI(entidad: typeof(Modulo))]
+
     public class ServicioModulo : ServicioEntidadGenericaBase<Modulo, ModuloInsertar, ModuloActualizar, ModuloDespliegue, string>,
     IServicioEntidadAPI, IServicioModulo
     {
@@ -187,7 +189,7 @@ namespace pika.servicios.seguridad.modulo
         {
 
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Modulos.AnyAsync(a => a.Id == new Guid(id));
+            bool encontrado = await DB.Modulos.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -208,7 +210,7 @@ namespace pika.servicios.seguridad.modulo
         {
             ResultadoValidacion resultado = new();
 
-            bool duplicado = await DB.Modulos.AnyAsync(a => a.Id != new Guid(id) && a.Nombre.Equals(actualizacion.Nombre));
+            bool duplicado = await DB.Modulos.AnyAsync(a => a.Id != id && a.Nombre.Equals(actualizacion.Nombre));
 
             if (duplicado)
             {
@@ -234,8 +236,8 @@ namespace pika.servicios.seguridad.modulo
         public override Modulo ADTOFull(ModuloInsertar data)
         {
             Modulo Modulo = new()
-            {
-                Id = Guid.NewGuid(),
+            {                       
+                Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
                 Descripcion = data.Descripcion,
 

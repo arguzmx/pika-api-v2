@@ -10,15 +10,11 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.seguridad;
 using pika.servicios.seguridad.dbcontext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace pika.servicios.seguridad.aplicacion
 {
+    [ServicioEntidadAPI(entidad: typeof(Aplicacion))]
     public class ServicioAplicacion : ServicioEntidadGenericaBase<Aplicacion, AplicacionInsertar, AplicacionActualizar, AplicacionDespliegue, string>,
     IServicioEntidadAPI, IServicioAplicacion
     {
@@ -44,7 +40,7 @@ namespace pika.servicios.seguridad.aplicacion
         public async Task<Respuesta> ActualizarAPI(object id, JsonElement data)
         {
             var update = data.Deserialize<AplicacionActualizar>(JsonAPIDefaults());
-            return await Actualizar((string)id, update);
+            return await ActualizarAplicacion((string)id, update);
         }
 
         public async Task<Respuesta> EliminarAPI(object id)
@@ -85,7 +81,9 @@ namespace pika.servicios.seguridad.aplicacion
         public async Task<RespuestaPayload<object>> InsertarAPI(JsonElement data)
         {
             var add = data.Deserialize<AplicacionInsertar>(JsonAPIDefaults());
+            
             var temp = await Insertar(add);
+            
             RespuestaPayload<object> respuesta = JsonSerializer.Deserialize<RespuestaPayload<object>>(JsonSerializer.Serialize(temp));
             return respuesta;
         }
@@ -188,7 +186,7 @@ namespace pika.servicios.seguridad.aplicacion
         {
 
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Aplicaciones.AnyAsync(a => a.Id == new Guid(id));
+            bool encontrado = await DB.Aplicaciones.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -209,7 +207,7 @@ namespace pika.servicios.seguridad.aplicacion
         {
             ResultadoValidacion resultado = new();
 
-            bool duplicado = await DB.Aplicaciones.AnyAsync(a => a.Id != new Guid(id) && a.Nombre.Equals(actualizacion.Nombre));
+            bool duplicado = await DB.Aplicaciones.AnyAsync(a => a.Id != id && a.Nombre.Equals(actualizacion.Nombre));
 
             if (duplicado)
             {
@@ -236,7 +234,7 @@ namespace pika.servicios.seguridad.aplicacion
         {
             Aplicacion Aplicacion = new()
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
                 Descripcion = data.Descripcion,
 
@@ -253,6 +251,55 @@ namespace pika.servicios.seguridad.aplicacion
                 Descripcion = data.Descripcion
             };
             return AplicacionDespliegue;
+        }
+
+        private async Task<Respuesta> ActualizarAplicacion(string id, AplicacionActualizar data)
+        {
+            var respuesta = new Respuesta();
+            try
+            {
+                if (string.IsNullOrEmpty(id) || data == null)
+                {
+                    respuesta.HttpCode = HttpCode.BadRequest;
+                    return respuesta;
+                }
+
+                Guid idGuid = Guid.Parse(id);
+                Aplicacion actual = _dbSetFull.Find(idGuid);
+
+                if (actual == null)
+                {
+                    respuesta.HttpCode = HttpCode.NotFound;
+                    return respuesta;
+                }
+
+                var resultadoValidacion = await ValidarActualizar(id, data, actual);
+                if (resultadoValidacion.Valido)
+                {
+                    var entidad = ADTOFull(data, actual);
+                    _dbSetFull.Update(entidad);
+                    await _db.SaveChangesAsync();
+
+                    respuesta.Ok = true;
+                    respuesta.HttpCode = HttpCode.Ok;
+                }
+                else
+                {
+                    respuesta.Error = resultadoValidacion.Error;
+                    respuesta.HttpCode = resultadoValidacion.Error?.HttpCode ?? HttpCode.None;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Insertar {ex.Message}");
+                _logger.LogError($"{ex}");
+
+                respuesta.Error = new ErrorProceso() { Codigo = "", HttpCode = HttpCode.ServerError, Mensaje = ex.Message };
+                respuesta.HttpCode = HttpCode.ServerError;
+            }
+
+            return respuesta;
         }
 
 

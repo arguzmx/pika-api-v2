@@ -10,7 +10,7 @@ public class RolDespliegue
     /// <summary>
     /// Identificador único del rol
     /// </summary>
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// Identificador único del módulo al que pertenece el rol 

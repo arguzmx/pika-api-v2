@@ -17,6 +17,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 namespace pika.servicios.seguridad.rol
 {
+    [ServicioEntidadAPI(entidad: typeof(Rol))]
+
     public class ServicioRol : ServicioEntidadGenericaBase<Rol, RolInsertar, RolActualizar, RolDespliegue, string>,
     IServicioEntidadAPI, IServicioRol
     {
@@ -186,7 +188,7 @@ namespace pika.servicios.seguridad.rol
         {
 
             ResultadoValidacion resultado = new();
-            bool encontrado = await DB.Roles.AnyAsync(a => a.Id == new Guid(id));
+            bool encontrado = await DB.Roles.AnyAsync(a => a.Id == id);
 
             if (!encontrado)
             {
@@ -207,7 +209,7 @@ namespace pika.servicios.seguridad.rol
         {
             ResultadoValidacion resultado = new();
 
-            bool duplicado = await DB.Roles.AnyAsync(a => a.Id != new Guid(id) && a.Nombre.Equals(actualizacion.Nombre));
+            bool duplicado = await DB.Roles.AnyAsync(a => a.Id != id && a.Nombre.Equals(actualizacion.Nombre));
 
             if (duplicado)
             {
@@ -234,7 +236,7 @@ namespace pika.servicios.seguridad.rol
         {
             Rol Rol = new()
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 Nombre = data.Nombre,
                 Descripcion = data.Descripcion,
 

@@ -18,7 +18,7 @@ public class Aplicacion
     [Id]
     [Formulario(indice: 1, visible: false)]
     [Tabla(indice: 0, visible: false)]
-    public required Guid Id { get; set; }
+    public required string Id { get; set; }
 
     /// <summary>
     /// Nombre del módulo para la UI

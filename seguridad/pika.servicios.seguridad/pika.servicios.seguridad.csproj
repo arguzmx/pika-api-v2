@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="data\migrations\" />
     <Folder Include="instancias\" />
   </ItemGroup>
 

@@ -8,6 +8,11 @@ namespace pika.modelo.seguridad;
 [ExcludeFromCodeCoverage]
 public class AplicacionActualizar
 {
+
+    /// <summary>
+    /// ID único de la aplicaión
+    /// </summary>
+    public required string Id { get; set; }
     /// <summary>
     /// Nombre del módulo para la UI
     /// </summary>
