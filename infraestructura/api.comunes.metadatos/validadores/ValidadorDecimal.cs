@@ -11,12 +11,12 @@ public class ValidadorDecimal: IValidatableObject
     /// <summary>
     /// Valor mínmo aceptable, si es nulo no se valúa
     /// </summary>
-    public int? Minimo { get; set; }
+    public decimal? Minimo { get; set; }
 
     /// <summary>
     /// Valor máximo aceptable, si es nulo no se valúa
     /// </summary>
-    public int? Maximo { get; set; }
+    public decimal? Maximo { get; set; }
 
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

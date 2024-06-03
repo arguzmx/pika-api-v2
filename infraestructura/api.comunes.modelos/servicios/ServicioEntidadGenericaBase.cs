@@ -8,7 +8,7 @@ using api.comunes.modelos.reflectores;
 using api.comunes.modelos.abstracciones;
 using Microsoft.Extensions.Caching.Distributed;
 using JsonSerializer = System.Text.Json.JsonSerializer;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.IdentityModel.Tokens;
 
 namespace api.comunes.modelos.servicios;
 
@@ -103,9 +103,17 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
         else
         {
             entidad = reflectorEntidades.ObtieneEntidadUI(typeof(DTOFull), typeof(DTOInsert), typeof(DTOUpdate), typeof(DTODespliegue));
+            foreach(var propiedad in entidad.Propiedades.Where(p=>p.Tipo== TipoDatos.ListaSeleccionMultiple || p.Tipo == TipoDatos.ListaSeleccionSimple ))
+            {
+                if(propiedad.Lista!.DatosRemotos = false && !string.IsNullOrEmpty(propiedad.Lista.Id))
+                {
+                    propiedad.Lista.Elementos = await ObtieneListaLocal(propiedad.Lista.Id, propiedad.Lista.Ordenamiento);
+                }
+            }
+
             await _cache.SetStringAsync($"Entidad-{Tipo}", JsonSerializer.Serialize(entidad));
         }
-        return entidad;
+        return entidad!;
     }
 
     public virtual async Task<Respuesta> Actualizar(string id, DTOUpdate data)
@@ -489,6 +497,12 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     {
         throw new NotImplementedException();
     }
+
+    public virtual Task<List<ElementoLista>> ObtieneListaLocal(string clave, OrdenamientoLista ordenamiento)
+    {
+        throw new NotImplementedException();
+    }
+
 
     public virtual async Task<string> PorContar(string query)
     {

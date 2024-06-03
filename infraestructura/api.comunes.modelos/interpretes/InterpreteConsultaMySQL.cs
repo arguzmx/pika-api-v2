@@ -18,7 +18,7 @@ public class InterpreteConsultaMySQL : IInterpreteConsulta
 
         if (consulta.Filtros != null)
         {
-            List<string> condiciones = new();
+            List<string> condiciones = [];
 
             consulta.Filtros.ForEach(filtro =>
             {

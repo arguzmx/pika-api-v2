@@ -28,6 +28,6 @@ namespace api.comunes.metadatos
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TipoDespliegue
     {
-        Default = 0, Oculto = 1
+        Default = 0, Oculto = 1, TextoCorto =2, TextoLargo=3
     }
 }

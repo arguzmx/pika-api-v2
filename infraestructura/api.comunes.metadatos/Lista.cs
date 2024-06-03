@@ -20,9 +20,9 @@ public class Lista
 
 
     /// <summary>
-    /// DEtermina si el endpoint soporta la busqueda parcial de valores
+    /// Endpoint en la api para obtener lso elementos de la lista desde el servidor mediante busqueda parcial de texto
     /// </summary>
-    public bool EndpointBusqueda { get; set; } = false;
+    public string? EndpointBusqueda { get; set; } = null;
 
     /// <summary>
     /// Endpoint en la api para obtener lso elementos de la lista desde el servidor

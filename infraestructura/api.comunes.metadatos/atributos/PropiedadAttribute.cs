@@ -7,31 +7,24 @@
 /// Y determina también si al UI debe tener un tipo de despliegue específico, 
 /// por ejemplo para tipos booleanos puedes ser un checkbox o un switch
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="tipoDato">Tipo de datos asignado</param>
+/// <param name="tipoDespliegue">Tipo de despliegue por defecto</param>
+/// <param name="buscable">Especifica si la propiedad puede utilziare para búsquedas</param>
+/// /// <param name="visible">Especifica si la propiedad es visuble para el usuario</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class PropiedadAttribute : Attribute
+public class PropiedadAttribute(
+    TipoDatos tipoDato = TipoDatos.SinAsignar,
+    TipoDespliegue tipoDespliegue = TipoDespliegue.Default,
+    bool buscable = true, bool visible = true, string? valorDefault = null) : Attribute
 {
-    private TipoDatos _tipoDatos = TipoDatos.SinAsignar;
-    private TipoDespliegue _tipoDespliegue = TipoDespliegue.Default;
-    private bool _buscable = true;
-    private bool _visible = true;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="tipoDato">Tipo de datos asignado</param>
-    /// <param name="tipoDespliegue">Tipo de despliegue por defecto</param>
-    /// <param name="buscable">Especifica si la propiedad puede utilziare para búsquedas</param>
-    /// /// <param name="visible">Especifica si la propiedad es visuble para el usuario</param>
-    public PropiedadAttribute(
-        TipoDatos tipoDato = TipoDatos.SinAsignar, 
-        TipoDespliegue tipoDespliegue = TipoDespliegue.Default,
-        bool buscable = true, bool visible = true)
-    {
-        _tipoDatos = tipoDato;
-        _tipoDespliegue = tipoDespliegue;
-        _buscable = buscable;
-        _visible = visible;
-    }
+    private readonly TipoDatos _tipoDatos = tipoDato;
+    private readonly TipoDespliegue _tipoDespliegue = tipoDespliegue;
+    private readonly bool _buscable = buscable;
+    private readonly bool _visible = visible;
+    private readonly string? _valordefault = valorDefault;
 
 
     /// <summary>
@@ -50,7 +43,7 @@ public class PropiedadAttribute : Attribute
         get { return _tipoDatos; }
     }
 
-    /// <summary>
+    /// <summary>git add 
     /// determina si la propiedad puede utilizarse para búsquedas
     /// </summary>
     public virtual bool Buscable
@@ -65,5 +58,13 @@ public class PropiedadAttribute : Attribute
     public virtual bool Visible
     {
         get { return _visible; }
+    }
+
+    /// <summary>
+    /// Valor defaultpara la propiedad serialziado como JSON
+    /// </summary>
+    public virtual string? ValorDefault
+    {
+        get { return _valordefault; }
     }
 }

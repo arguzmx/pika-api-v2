@@ -4,7 +4,7 @@ public enum RequeridaOperacion
 {
     Ninguna = 0,
     Insertar = 1,
-    Actulizar = 4,
+    Actualizar = 4,
     Elimininar = 8
 }
 
