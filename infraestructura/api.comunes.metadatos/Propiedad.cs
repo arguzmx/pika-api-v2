@@ -8,27 +8,18 @@ public class Propiedad
     /// <summary>
     /// Identificador único de la propiedad, para reflexi{on es el nombre completo del objeto + nombre de la propiedad
     /// </summary>
-    public string Id { get; set; }
+    public required string Id { get; set; }
 
     /// <summary>
     /// Nombre de la propiedad o clave para internacionalización en la UI
     /// </summary>
-    public string Nombre { get; set; }
-
-    /// <summary>
-    /// Determina si el valor es requerido para su llenado
-    /// </summary>
-    public bool Requerida { get; set; }
+    public required string Nombre { get; set; }
 
     /// <summary>
     /// Determina si es posible realizar bpsuquedas sobre la propiedad
     /// </summary>
     public bool Buscable { get; set; }
 
-    /// <summary>
-    /// Determina si es posible realizar ordenamiento sobre la propiedad
-    /// </summary>
-    public bool Ordenable { get; set; }
 
     /// <summary>
     /// Determina si la propieda es visible
@@ -68,9 +59,14 @@ public class Propiedad
     public string? UrlMacroCliente { get; set; }
 
     /// <summary>
-    /// Valor default para la propiedad expresado como el valor serializado en javascript
+    /// Valor default para la propiedad expresado como el valor serializado json
     /// </summary>
     public string? ValorDefault { get; set; }
+
+    /// <summary>
+    /// Elementos de la lista para el tipo lista
+    /// </summary>
+    public Lista? Lista { get; set; }
 
     /// <summary>
     /// Configuración de la propiedad en la vista tabular
@@ -78,22 +74,28 @@ public class Propiedad
     public ConfiguracionTabular? ConfiguracionTabular { get; set; }
 
     /// <summary>
+    /// Indica las operaciones donde la propuedad es requerida
+    /// </summary>
+    public List<RequeridaOperacion> Requerida { get; set; } = [];
+
+    /// <summary>
     /// Validador opcional para propiedades texto
     /// </summary>
     public ValidadorTexto? ValidadorTexto { get; set; }
 
     /// <summary>
-    /// Validador opcional para propiedades numericas
+    /// Validador opcional para propiedades numericas enteras
     /// </summary>
-    public ValidadorNumerico? ValidadorNumerico { get; set; }
+    public ValidadorEntero? ValidadorEntero { get; set; }
+
+    /// <summary>
+    /// Validador opcional para propiedades numericas decimales
+    /// </summary>
+    public ValidadorDecimal? ValidadorDecimal { get; set; }
 
     /// <summary>
     /// Validador opcional para propiedades fecha, fechahora y hora
     /// </summary>
     public ValidadorFecha? ValidadorFecha { get; set; }
 
-    /// <summary>
-    /// Elementos de la lista para el tipo lista
-    /// </summary>
-    public Lista? Lista { get; set; }
 }

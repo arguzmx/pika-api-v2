@@ -5,8 +5,17 @@ namespace api.comunes.metadatos
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TipoDatos
     {
-        Desconocido = 0, Texto = 1, TextoIndexado = 2, Decimal = 3, Entero = 4,
-        Logico = 5, Fecha = 6, Hora = 7, FechaHora = 8, ListaSeleccionSimple = 9, ListaSeleccionMultiple = 10 
+        SinAsignar = 0, 
+        Texto = 1, 
+        TextoIndexado = 2, 
+        Decimal = 3, 
+        Entero = 4,
+        Logico = 5, 
+        Fecha = 6, 
+        Hora = 7, 
+        FechaHora = 8, 
+        ListaSeleccionSimple = 9, 
+        ListaSeleccionMultiple = 10 
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
