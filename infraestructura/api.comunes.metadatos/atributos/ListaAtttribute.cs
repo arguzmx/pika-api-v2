@@ -11,18 +11,30 @@ namespace api.comunes.metadatos.atributos;
 /// <param name="endpoint">Endpoint para obeteners la lista completa</param>
 /// <param name="endpointBusqueda">Endpoint para obtener la lista por busquseda parcial</param>
 /// <param name="claveLocal">Clave única o identificador de la lista para obtener los datos localmente vía el servicio de la entidad</param>
+/// <param name="seleccionMinima ">Mínimo requerido del elementos seleccionados</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 [ExcludeFromCodeCoverage]
 public class ListaAtttribute(bool multiple = false, OrdenamientoLista Ordenamiento = OrdenamientoLista.Alfabetico, bool remota = false, 
-    string? endpoint= null, string? endpointBusqueda = null, string? claveLocal = null) : Attribute
+    string? endpoint= null, bool endpointBusqueda = false, string? claveLocal = null, int seleccionMinima = 0) : Attribute
 {
 
+    private readonly int _seleccionMinima = seleccionMinima;
     private readonly OrdenamientoLista _ordenamiento = Ordenamiento;
     private readonly bool _multiple = multiple;
     private readonly bool _remota = remota;
     private readonly string? _endpoint = endpoint;
-    private readonly string? _endpointBusqueda = endpointBusqueda;
+    private readonly bool _endpointBusqueda = endpointBusqueda;
     private readonly string? _claveLocal = claveLocal;
+
+
+    /// <summary>
+    /// Determina el número mínimo de elementos a seleccionar
+    /// </summary>
+    public virtual int SeleccionMinima
+    {
+        get { return _seleccionMinima; }
+    }
+
 
     /// <summary>
     /// Determian si la lista es de selección múltiple
@@ -49,9 +61,9 @@ public class ListaAtttribute(bool multiple = false, OrdenamientoLista Ordenamien
     }
 
     /// <summary>
-    /// Ruta del endpoint de la lista para busquedas parciales
+    /// Determian si el endpoint soporta busquedas parciales
     /// </summary>
-    public virtual string? EndpointBusqueda
+    public virtual bool EndpointBusqueda
     {
         get { return _endpointBusqueda; }
     }

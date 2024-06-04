@@ -1,10 +1,17 @@
 ﻿namespace api.comunes.metadatos.validadores;
 
+
+/// <summary>
+/// Validador de propeidades decimales
+/// </summary>
+/// <param name="minimo">Valor mínimo, nulo para ignorar</param>
+/// <param name="maximo">Valor máximo, nulo para ignorar</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class ValidarDecimalAttribute(decimal? minimo = null, decimal? maximo = null) : Attribute
+public class ValidarDecimalAttribute(string minimo = "", string maximo ="") : Attribute
 {
-    private readonly decimal? _minimo = minimo;
-    private readonly decimal? _maximo = maximo;
+    private readonly decimal? _minimo = string.IsNullOrEmpty(minimo) ? null : int.Parse(minimo);
+    private readonly decimal? _maximo = string.IsNullOrEmpty(maximo) ? null : int.Parse(maximo);
+
 
     /// <summary>
     /// Valor mínimo aceptable, si es nulo no se valúa

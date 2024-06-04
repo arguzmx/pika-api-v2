@@ -1,11 +1,18 @@
 ﻿namespace api.comunes.metadatos.validadores;
 
+/// <summary>
+/// Validador de propiedades de texto
+/// </summary>
+/// <param name="longitudMinima">Longitus mínima, nulo para ignorar</param>
+/// <param name="longitudMaxima">Longitus maxima, nulo para ignorar</param>
+/// <param name="regexp">Expresión regular, nulo para ignorar</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class ValidarTextoAttribute(int? longitudMinima = null, int? longitudMaxima = null, string? regexp = null): Attribute
+public class ValidarTextoAttribute(string longitudMinima = "", string longitudMaxima = "", string? regexp = ""): Attribute
 {
-    private readonly int? _longitudMinima = longitudMinima;
 
-    private readonly int? _longitudMaxima = longitudMaxima;
+    private readonly int? _longitudMinima = string.IsNullOrEmpty( longitudMinima) ? null : int.Parse(longitudMinima);
+
+    private readonly int? _longitudMaxima = string.IsNullOrEmpty(longitudMaxima) ? null : int.Parse(longitudMaxima);
 
     private readonly string? _regExp = regexp;
 
@@ -33,4 +40,5 @@ public class ValidarTextoAttribute(int? longitudMinima = null, int? longitudMaxi
         get { return _regExp; }
     }
 
+    public int? NullableParameter { get; set; }
 }

@@ -46,6 +46,12 @@ public static class ExtensionesAtributos
                 propiedad.ConfiguracionTabular = t.ObtieneConfiguracionTabular();
             }
 
+            // Obtiene la configuración de l apropiedad en un formulario
+            if (attr is FormularioAttribute f)
+            {
+                propiedad.ConfiguracionFormulario = f.ObtieneConfiguracionFormulario();
+            }
+
             // DEtermin la obligatoriedad de la propiedad en el CRUD
             if (attr is ValidarRequeridaAttribute r)
             {
@@ -85,7 +91,6 @@ public static class ExtensionesAtributos
     {
         propiedad.Nombre = propertyInfo.Name;
         propiedad.Id = propertyInfo.Name;
-        propiedad.TipoDespliegue = a.TipoDespliegue;
         propiedad.Buscable = a.Buscable;
         propiedad.Visible = a.Visible;
         propiedad.ValorDefault = a.ValorDefault;
@@ -107,7 +112,7 @@ public static class ExtensionesAtributos
     {
         return new ValidadorFecha()
         {
-            Maximo = v.Maximo,
+            Maximo = v.Maximo ,
             Minimo = v.Minimo
         };
     }
@@ -140,6 +145,19 @@ public static class ExtensionesAtributos
         };
     }
 
+
+    private static ConfiguracionFormulario? ObtieneConfiguracionFormulario(this FormularioAttribute t)
+    {
+        return new ConfiguracionFormulario()
+        {
+            Ancho = t.Ancho,
+            Indice = t.Indice,
+            Renglon = t.Renglon,
+            TipoDespliegue = t.TipoDespliegue,
+            Visible = t.Visible,
+        };
+    }
+
     private static Lista? ObtieneConfiguracionLista(this ListaAtttribute l)
     {
         Lista lista = new()
@@ -149,7 +167,8 @@ public static class ExtensionesAtributos
             Endpoint = l.Endpoint,
             EndpointBusqueda = l.EndpointBusqueda,
             Id = l.ClaveLocal ?? Guid.NewGuid().ToString(),
-            Ordenamiento = l.OrdenamientoLista
+            Ordenamiento = l.OrdenamientoLista, 
+            SeleccionMinima = l.SeleccionMinima,
         };
     
         return lista;

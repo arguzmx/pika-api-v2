@@ -11,29 +11,17 @@
 /// 
 /// </remarks>
 /// <param name="tipoDato">Tipo de datos asignado</param>
-/// <param name="tipoDespliegue">Tipo de despliegue por defecto</param>
 /// <param name="buscable">Especifica si la propiedad puede utilziare para búsquedas</param>
 /// /// <param name="visible">Especifica si la propiedad es visuble para el usuario</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class PropiedadAttribute(
-    TipoDatos tipoDato = TipoDatos.SinAsignar,
-    TipoDespliegue tipoDespliegue = TipoDespliegue.Default,
-    bool buscable = true, bool visible = true, string? valorDefault = null) : Attribute
+    TipoDatos tipoDato = TipoDatos.SinAsignar, bool buscable = true, bool visible = true, string? valorDefault = null) : Attribute
 {
     private readonly TipoDatos _tipoDatos = tipoDato;
-    private readonly TipoDespliegue _tipoDespliegue = tipoDespliegue;
     private readonly bool _buscable = buscable;
     private readonly bool _visible = visible;
     private readonly string? _valordefault = valorDefault;
 
-
-    /// <summary>
-    /// Determina la posición relativa a otras propiedades
-    /// </summary>
-    public virtual TipoDespliegue TipoDespliegue
-    {
-        get { return _tipoDespliegue; }
-    }
 
     /// <summary>
     /// Especifica el tipo de datos

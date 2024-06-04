@@ -500,7 +500,20 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
 
     public virtual Task<List<ElementoLista>> ObtieneListaLocal(string clave, OrdenamientoLista ordenamiento)
     {
+
+#if DEBUG
+        return Task.FromResult(new List<ElementoLista>()
+        {
+            new ElementoLista() { Id ="1", Nombre ="Uno", Posicion = 1, Valor = "1"},
+            new ElementoLista() { Id ="2", Nombre ="Dos", Posicion = 2, Valor = "2"},
+            new ElementoLista() { Id ="3", Nombre ="Tres", Posicion = 3, Valor = "3"},
+            new ElementoLista() { Id ="4", Nombre ="Cuatro", Posicion = 4, Valor = "4"},
+            new ElementoLista() { Id ="5", Nombre ="Cinco", Posicion = 5, Valor = "5"}
+        });
+#else
         throw new NotImplementedException();
+#endif
+
     }
 
 

@@ -18,11 +18,15 @@ public class Lista
     /// </summary>
     public bool DatosRemotos { get; set; } = false;
 
+    /// <summary>
+    /// Número mínimo de elementos para consierar la selección como válida
+    /// </summary>
+    public int SeleccionMinima { get; set; } = 0;
 
     /// <summary>
     /// Endpoint en la api para obtener lso elementos de la lista desde el servidor mediante busqueda parcial de texto
     /// </summary>
-    public string? EndpointBusqueda { get; set; } = null;
+    public bool EndpointBusqueda { get; set; } = false;
 
     /// <summary>
     /// Endpoint en la api para obtener lso elementos de la lista desde el servidor

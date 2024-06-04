@@ -74,6 +74,11 @@ public class Propiedad
     public ConfiguracionTabular? ConfiguracionTabular { get; set; }
 
     /// <summary>
+    /// Define las propiedades de la configuración de la propiedad en un formulario
+    /// </summary>
+    public ConfiguracionFormulario? ConfiguracionFormulario { get; set; }
+
+    /// <summary>
     /// Indica las operaciones donde la propuedad es requerida
     /// </summary>
     public List<RequeridaOperacion> Requerida { get; set; } = [];
