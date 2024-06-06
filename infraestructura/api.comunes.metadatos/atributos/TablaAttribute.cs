@@ -21,6 +21,7 @@ public class TablaAttribute : Attribute
     /// <param name="ancho">Ancho relateivo en unidades de UI</param>
     /// <param name="ordenable">Determina si la columna es ordenable</param>
     /// <param name="alternable">Determina si la columna puede alternar su visibilidad</param>
+    /// <param name="alternable">Determina si la columna puede ser utilizada para búsqueda</param>
     public TablaAttribute(int indice = 1, bool visible = true, int ancho = 1, bool ordenable = true, bool alternable = true)
     {
         _indice = indice;

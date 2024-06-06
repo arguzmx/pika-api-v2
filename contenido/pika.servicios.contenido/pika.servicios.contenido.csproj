@@ -25,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="data\migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\infraestructura\api.comunes.metadatos\api.comunes.metadatos.csproj" />
     <ProjectReference Include="..\pika.modelo.contenido\pika.modelo.contenido.csproj" />
   </ItemGroup>

@@ -55,7 +55,7 @@ public class EntidadGenericaController : ControladorEntidadGenerico
     private void ValidadoresYDefaults(Entidad e)
     {
         var p = e.Propiedades.First(x => x.Tipo == TipoDatos.Decimal);
-        p.ValidadorNumerico = new ValidadorNumerico() { Maximo = 100, Minimo = -100 };
+        p.ValidadorEntero = new ValidadorEntero() { Maximo = 100, Minimo = -100 };
         p.ValorDefault = "1.1";
 
 
@@ -91,7 +91,7 @@ public class EntidadGenericaController : ControladorEntidadGenerico
 
 
         p = e.Propiedades.First(x => x.Tipo == TipoDatos.Entero);
-        p.ValidadorNumerico = new ValidadorNumerico() { Maximo = 50 };
+        p.ValidadorEntero = new ValidadorEntero() { Maximo = 50 };
         p.ValorDefault = "-10";
 
         p = e.Propiedades.First(x => x.Tipo == TipoDatos.Logico);
@@ -124,8 +124,7 @@ public class EntidadGenericaController : ControladorEntidadGenerico
             HabilitadoEditar = true,
             Id = $"{tipo.ToString()}Id",
             Nombre = tipo.ToString(),
-            Ordenable = true,
-            Requerida = false,
+            Requerida = new List<RequeridaOperacion>() {  RequeridaOperacion.Insertar},
             Tipo = tipo,
             Visible = true
         };

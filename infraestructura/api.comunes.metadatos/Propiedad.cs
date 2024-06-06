@@ -1,8 +1,13 @@
 ﻿using api.comunes.metadatos.configuraciones;
 using api.comunes.metadatos.validadores;
+using System.Diagnostics.CodeAnalysis;
 
 namespace api.comunes.metadatos;
 
+/// <summary>
+/// DEfine una propiedad de metadatos
+/// </summary>
+[ExcludeFromCodeCoverage]
 public class Propiedad
 {
     /// <summary>
@@ -16,19 +21,10 @@ public class Propiedad
     public string Nombre { get; set; }
 
     /// <summary>
-    /// Determina si el valor es requerido para su llenado
-    /// </summary>
-    public bool Requerida { get; set; }
-
-    /// <summary>
     /// Determina si es posible realizar bpsuquedas sobre la propiedad
     /// </summary>
     public bool Buscable { get; set; }
 
-    /// <summary>
-    /// Determina si es posible realizar ordenamiento sobre la propiedad
-    /// </summary>
-    public bool Ordenable { get; set; }
 
     /// <summary>
     /// Determina si la propieda es visible
@@ -40,11 +36,22 @@ public class Propiedad
     /// </summary>
     public TipoDatos Tipo { get; set; }
 
+
+    /// <summary>
+    /// Establace el tipo de control para el despligue en la UI
+    /// </summary>
+    public TipoDespliegue TipoDespliegue { get; set; }
+
+    /// <summary>
+    /// Valor default para la propiedad expresado como el valor serializado json
+    /// </summary>
+    public string? ValorDefault { get; set; }
+
+
     /// <summary>
     /// Determina si el campo se muestra al crear
     /// </summary>
     public bool HabilitadoCrear { get; set; }
-
 
     /// <summary>
     /// Determina si el campo se muestra al editar
@@ -56,21 +63,10 @@ public class Propiedad
     /// </summary>
     public bool HabilitadoDespliegue { get; set; }
 
-
     /// <summary>
-    /// Establace el tipo de control para el despligue en la UI
+    /// Elementos de la lista para el tipo lista
     /// </summary>
-    public TipoDespliegue TipoDespliegue { get; set; }
-
-    /// <summary>
-    /// Url del script de validación del lado del cliente 
-    /// </summary>
-    public string? UrlMacroCliente { get; set; }
-
-    /// <summary>
-    /// Valor default para la propiedad expresado como el valor serializado en javascript
-    /// </summary>
-    public string? ValorDefault { get; set; }
+    public Lista? Lista { get; set; }
 
     /// <summary>
     /// Configuración de la propiedad en la vista tabular
@@ -78,22 +74,33 @@ public class Propiedad
     public ConfiguracionTabular? ConfiguracionTabular { get; set; }
 
     /// <summary>
+    /// Define las propiedades de la configuración de la propiedad en un formulario
+    /// </summary>
+    public ConfiguracionFormulario? ConfiguracionFormulario { get; set; }
+
+    /// <summary>
+    /// Indica las operaciones donde la propuedad es requerida
+    /// </summary>
+    public List<RequeridaOperacion> Requerida { get; set; } = [];
+
+    /// <summary>
     /// Validador opcional para propiedades texto
     /// </summary>
     public ValidadorTexto? ValidadorTexto { get; set; }
 
     /// <summary>
-    /// Validador opcional para propiedades numericas
+    /// Validador opcional para propiedades numericas enteras
     /// </summary>
-    public ValidadorNumerico? ValidadorNumerico { get; set; }
+    public ValidadorEntero? ValidadorEntero { get; set; }
+
+    /// <summary>
+    /// Validador opcional para propiedades numericas decimales
+    /// </summary>
+    public ValidadorDecimal? ValidadorDecimal { get; set; }
 
     /// <summary>
     /// Validador opcional para propiedades fecha, fechahora y hora
     /// </summary>
     public ValidadorFecha? ValidadorFecha { get; set; }
 
-    /// <summary>
-    /// Elementos de la lista para el tipo lista
-    /// </summary>
-    public Lista? Lista { get; set; }
 }

@@ -1,26 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace api.comunes.metadatos.validadores
+namespace api.comunes.metadatos.validadores;
+
+
+/// <summary>
+/// PAraámetros para la validación de un apropiedad de texto
+/// </summary>
+public class ValidadorTexto: IValidatableObject
 {
-    public class ValidadorTexto
+
+    /// <summary>
+    /// Longitud mínima del texto de la propiedad, si es nulo no se evalúa
+    /// </summary>
+    public virtual int? LongitudMinima { get; set; }
+
+    /// <summary>
+    /// Longitud máxima del texto de la propiedad, si es nulo no se evalúa
+    /// </summary>
+    public virtual int? LongitudMaxima { get; set; }
+
+    /// <summary>
+    /// Expresión regular para validar, si es nulo no se evalúa
+    /// </summary>
+    public virtual string? RegExp { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        /// <summary>
-        /// Longitud mínima del texto de la propiedad, si es nulo no se evalúa
-        /// </summary>
-        public int? LongitudMinima { get; set; }
-
-        /// <summary>
-        /// Longitud máxima del texto de la propiedad, si es nulo no se evalúa
-        /// </summary>
-        public int? LongitudMaxima { get; set; }
-
-        /// <summary>
-        /// Expresión regular para validar, si es nulo no se evalúa
-        /// </summary>
-        public string? RegExp { get; set; }
+        // Implementar de manera similar al validador de fecha, es este caso no hay tipo
+        // pero el valor de comparación vendrá en el diccioanrio con la clave 'valor'
+        // En el caso de que la propiedad RegExp tenga un valor deberá probarseq eu el valor se ajuste a las regexp
+        throw new NotImplementedException();
     }
 }

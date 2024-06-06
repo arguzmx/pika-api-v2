@@ -1,4 +1,5 @@
 ﻿using api.comunes.metadatos.atributos;
+using api.comunes.metadatos.validadores;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
