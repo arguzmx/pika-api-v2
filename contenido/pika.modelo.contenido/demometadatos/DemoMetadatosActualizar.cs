@@ -2,7 +2,7 @@
 
 public class DemoMetadatosActualizar
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     public string Nombre { get; set; }
 
@@ -20,5 +20,5 @@ public class DemoMetadatosActualizar
 
     public string Genero { get; set; }
 
-    public List<string> Especialidades { get; set; }
+    //public List<string> Especialidades { get; set; }
 }

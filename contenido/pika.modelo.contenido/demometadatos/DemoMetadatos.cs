@@ -13,7 +13,7 @@ public class DemoMetadatos
     [Formulario(indice: 1, visible: false, tipoDespliegue: TipoDespliegue.Oculto)]
     [Tabla(indice: 1, visible: false, ancho: 10)]
     [ValidarRequerida(requerida: RequeridaOperacion.Actualizar)]
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     [Propiedad(tipoDato: TipoDatos.Texto)]
     [Formulario(indice: 2, tipoDespliegue: TipoDespliegue.TextoCorto)]
@@ -83,9 +83,9 @@ public class DemoMetadatos
     public string Genero { get; set; }
 
 
-    [Propiedad(tipoDato: TipoDatos.ListaSeleccionMultiple)]
-    [Formulario(indice: 11, tipoDespliegue: TipoDespliegue.ListaSeleccionMultiple)]
-    [Tabla(indice: 11, ancho: 10)]
-    [ListaAtttribute(remota: false, claveLocal: "Especialidades", seleccionMinima: 2)]
-    public List<string> Especialidades { get; set; }
+    //[Propiedad(tipoDato: TipoDatos.ListaSeleccionMultiple)]
+    //[Formulario(indice: 11, tipoDespliegue: TipoDespliegue.ListaSeleccionMultiple)]
+    //[Tabla(indice: 11, ancho: 10)]
+    //[ListaAtttribute(remota: false, claveLocal: "Especialidades", seleccionMinima: 2)]
+    //public List<string> Especialidades { get; set; }
 }

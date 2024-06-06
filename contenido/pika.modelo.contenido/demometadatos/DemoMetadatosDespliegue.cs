@@ -1,8 +1,8 @@
 ﻿namespace pika.modelo.contenido.demometadatos;
 
-public class DemoMetadatosDesplegar
+public class DemoMetadatosDespliegue
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     public string Nombre { get; set; }
 
@@ -22,5 +22,5 @@ public class DemoMetadatosDesplegar
 
     public string Genero { get; set; }
 
-    public List<string> Especialidades { get; set; }
+    //public List<string> Especialidades { get; set; }
 }

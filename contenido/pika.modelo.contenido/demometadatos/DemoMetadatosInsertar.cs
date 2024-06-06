@@ -27,5 +27,5 @@ public class DemoMetadatosInsertar
 
     public string Genero { get; set; }
 
-    public List<string> Especialidades { get; set; }
+    //public List<string> Especialidades { get; set; }
 }

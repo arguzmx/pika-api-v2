@@ -80,7 +80,7 @@ public class ValidadorFecha : IValidatableObject
     {
         DateTime fechaTemp = new (valor.Year, valor.Month, valor.Day, 0, 0, 0);
         // Verificar que fechaTemp se encuentre en el rango dependiendo del caso
-        if (Minimo.HasValue && Maximo.HasValue)
+        if (Minimo.HasValue &&  Maximo.HasValue)
         {
 
         }
@@ -88,14 +88,15 @@ public class ValidadorFecha : IValidatableObject
         
             if (Minimo.HasValue)
             {
+                results.Add(new ValidationResult("La fecha minima es incorrecta"));
 
             }
 
-            if(Maximo.HasValue)
+            if (Maximo.HasValue)
             {
-
+                results.Add(new ValidationResult("La fecha máxima es incorrecta"));
             }
-        
+
         }
     }
 
@@ -112,11 +113,13 @@ public class ValidadorFecha : IValidatableObject
 
             if (Minimo.HasValue)
             {
+                results.Add(new ValidationResult("La hora minima es incorrecta"));
 
             }
 
             if (Maximo.HasValue)
             {
+                results.Add(new ValidationResult("La hora máxima es incorrecta"));
 
             }
 
@@ -137,11 +140,13 @@ public class ValidadorFecha : IValidatableObject
 
             if (Minimo.HasValue)
             {
+                results.Add(new ValidationResult("La fecha minima es incorrecta"));
 
             }
 
             if (Maximo.HasValue)
             {
+                results.Add(new ValidationResult("La fecha máxima es incorrecta"));
 
             }
 

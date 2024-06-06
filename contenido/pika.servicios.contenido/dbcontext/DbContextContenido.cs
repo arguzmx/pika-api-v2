@@ -1,6 +1,7 @@
 ﻿using api.comunes.modelos.modelos;
 using Microsoft.EntityFrameworkCore;
 using pika.modelo.contenido;
+using pika.modelo.contenido.demometadatos;
 using pika.servicios.contenido.dbcontext.configuraciones;
 
 namespace pika.servicios.contenido.dbcontext;
@@ -12,6 +13,7 @@ public class DbContextContenido : DbContext
     public const string TablaRepositorio = "cont$repositorio";
     public const string TablaCarpeta = "cont$carpeta";
     public const string TablaContenido = "cont$contenido";
+    public const string TablaDemoMetadatos = "cont$demometadatos";
 
     public DbContextContenido(DbContextOptions<DbContextContenido> options) : base(options)
     {
@@ -24,6 +26,7 @@ public class DbContextContenido : DbContext
     public DbSet <Repositorio> Repositorios { get; set; }
     public DbSet <Carpeta> Carpetas { get; set; }
     public DbSet <Contenido> Contenidos { get; set; }
+    public DbSet <DemoMetadatos> DemoMetadatos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -33,6 +36,7 @@ public class DbContextContenido : DbContext
         modelBuilder.ApplyConfiguration(new ConfiguracionRepositorio());
         modelBuilder.ApplyConfiguration(new ConfiguracionCarpeta());
         modelBuilder.ApplyConfiguration(new ConfiguracionContenido());
+        modelBuilder.ApplyConfiguration(new ConfiguracionDemoMetadatos());
         base.OnModelCreating(modelBuilder);
     }
 
