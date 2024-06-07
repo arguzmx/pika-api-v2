@@ -48,14 +48,14 @@ public class DemoMetadatos
     [Propiedad(tipoDato: TipoDatos.Fecha)]
     [Formulario(indice: 6, tipoDespliegue: TipoDespliegue.TextoFecha)]
     [Tabla(indice: 6, ancho: 10)]
-    [ValidarFecha(minimo: "1/1/1950", tipo: TipoDatos.Fecha, formato: ValidarFechaAttribute.FECHA_DMY )]
+    [ValidarFecha(minimo: "1950-01-01T10:00:00Z", tipo: TipoDatos.Fecha, formato: ValidarFechaAttribute.FECHA_HORA24_ISO)]
     public DateTime FechaNacimiento { get; set; }
 
 
-    [Propiedad(tipoDato: TipoDatos.Hora, buscable: false, valorDefault: "12:00:00")]
+    [Propiedad(tipoDato: TipoDatos.Hora, buscable: false, valorDefault: "2024-01-01T12:00:00Z")]
     [Formulario(indice: 7, tipoDespliegue: TipoDespliegue.TextoHora)]
     [Tabla(indice: 7, ancho: 10)]
-    [ValidarFecha(minimo: "10:00:00", maximo: "16:30:00", tipo: TipoDatos.Hora, formato: ValidarFechaAttribute.HORA_HMS24)]
+    [ValidarFecha(minimo: "2024-01-01T10:00:00Z", maximo: "2024-01-01T16:30:00Z", tipo: TipoDatos.Hora, formato: ValidarFechaAttribute.FECHA_HORA24_ISO)]
     [ValidarRequerida(requerida: RequeridaOperacion.Actualizar)]
     public DateOnly HoraDeLunch { get; set; }
 
@@ -71,7 +71,6 @@ public class DemoMetadatos
     [Propiedad(tipoDato: TipoDatos.Logico, valorDefault: "true")]
     [Formulario(indice: 9, tipoDespliegue: TipoDespliegue.Switch)]
     [Tabla(indice: 9, ancho: 10, alternable: false, visible: true)]
-    [ValidarFecha(minimo: "2024-01-01T00:00:00Z", maximo: "2024-12-31T23:59:59Z", tipo: TipoDatos.FechaHora, formato: ValidarFechaAttribute.FECHA_HORA24_ISO)]
     [ValidarRequerida(requerida: RequeridaOperacion.Insertar)]
     public bool Activo { get; set; }
 
@@ -79,7 +78,7 @@ public class DemoMetadatos
     [Propiedad(tipoDato: TipoDatos.ListaSeleccionSimple)]
     [Formulario(indice: 10, tipoDespliegue: TipoDespliegue.ListaSelecciónSimple)]
     [Tabla(indice: 10, ancho: 10)]
-    [ListaAtttribute(remota:false, claveLocal: "Generos", seleccionMinima: 1)]
+    [ListaAtttribute(remota: false, claveLocal: "Generos", seleccionMinima: 1)]
     public string Genero { get; set; }
 
 
