@@ -71,7 +71,6 @@ public class DemoMetadatos
     [Propiedad(tipoDato: TipoDatos.Logico, valorDefault: "true")]
     [Formulario(indice: 9, tipoDespliegue: TipoDespliegue.Switch)]
     [Tabla(indice: 9, ancho: 10, alternable: false, visible: true)]
-    [ValidarFecha(minimo: "2024-01-01T00:00:00Z", maximo: "2024-12-31T23:59:59Z", tipo: TipoDatos.FechaHora, formato: ValidarFechaAttribute.FECHA_HORA24_ISO)]
     [ValidarRequerida(requerida: RequeridaOperacion.Insertar)]
     public bool Activo { get; set; }
 
