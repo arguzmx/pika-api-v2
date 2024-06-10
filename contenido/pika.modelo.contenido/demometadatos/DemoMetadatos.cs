@@ -48,14 +48,14 @@ public class DemoMetadatos
     [Propiedad(tipoDato: TipoDatos.Fecha)]
     [Formulario(indice: 6, tipoDespliegue: TipoDespliegue.TextoFecha)]
     [Tabla(indice: 6, ancho: 10)]
-    [ValidarFecha(minimo: "1950-01-01T10:00:00Z", tipo: TipoDatos.Fecha, formato: ValidarFechaAttribute.FECHA_HORA24_ISO)]
+    [ValidarFecha(minimo: "1/1/1950", tipo: TipoDatos.Fecha, formato: ValidarFechaAttribute.FECHA_DMY )]
     public DateTime FechaNacimiento { get; set; }
 
 
-    [Propiedad(tipoDato: TipoDatos.Hora, buscable: false, valorDefault: "2024-01-01T12:00:00Z")]
+    [Propiedad(tipoDato: TipoDatos.Hora, buscable: false, valorDefault: "12:00:00")]
     [Formulario(indice: 7, tipoDespliegue: TipoDespliegue.TextoHora)]
     [Tabla(indice: 7, ancho: 10)]
-    [ValidarFecha(minimo: "2024-01-01T10:00:00Z", maximo: "2024-01-01T16:30:00Z", tipo: TipoDatos.Hora, formato: ValidarFechaAttribute.FECHA_HORA24_ISO)]
+    [ValidarFecha(minimo: "10:00:00", maximo: "16:30:00", tipo: TipoDatos.Hora, formato: ValidarFechaAttribute.HORA_HMS24)]
     [ValidarRequerida(requerida: RequeridaOperacion.Actualizar)]
     public DateOnly HoraDeLunch { get; set; }
 
@@ -78,7 +78,7 @@ public class DemoMetadatos
     [Propiedad(tipoDato: TipoDatos.ListaSeleccionSimple)]
     [Formulario(indice: 10, tipoDespliegue: TipoDespliegue.ListaSelecciónSimple)]
     [Tabla(indice: 10, ancho: 10)]
-    [ListaAtttribute(remota: false, claveLocal: "Generos", seleccionMinima: 1)]
+    [ListaAtttribute(remota:false, claveLocal: "Generos", seleccionMinima: 1)]
     public string Genero { get; set; }
 
 

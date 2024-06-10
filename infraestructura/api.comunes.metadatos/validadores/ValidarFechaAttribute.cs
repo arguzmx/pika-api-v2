@@ -29,11 +29,10 @@ public class ValidarFechaAttribute : Attribute
     /// <param name="minimo">Valor de fecha mínima en formato ISO UTC, nulo para ignorar</param>
     /// <param name="maximo">Valor de fecha maxima en formato ISO UTC, nulo para ignorar</param>
     /// <param name="formato">Formato de la fecha por default es la fecha hora en formato ISO, puede utilzairse cualquier formato de https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings?redirectedfrom=MSDN </param>
-    public ValidarFechaAttribute(string minimo = "", string maximo = "", TipoDatos tipo = TipoDatos.FechaHora, string formato = FECHA_HORA24_ISO)
-    {
+    public ValidarFechaAttribute(string minimo = "", string maximo = "", TipoDatos tipo = TipoDatos.FechaHora, string formato = FECHA_HORA24_ISO) {
+        
 
-
-        if (!string.IsNullOrEmpty(minimo) &&
+        if(!string.IsNullOrEmpty(minimo) &&  
             DateTime.TryParseExact(minimo, formato, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime min))
         {
             _minimo = AjustarTipo(min, tipo);
@@ -46,25 +45,22 @@ public class ValidarFechaAttribute : Attribute
         }
     }
 
-    private DateTime AjustarTipo(DateTime fecha, TipoDatos tipo, string formato = FECHA_HORA24_ISO)
+    private DateTime AjustarTipo(DateTime fecha, TipoDatos tipo)
     {
         switch (tipo)
         {
             case TipoDatos.Hora:
-
-
-                return (new DateTime(1900, 1, 1, fecha.Hour, fecha.Minute, fecha.Second)).ToUniversalTime();
-
+                return new DateTime(1900, 1, 1, fecha.Hour, fecha.Minute, fecha.Second);
 
             case TipoDatos.Fecha:
-                return (new DateTime(fecha.Year, fecha.Month, fecha.Day, 0, 0, 0)).ToUniversalTime();
+                return new DateTime(fecha.Year, fecha.Month, fecha.Day, 0,0,0);
 
             default:
-                return fecha.ToUniversalTime();
+                return fecha;
         }
     }
 
-
+    
     /// <summary>
     /// Valor mínimo aceptable, si es nulo no se valúa
     /// </summary>
@@ -73,5 +69,5 @@ public class ValidarFechaAttribute : Attribute
     /// <summary>
     /// Valor máximo aceptable, si es nulo no se valúa
     /// </summary>
-    public DateTime? Maximo { get { return _maximo; } }
+    public DateTime? Maximo { get { return _maximo;  } }
 }
