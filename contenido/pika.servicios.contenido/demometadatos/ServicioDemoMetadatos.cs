@@ -9,12 +9,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using pika.modelo.contenido.demometadatos;
 using pika.servicios.contenido.dbcontext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace pika.servicios.contenido.demometadatos
 {

@@ -79,7 +79,7 @@ public static class ExtensionesAtributos
 
             if (attr is ValidarFechaAttribute vf)
             {
-                propiedad.ValidadorFecha = ObtieneValidadorFecha(vf);
+                propiedad.ValidadorFecha = ObtieneValidadorFecha(vf, propiedad.Tipo);
             }
         }
 
@@ -108,13 +108,27 @@ public static class ExtensionesAtributos
     }
 
 
-    private static ValidadorFecha? ObtieneValidadorFecha(this ValidarFechaAttribute v)
+    private static ValidadorFecha? ObtieneValidadorFecha(this ValidarFechaAttribute v, TipoDatos tipo)
     {
-        return new ValidadorFecha()
+        var validador =  new ValidadorFecha()
         {
             Maximo = v.Maximo ,
             Minimo = v.Minimo
         };
+
+        switch(tipo)
+        {
+            case TipoDatos.Hora:
+                break;
+
+            case TipoDatos.FechaHora:
+                break;
+
+            case TipoDatos.Fecha:
+                break;
+        }
+
+        return validador;
     }
 
     private static ValidadorEntero? ObtieneValidadorEntero(this ValidarEnteroAttribute v)
@@ -163,12 +177,12 @@ public static class ExtensionesAtributos
         Lista lista = new()
         {
             DatosRemotos = l.Remota,
-            Elementos = [],
             Endpoint = l.Endpoint,
             EndpointBusqueda = l.EndpointBusqueda,
             Id = l.ClaveLocal ?? Guid.NewGuid().ToString(),
             Ordenamiento = l.OrdenamientoLista, 
             SeleccionMinima = l.SeleccionMinima,
+            Elementos = [],
         };
     
         return lista;

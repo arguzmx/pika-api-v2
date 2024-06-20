@@ -23,57 +23,11 @@ public class ReflectorEntidadAPI : IReflectorEntidadesAPI
             Propiedad? propiedad = propertyInfo.ObtieneMetadatos();
             if (propiedad != null)
             {
-                entidad.Propiedades.Add(ConvertDateTimeUTC(propiedad));
+                entidad.Propiedades.Add(propiedad);
             }
         }
         return entidad;
     }
-    private Propiedad ConvertDateTimeUTC(Propiedad propiedad)
-    {
-        Propiedad nuevoFormatoFecha = new Propiedad();
-        ValidadorFecha fechaHoy = new ValidadorFecha();
-        if (propiedad != null)
-        {
-            fechaHoy = propiedad.ValidadorFecha;
-        }
-        switch (propiedad.Tipo)
-        {
-            case TipoDatos.Fecha:
-                
-                nuevoFormatoFecha = propiedad;
-                nuevoFormatoFecha.ValidadorFecha = FormatoUniversal(propiedad.ValidadorFecha);
-                return nuevoFormatoFecha;
-
-            case TipoDatos.Hora:
-              
-                nuevoFormatoFecha = propiedad;
-                nuevoFormatoFecha.ValidadorFecha = FormatoUniversal(propiedad.ValidadorFecha);
-                return nuevoFormatoFecha;
-
-            case TipoDatos.FechaHora:
-                nuevoFormatoFecha = propiedad;
-                nuevoFormatoFecha.ValidadorFecha = FormatoUniversal(propiedad.ValidadorFecha);
-                return nuevoFormatoFecha;
-
-
-            default:
-                break;
-        }
-        return propiedad;
-
-    }
-
-        private ValidadorFecha FormatoUniversal(ValidadorFecha fechaHoy)
-    {
-        ValidadorFecha fecha = fechaHoy;
-        if (fechaHoy.Maximo != null)
-            fecha.Maximo = DateTime.Parse(fechaHoy.Maximo.ToString()).ToUniversalTime();
-        if (fechaHoy.Minimo != null)
-            fecha.Minimo =  DateTime.Parse(fechaHoy.Minimo.ToString()).ToUniversalTime();
-
-        return fecha;
-    }
-
     public Entidad ObtieneEntidadUI(Type dtoFull,Type dtoInsertar,Type dtoActualizar,Type dtoDespliegue)
     {
         Entidad entidad = ObtieneEntidad(dtoFull);

@@ -105,7 +105,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
             entidad = reflectorEntidades.ObtieneEntidadUI(typeof(DTOFull), typeof(DTOInsert), typeof(DTOUpdate), typeof(DTODespliegue));
             foreach(var propiedad in entidad.Propiedades.Where(p=>p.Tipo== TipoDatos.ListaSeleccionMultiple || p.Tipo == TipoDatos.ListaSeleccionSimple ))
             {
-                if(propiedad.Lista!.DatosRemotos = false && !string.IsNullOrEmpty(propiedad.Lista.Id))
+                if(!propiedad.Lista!.DatosRemotos && !string.IsNullOrEmpty(propiedad.Lista.Id))
                 {
                     propiedad.Lista.Elementos = await ObtieneListaLocal(propiedad.Lista.Id, propiedad.Lista.Ordenamiento);
                 }
@@ -504,11 +504,11 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
 #if DEBUG
         return Task.FromResult(new List<ElementoLista>()
         {
-            new ElementoLista() { Id ="1", Nombre ="Uno", Posicion = 1, Valor = "1"},
-            new ElementoLista() { Id ="2", Nombre ="Dos", Posicion = 2, Valor = "2"},
-            new ElementoLista() { Id ="3", Nombre ="Tres", Posicion = 3, Valor = "3"},
-            new ElementoLista() { Id ="4", Nombre ="Cuatro", Posicion = 4, Valor = "4"},
-            new ElementoLista() { Id ="5", Nombre ="Cinco", Posicion = 5, Valor = "5"}
+            new ElementoLista() { Id =$"id-{clave}-1", Nombre =$"{clave}-Uno", Posicion = 1, Valor = $"{clave}-1"},
+            new ElementoLista() { Id =$"id-{clave}-2", Nombre =$"{clave}-Dos", Posicion = 2, Valor = $"{clave}-2"},
+            new ElementoLista() { Id =$"id-{clave}-3", Nombre =$"{clave}-Tres", Posicion = 3, Valor = $"{clave}-3"},
+            new ElementoLista() { Id =$"id-{clave}-4", Nombre =$"{clave}-Cuatro", Posicion = 4, Valor = $"{clave}-4"},
+            new ElementoLista() { Id =$"id-{clave}-5", Nombre =$"{clave}-Cinco", Posicion = 5, Valor = $"{clave}-5"}
         });
 #else
         throw new NotImplementedException();

@@ -18,7 +18,7 @@ public class ValidarFechaAttribute : Attribute
 
     public const string FECHA_DMY = "d/M/yyyy";
     public const string HORA_HMS24 = "HH:mm:ss";
-    public const string FECHA_HORA24_ISO = "yyyy-MM-ddTHH:mm:ssZ";
+    public const string FECHA_HORA24_ISO = "yyyy-MM-ddTHH:mm:ss";
 
     private readonly DateTime? _minimo = null;
     private readonly DateTime? _maximo = null;
@@ -31,7 +31,6 @@ public class ValidarFechaAttribute : Attribute
     /// <param name="formato">Formato de la fecha por default es la fecha hora en formato ISO, puede utilzairse cualquier formato de https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings?redirectedfrom=MSDN </param>
     public ValidarFechaAttribute(string minimo = "", string maximo = "", TipoDatos tipo = TipoDatos.FechaHora, string formato = FECHA_HORA24_ISO) {
         
-
         if(!string.IsNullOrEmpty(minimo) &&  
             DateTime.TryParseExact(minimo, formato, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime min))
         {
@@ -41,7 +40,7 @@ public class ValidarFechaAttribute : Attribute
         if (!string.IsNullOrEmpty(maximo) &&
             DateTime.TryParseExact(maximo, formato, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime max))
         {
-            _maximo = AjustarTipo(max, tipo); ;
+            _maximo = AjustarTipo(max, tipo);
         }
     }
 
