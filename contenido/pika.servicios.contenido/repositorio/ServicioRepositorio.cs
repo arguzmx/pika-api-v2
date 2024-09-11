@@ -157,6 +157,85 @@ namespace pika.servicios.contenido.repositorio
         }
 
 
+        #region Arbol
+
+        public override async Task<RespuestaPayload<List<ParClaveTexto>>> Raices(string? contextoId)
+        {
+            await Task.Delay(0);
+            RespuestaPayload<List<ParClaveTexto>> respuesta = new();
+            if (string.IsNullOrEmpty(contextoId))
+            {
+                respuesta.HttpCode = HttpCode.BadRequest;
+                respuesta.Error = new ErrorProceso()
+                {
+                    Codigo = "",
+                    HttpCode = HttpCode.BadRequest,
+                    Mensaje = "RepositorioId debe ser utilizado como contextoId"
+                };
+                return respuesta;
+            }
+
+            var raices = this.localContext.Carpetas.Where(c => c.EsRaiz == true && c.RepositorioId == contextoId).ToList();
+
+            respuesta.Payload = raices.Select(c => new ParClaveTexto() { Clave = c.Id, Texto = c.Nombre }).ToList();
+            respuesta.Ok = true;
+            respuesta.HttpCode = HttpCode.Ok;
+
+            return respuesta;
+        }
+
+        public override async Task<RespuestaPayload<List<ParClaveTexto>>> Hijos(string id, string? contextoId)
+        {
+            await Task.Delay(0);
+            RespuestaPayload<List<ParClaveTexto>> respuesta = new();
+            if (string.IsNullOrEmpty(contextoId))
+            {
+                respuesta.HttpCode = HttpCode.BadRequest;
+                respuesta.Error = new ErrorProceso()
+                {
+                    Codigo = "",
+                    HttpCode = HttpCode.BadRequest,
+                    Mensaje = "RepositorioId debe ser utilizado como contextoId"
+                };
+                return respuesta;
+            }
+
+            var raices = this.localContext.Carpetas.Where(c => c.CarpetaPadreId == id && c.RepositorioId == contextoId).ToList();
+
+            respuesta.Payload = raices.Select(c => new ParClaveTexto() { Clave = c.Id, Texto = c.Nombre }).ToList();
+            respuesta.Ok = true;
+            respuesta.HttpCode = HttpCode.Ok;
+
+            return respuesta;
+        }
+
+        public override async Task<RespuestaPayload<List<ParClaveTextoNodoArbol<string>>>> Arbol(string? contextoId)
+        {
+            await Task.Delay(0);
+            RespuestaPayload<List<ParClaveTextoNodoArbol<string>>> respuesta = new();
+            if (string.IsNullOrEmpty(contextoId))
+            {
+                respuesta.HttpCode = HttpCode.BadRequest;
+                respuesta.Error = new ErrorProceso()
+                {
+                    Codigo = "",
+                    HttpCode = HttpCode.BadRequest,
+                    Mensaje = "RepositorioId debe ser utilizado como contextoId"
+                };
+                return respuesta;
+            }
+
+            var raices = this.localContext.Carpetas.Where(c => c.RepositorioId == contextoId).ToList();
+
+            respuesta.Payload = raices.Select(c => new ParClaveTextoNodoArbol<string>() { PadreId = c.CarpetaPadreId,  Clave = c.Id, Texto = c.Nombre }).ToList();
+            respuesta.Ok = true;
+            respuesta.HttpCode = HttpCode.Ok;
+
+            return respuesta;
+        }
+
+        #endregion
+
         #region Overrides para la personalización de la entidad Repositorio
 
         public override async Task<ResultadoValidacion> ValidarInsertar(RepositorioInsertar data)

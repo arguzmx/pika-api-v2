@@ -4,6 +4,7 @@ using api.configuracion.extensiones;
 using CouchDB.Driver.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using pika.servicios.contenido.dbcontext;
+using pika.servicios.contenido.repositorio;
 
 namespace pika.api.contenido;
 
@@ -64,9 +65,10 @@ public class Program
         // Servicios locales
         builder.Services.AddTransient<IConfiguracionAPIEntidades, ConfiguracionAPIEntidades>();
         builder.Services.AddTransient<IReflectorEntidadesAPI, ReflectorEntidadAPI>();
+        builder.Services.AddTransient<IServicioRepositorio, ServicioRepositorio>();
         builder.Services.AddDistributedMemoryCache();
         builder.Services.AddServiciosEntidadAPI();
-
+        builder.Services.AddHttpContextAccessor();
 
         var app = builder.Build();
 

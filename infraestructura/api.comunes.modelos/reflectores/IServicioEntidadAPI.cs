@@ -123,6 +123,27 @@ public interface IServicioEntidadAPI
     /// <returns></returns>
     Task<RespuestaPayload<PaginaGenerica<object>>> PaginaHijosDespliegueAPI(Consulta consulta, string tipoPadre, string id);
 
+    /// <summary>
+    /// Obtiene los nodos raíz de una estructura jerárquica 
+    /// </summary>
+    /// <param name="contextoId">Identificador opcional de contexto</param>
+    /// <returns></returns>
+    Task<RespuestaPayload<List<ParClaveTexto>>> Raices(string? contextoId);
+
+    /// <summary>
+    /// Obtiene los nodos hijos de un nodo en base al ID para una estructura jerárquica 
+    /// </summary>
+    /// <param name="id">Identificador único del nodo padre</param>
+    /// <param name="contextoId">Identificador opcional de contexto</param>
+    /// <returns></returns>
+    Task<RespuestaPayload<List<ParClaveTexto>>> Hijos(string id, string? contextoId);
+
+    /// <summary>
+    /// Obtiene una lista de nodos en forma de un árbol aplanado para una estructura jerárquica
+    /// </summary>
+    /// <param name="contextoId">Identificador opcional de contexto</param>
+    /// <returns></returns>
+    Task<RespuestaPayload<List<ParClaveTextoNodoArbol<string>>>> Arbol(string? contextoId);
 
     /// <summary>
     /// DEvulver la conjunción de DTOFull, DTOInsert y DTOUpdate para la entidad con el tipo

@@ -303,6 +303,109 @@ public abstract class ControladorEntidadGenerico : ControladorBaseGenerico
         }
         return StatusCode(response.HttpCode.GetHashCode(), response.Error);
     }
+
+    [HttpGet("/api/{entidad}/entidad/arbol/raices", Name = "RaicesArbolEntidad")]
+    [SwaggerOperation("Obtiene una lista de pares ValorTetxo que representan las raíces de una estructura de árbol", OperationId = "RaicesArbolEntidad")]
+    [SwaggerResponse(statusCode: 200, type: typeof(List<ParClaveTexto>), description: "Raices")]
+    [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
+    [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 400, description: "Datos incorrectos")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<IActionResult> RaicesArbolEntidad(string entidad, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    {
+        var response = await entidadAPI.Raices(null);
+        if (response.Ok)
+        {
+            return Ok(response.Payload);
+        }
+        return StatusCode(response.HttpCode.GetHashCode(), response.Error);
+    }
+
+    [HttpGet("/api/{entidad}/entidad/{id}/arbol/raices", Name = "RaicesArbolEntidadContextual")]
+    [SwaggerOperation("Obtiene una lista de pares ValorTetxo que representan las raíces de una estructura de árbol", OperationId = "RaicesArbolEntidadContextual")]
+    [SwaggerResponse(statusCode: 200, type: typeof(List<ParClaveTexto>), description: "Raices")]
+    [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
+    [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 400, description: "Datos incorrectos")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<IActionResult> RaicesArbolEntidadContextual(string entidad, string id, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    {
+        var response = await entidadAPI.Raices(id);
+        if (response.Ok)
+        {
+            return Ok(response.Payload);
+        }
+        return StatusCode(response.HttpCode.GetHashCode(), response.Error);
+    }
+
+
+    [HttpGet("/api/{entidad}/entidad/arbol/raices/{nodoId}", Name = "HijosArbolEntidad")]
+    [SwaggerOperation("Obtiene una lista de pares ValorTetxo que representan los hijos de un nodo de una estructura de árbol", OperationId = "HijosArbolEntidad")]
+    [SwaggerResponse(statusCode: 200, type: typeof(List<ParClaveTexto>), description: "Raices")]
+    [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
+    [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 400, description: "Datos incorrectos")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<IActionResult> HijosArbolEntidad(string entidad, string nodoId, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    {
+        var response = await entidadAPI.Hijos(nodoId, null);
+        if (response.Ok)
+        {
+            return Ok(response.Payload);
+        }
+        return StatusCode(response.HttpCode.GetHashCode(), response.Error);
+    }
+
+    [HttpGet("/api/{entidad}/entidad/{id}/arbol/raices/{nodoId}", Name = "HijosArbolEntidadContextual")]
+    [SwaggerOperation("Obtiene una lista de pares ValorTetxo que representan los hijos de un nodo de una estructura de árbol", OperationId = "HijosArbolEntidadContextual")]
+    [SwaggerResponse(statusCode: 200, type: typeof(List<ParClaveTexto>), description: "Raices")]
+    [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
+    [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 400, description: "Datos incorrectos")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<IActionResult> HijosArbolEntidadContextual(string entidad, string id, string nodoId,[FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    {
+        var response = await entidadAPI.Hijos(nodoId, id);
+        if (response.Ok)
+        {
+            return Ok(response.Payload);
+        }
+        return StatusCode(response.HttpCode.GetHashCode(), response.Error);
+    }
+
+    [HttpGet("/api/{entidad}/entidad/arbol/raices", Name = "ArbolEntidad")]
+    [SwaggerOperation("Obtiene una lista de todos los nodos de una estructura de árbol en formato aplanado", OperationId = "ArbolEntidad")]
+    [SwaggerResponse(statusCode: 200, type: typeof(List<ParClaveTextoNodoArbol<string>>), description: "Raices")]
+    [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
+    [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 400, description: "Datos incorrectos")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<IActionResult> ArbolEntidad(string entidad, string nodoId, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    {
+        var response = await entidadAPI.Arbol(null);
+        if (response.Ok)
+        {
+            return Ok(response.Payload);
+        }
+        return StatusCode(response.HttpCode.GetHashCode(), response.Error);
+    }
+
+    [HttpGet("/api/{entidad}/entidad/{id}/arbol", Name = "ArbolEntidadContextual")]
+    [SwaggerOperation("Obtiene una lista de todos los nodos de una estructura de árbol en formato aplanado", OperationId = "ArbolEntidadContextual")]
+    [SwaggerResponse(statusCode: 200, type: typeof(List<ParClaveTextoNodoArbol<string>>), description: "Raices")]
+    [SwaggerResponse(statusCode: 403, description: "El usuario en sesión no tiene acceso a la operación")]
+    [SwaggerResponse(statusCode: 401, description: "Usuario no autenticado")]
+    [SwaggerResponse(statusCode: 400, description: "Datos incorrectos")]
+    [SwaggerResponse(statusCode: 405, description: "Método no implementado")]
+    public async Task<IActionResult> ArbolEntidadContextual(string entidad, string id, [FromHeader(Name = DOMINIOHEADER)] string dominioId, [FromHeader(Name = UORGHEADER)] string uOrgID)
+    {
+        var response = await entidadAPI.Arbol(id);
+        if (response.Ok)
+        {
+            return Ok(response.Payload);
+        }
+        return StatusCode(response.HttpCode.GetHashCode(), response.Error);
+    }
 }
 
 #pragma warning disable IDE0060 // Quitar el parámetro no utilizado

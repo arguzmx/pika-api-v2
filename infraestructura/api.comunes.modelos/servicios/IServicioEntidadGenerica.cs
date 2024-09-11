@@ -111,6 +111,27 @@ public interface IServicioEntidadGenerica<DTOFull, DTOInsert, DTOUpdate, DTODesp
     /// <returns></returns>
     Task<RespuestaPayload<PaginaGenerica<DTODespliegue>>> PaginaDespliegue(Consulta consulta);
 
+    /// <summary>
+    /// Obtiene los nodos raíz de una estructura jerárquica 
+    /// </summary>
+    /// <param name="contextoId">Identificador opcional de contexto</param>
+    /// <returns></returns>
+    Task<RespuestaPayload<List<ParClaveTexto>>> Raices(string? contextoId);
+
+    /// <summary>
+    /// Obtiene los nodos hijos de un nodo en base al ID para una estructura jerárquica 
+    /// </summary>
+    /// <param name="id">Identificador único del nodo padre</param>
+    /// <param name="contextoId">Identificador opcional de contexto</param>
+    /// <returns></returns>
+    Task<RespuestaPayload<List<ParClaveTexto>>> Hijos(TipoId id, string? contextoId);
+
+    /// <summary>
+    /// Obtiene una lista de nodos en forma de un árbol aplanado para una estructura jerárquica
+    /// </summary>
+    /// <param name="contextoId">Identificador opcional de contexto</param>
+    /// <returns></returns>
+    Task<RespuestaPayload<List<ParClaveTextoNodoArbol<TipoId>>>> Arbol(string? contextoId);
 
     /// <summary>
     /// Ejecuta la validación para un proceso de inserción

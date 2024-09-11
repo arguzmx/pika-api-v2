@@ -8,7 +8,6 @@ using api.comunes.modelos.reflectores;
 using api.comunes.modelos.abstracciones;
 using Microsoft.Extensions.Caching.Distributed;
 using JsonSerializer = System.Text.Json.JsonSerializer;
-using Microsoft.IdentityModel.Tokens;
 
 namespace api.comunes.modelos.servicios;
 
@@ -388,7 +387,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
         return respuesta;
     }
 
-    public async Task<RespuestaPayload<PaginaGenerica<DTOFull>>> PaginaHijo(Consulta consulta, string tipoPadre, string id)
+    public virtual async Task<RespuestaPayload<PaginaGenerica<DTOFull>>> PaginaHijo(Consulta consulta, string tipoPadre, string id)
     {
         RespuestaPayload<PaginaGenerica<DTOFull>> respuesta = new RespuestaPayload<PaginaGenerica<DTOFull>>();
         try
@@ -422,7 +421,7 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
     }
 
 
-    public async Task<RespuestaPayload<PaginaGenerica<DTODespliegue>>> PaginaHijosDespliegue(Consulta consulta, string tipoPadre, string id)
+    public virtual async Task<RespuestaPayload<PaginaGenerica<DTODespliegue>>> PaginaHijosDespliegue(Consulta consulta, string tipoPadre, string id)
     {
         RespuestaPayload<PaginaGenerica<DTODespliegue>> respuesta = new RespuestaPayload<PaginaGenerica<DTODespliegue>>();
         try
@@ -455,6 +454,20 @@ public abstract class ServicioEntidadGenericaBase<DTOFull, DTOInsert, DTOUpdate,
         return respuesta;
     }
 
+    public virtual async Task<RespuestaPayload<List<ParClaveTexto>>> Raices(string? contextoId)
+    {
+        throw new NotImplementedException("Este método debe implmentarse por entidad");
+    }
+
+    public virtual async Task<RespuestaPayload<List<ParClaveTexto>>> Hijos(TipoId id, string? contextoId)
+    {
+        throw new NotImplementedException("Este método debe implmentarse por entidad");
+    }
+
+    public virtual async Task<RespuestaPayload<List<ParClaveTextoNodoArbol<TipoId>>>> Arbol(string? contextoId)
+    {
+        throw new NotImplementedException("Este método debe implmentarse por entidad");
+    }
 
     public virtual Filtro? FiltroPorEntidadPadre(string tipoPadre, string padreId)
     {

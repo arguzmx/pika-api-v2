@@ -239,11 +239,11 @@ public class ServicioCarpeta : ServicioEntidadGenericaBase<Carpeta, CarpetaInser
         {
             Id = Guid.NewGuid().ToString(),
             RepositorioId = data.RepositorioId,
-            CreadorId = "seobtienedejwt",
+            CreadorId = _contextoUsuario!.UsuarioId!,
             FechaCreacion = DateTime.Now,
             Nombre = data.Nombre,
             CarpetaPadreId = data.CarpetaPadreId,
-            EsRaiz = true,
+            EsRaiz = data.CarpetaPadreId ==null,
             PermisoId = "OperacionEspecial"
 
         };
