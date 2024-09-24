@@ -11,8 +11,8 @@
 /// 
 /// </remarks>
 /// <param name="tipoDato">Tipo de datos asignado</param>
-/// <param name="buscable">Especifica si la propiedad puede utilziare para búsquedas</param>
-/// /// <param name="visible">Especifica si la propiedad es visuble para el usuario</param>
+/// <param name="buscable">Especifica si la propiedad puede utilziare para búsquedas, por default es true</param>
+/// /// <param name="visible">Especifica si la propiedad es visuble para el usuario, por defaul es true</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class PropiedadAttribute(
     TipoDatos tipoDato = TipoDatos.SinAsignar, bool buscable = true, bool visible = true, string? valorDefault = null) : Attribute

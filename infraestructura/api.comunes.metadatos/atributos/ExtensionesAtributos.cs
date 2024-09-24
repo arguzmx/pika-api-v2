@@ -1,7 +1,6 @@
 ﻿using api.comunes.metadatos.configuraciones;
 using api.comunes.metadatos.validadores;
 using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
 
 namespace api.comunes.metadatos.atributos;
 
@@ -10,8 +9,8 @@ public static class ExtensionesAtributos
 
     public static Propiedad? ObtieneMetadatos(this PropertyInfo propertyInfo)
     {
-        Propiedad propiedad = new ();
-        
+        Propiedad propiedad = propertyInfo.ObtieneDatosDefaultPropiedad(new Propiedad());
+
         Attribute[] attrs = propertyInfo.GetCustomAttributes().ToArray();
 
 
@@ -86,6 +85,16 @@ public static class ExtensionesAtributos
         return propiedad;
     }
 
+    private static Propiedad ObtieneDatosDefaultPropiedad(this PropertyInfo propertyInfo, Propiedad propiedad)
+    {
+        propiedad.Nombre = propertyInfo.Name;
+        propiedad.Id = propertyInfo.Name;
+        propiedad.Buscable = true;
+        propiedad.Visible = true;
+        propiedad.ValorDefault = null;
+        propiedad.Tipo = GetTipoDato(propertyInfo);
+        return propiedad;
+    }
 
     private static Propiedad ObtieneDatosPropiedad(this PropiedadAttribute a, PropertyInfo propertyInfo, Propiedad propiedad)
     {

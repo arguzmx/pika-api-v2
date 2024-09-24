@@ -25,7 +25,7 @@ public class Carpeta
     /// Identificador del punto de montaje asociado a la carpeta
     /// </summary>
     [Tabla(indice: 0, visible: true)]
-    [UsoCatalogoAttribute("Repositorio", true)]
+    [UsoCatalogo("Repositorio", true)]
     public string RepositorioId { get; set; }
     // [i] 
     // R 128
